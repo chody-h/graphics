@@ -4,54 +4,53 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 
+import cs355.GUIFunctions;
+
 public class MyCS355Controller implements cs355.CS355Controller {
+	
+	private Color currentColor = new Color(0,0,0,0);
+	private int currentButton = BUTTONS.LINE;
 
 	@Override
 	public void colorButtonHit(Color c) {
-		// TODO Auto-generated method stub
-		
+		GUIFunctions.changeSelectedColor(c);
+		currentColor = c;
 	}
 
 	@Override
 	public void triangleButtonHit() {
 		// TODO Auto-generated method stub
-		
+		currentButton = BUTTONS.TRIANGLE;
 	}
 
 	@Override
 	public void squareButtonHit() {
-		// TODO Auto-generated method stub
-		
+		currentButton = BUTTONS.SQUARE;
 	}
 
 	@Override
 	public void rectangleButtonHit() {
-		// TODO Auto-generated method stub
-		
+		currentButton = BUTTONS.RECTANGLE;
 	}
 
 	@Override
 	public void circleButtonHit() {
-		// TODO Auto-generated method stub
-		
+		currentButton = BUTTONS.CIRCLE;
 	}
 
 	@Override
 	public void ellipseButtonHit() {
-		// TODO Auto-generated method stub
-		
+		currentButton = BUTTONS.ELLIPSE;
 	}
 
 	@Override
 	public void lineButtonHit() {
-		// TODO Auto-generated method stub
-		
+		currentButton = BUTTONS.LINE;
 	}
 
 	@Override
 	public void selectButtonHit() {
-		// TODO Auto-generated method stub
-		
+		currentButton = BUTTONS.SELECT;
 	}
 
 	@Override
@@ -136,6 +135,16 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	public void toggleBackgroundDisplay() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private class BUTTONS {
+		private static final int LINE = 0;
+		private static final int SQUARE = 1;
+		private static final int RECTANGLE = 2;
+		private static final int CIRCLE = 3;
+		private static final int ELLIPSE = 4;
+		private static final int TRIANGLE = 5;
+		private static final int SELECT = 6;
 	}
 
 }
