@@ -25,7 +25,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	
 	public void UpdateShape(Point update) {
 		MyShape s = shapes.Pop();
-		if (s.getClass().equals("MyLine")) {
+		if (s instanceof MyLine) {
 			((MyLine)s).UpdateEnd(update);
 		}
 		shapes.Push(s);
