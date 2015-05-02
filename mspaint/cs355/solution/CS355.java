@@ -25,8 +25,8 @@ public class CS355
     	
     	MyCS355Controller contr = new MyCS355Controller();
     	MyViewRefresher vr = new MyViewRefresher();
-    	MyMouseListener ml = new MyMouseListener();
-    	MyMouseMotionListener mml = new MyMouseMotionListener();
+    	MyMouseListener ml = new MyMouseListener(contr);
+    	MyMouseMotionListener mml = new MyMouseMotionListener(contr);
     	
         GUIFunctions.createCS355Frame(contr,vr,ml,mml);
         

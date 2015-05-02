@@ -14,6 +14,10 @@ public class MyLine extends MyShape {
 		end = e;
 	}
 	
+	public void UpdateEnd(Point e) {
+		end = e;
+	}
+	
 	public Point GetStart() {
 		return start;
 	}
