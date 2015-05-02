@@ -12,7 +12,7 @@ import cs355.model.*;
 public class MyCS355Controller implements cs355.CS355Controller {
 	
 	private MyCreations shapes = new MyCreations();
-	private Color currentColor = new Color(0,0,0,0);
+	private Color currentColor = new Color(255,255,255);
 	private int currentButton = BUTTONS.LINE;
 	
 	public void DrawShape(Point start) {
@@ -29,6 +29,14 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			((MyLine)s).UpdateEnd(update);
 		}
 		shapes.Push(s);
+	}
+	
+	public Stack<MyShape> GetShapes() {
+		return shapes.GetShapes();
+	}
+	
+	public void AddObserver(MyViewRefresher vr) {
+		shapes.addObserver(vr);
 	}
 
 	@Override
@@ -155,14 +163,6 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	public void toggleBackgroundDisplay() {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	public Stack<MyShape> GetShapes() {
-		return shapes.GetShapes();
-	}
-	
-	public void AddObserver(MyViewRefresher vr) {
-		shapes.addObserver(vr);
 	}
 	
 	private class BUTTONS {

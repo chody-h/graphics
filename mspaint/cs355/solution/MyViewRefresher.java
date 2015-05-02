@@ -1,5 +1,6 @@
 package cs355.solution;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -22,7 +23,7 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 	public void refreshView(Graphics2D g2d) {
 		Stack<MyShape> shapes = contr.GetShapes();
 		for (MyShape s : shapes) {
-			if (s.getClass().equals("MyLine")) {
+			if (s instanceof MyLine) {
 				Color shapeColor = s.GetColor();
 				Point start = ((MyLine)s).GetStart();
 				Point end = ((MyLine)s).GetEnd();
@@ -41,6 +42,7 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 
 	@Override
 	public void update(Observable o, Object arg) {
+		System.out.println("UPDATING!!");
 		GUIFunctions.refresh();
 	}
 
