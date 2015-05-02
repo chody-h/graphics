@@ -29,6 +29,7 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 				Point end = ((MyLine)s).GetEnd();
 				
 				g2d.setColor(shapeColor);
+				g2d.setStroke(new BasicStroke(2));
 				
 				int x1 = start.x;
 				int y1 = start.y;
@@ -37,12 +38,11 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 				g2d.drawLine(x1, y1, x2, y2);
 			}
 		}
-		System.out.printf("Drew %d shapes.\n", shapes.size());
+//		System.out.printf("Drew %d shapes.\n", shapes.size());
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("UPDATING!!");
 		GUIFunctions.refresh();
 	}
 

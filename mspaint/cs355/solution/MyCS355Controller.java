@@ -20,6 +20,9 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		if (currentButton == BUTTONS.LINE) {
 			s = new MyLine(currentColor, start, start);
 		}
+		else if (currentButton == BUTTONS.SQUARE) {
+			s = new MySquare(currentColor, start);
+		}
 		shapes.Push(s);
 	}
 	
