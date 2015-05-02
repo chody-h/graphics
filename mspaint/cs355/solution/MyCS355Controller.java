@@ -33,13 +33,15 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		}
 		else if (s instanceof MySquare) {
 			Point a = ((MySquare)s).GetAnchor();
-			int minX = Math.min(updated.x, a.x);
-			int minY = Math.min(updated.y, a.y);
-			Point newTl = new Point(minX, minY);
+//			Point tl = ((MySquare)s).GetTopLeft();
 			
 			int lenX = Math.abs(updated.x-a.x);
 			int lenY = Math.abs(updated.y-a.y);
 			int length = Math.min(lenX, lenY);
+			
+			int x = (updated.x < a.x) ? a.x-length : a.x;
+			int y = (updated.y < a.y) ? a.y-length : a.y;
+			Point newTl = new Point(x, y);
 			
 			((MySquare)s).Update(newTl, length);
 		}

@@ -40,7 +40,7 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 			else if (s instanceof MySquare) {
 				Point tl = ((MySquare)s).GetTopLeft();
 				int len = ((MySquare)s).GetLength();
-				g2d.drawRect(tl.x, tl.y, len, len);
+				g2d.fillRect(tl.x, tl.y, len, len);
 			}
 		}
 //		System.out.printf("Drew %d shapes.\n", shapes.size());
