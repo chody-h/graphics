@@ -23,6 +23,9 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		else if (currentButton == BUTTONS.SQUARE) {
 			s = new MySquare(currentColor, start);
 		}
+		else if (currentButton == BUTTONS.RECTANGLE) {
+			s = new MyRectangle(currentColor, start);
+		}
 		shapes.Push(s);
 	}
 	
@@ -33,7 +36,6 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		}
 		else if (s instanceof MySquare) {
 			Point a = ((MySquare)s).GetAnchor();
-//			Point tl = ((MySquare)s).GetTopLeft();
 			
 			int lenX = Math.abs(updated.x-a.x);
 			int lenY = Math.abs(updated.y-a.y);
@@ -44,6 +46,18 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			Point newTl = new Point(x, y);
 			
 			((MySquare)s).Update(newTl, length);
+		}
+		else if (s instanceof MyRectangle) {
+			Point a = ((MyRectangle)s).GetAnchor();
+			
+			int width = Math.abs(updated.x-a.x);
+			int height = Math.abs(updated.y-a.y);
+			
+			int x = (updated.x < a.x) ? a.x-width : a.x;
+			int y = (updated.y < a.y) ? a.y-height : a.y;
+			Point newTl = new Point(x, y);
+			
+			((MyRectangle)s).Update(newTl, width, height);
 		}
 		shapes.Push(s);
 	}
@@ -64,7 +78,6 @@ public class MyCS355Controller implements cs355.CS355Controller {
 
 	@Override
 	public void triangleButtonHit() {
-		// TODO Auto-generated method stub
 		currentButton = BUTTONS.TRIANGLE;
 	}
 
