@@ -23,12 +23,12 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 	public void refreshView(Graphics2D g2d) {
 		Stack<MyShape> shapes = contr.GetShapes();
 		for (MyShape s : shapes) {
+			Color shapeColor = s.GetColor();
+			g2d.setColor(shapeColor);
 			if (s instanceof MyLine) {
-				Color shapeColor = s.GetColor();
 				Point start = ((MyLine)s).GetStart();
 				Point end = ((MyLine)s).GetEnd();
 				
-				g2d.setColor(shapeColor);
 				g2d.setStroke(new BasicStroke(2));
 				
 				int x1 = start.x;
@@ -36,6 +36,11 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 				int x2 = end.x;
 				int y2 = end.y;
 				g2d.drawLine(x1, y1, x2, y2);
+			}
+			else if (s instanceof MySquare) {
+				Point tl = ((MySquare)s).GetTopLeft();
+				int len = ((MySquare)s).GetLength();
+				g2d.drawRect(tl.x, tl.y, len, len);
 			}
 		}
 //		System.out.printf("Drew %d shapes.\n", shapes.size());

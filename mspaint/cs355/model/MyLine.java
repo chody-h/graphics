@@ -14,7 +14,7 @@ public class MyLine extends MyShape {
 		end = e;
 	}
 	
-	public void UpdateEnd(Point e) {
+	public void Update(Point e) {
 		end = e;
 	}
 	

@@ -26,10 +26,22 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		shapes.Push(s);
 	}
 	
-	public void UpdateShape(Point update) {
+	public void UpdateShape(Point updated) {
 		MyShape s = shapes.Pop();
 		if (s instanceof MyLine) {
-			((MyLine)s).UpdateEnd(update);
+			((MyLine)s).Update(updated);
+		}
+		else if (s instanceof MySquare) {
+			Point a = ((MySquare)s).GetAnchor();
+			int minX = Math.min(updated.x, a.x);
+			int minY = Math.min(updated.y, a.y);
+			Point newTl = new Point(minX, minY);
+			
+			int lenX = Math.abs(updated.x-a.x);
+			int lenY = Math.abs(updated.y-a.y);
+			int length = Math.min(lenX, lenY);
+			
+			((MySquare)s).Update(newTl, length);
 		}
 		shapes.Push(s);
 	}
