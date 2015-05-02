@@ -13,15 +13,13 @@ public class MyMouseMotionListener implements java.awt.event.MouseMotionListener
 	
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+//		System.out.println("Dragged");
 		Point e = new Point(arg0.getX(), arg0.getY());
 		contr.UpdateShape(e);
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

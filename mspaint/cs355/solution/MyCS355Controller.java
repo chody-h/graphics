@@ -161,6 +161,10 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		return shapes.GetShapes();
 	}
 	
+	public void AddObserver(MyViewRefresher vr) {
+		shapes.addObserver(vr);
+	}
+	
 	private class BUTTONS {
 		private static final int LINE = 0;
 		private static final int SQUARE = 1;

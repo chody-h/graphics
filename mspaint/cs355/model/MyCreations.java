@@ -1,6 +1,5 @@
 package cs355.model;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 public class MyCreations extends java.util.Observable {

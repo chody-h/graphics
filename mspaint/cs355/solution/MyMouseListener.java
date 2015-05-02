@@ -13,32 +13,28 @@ public class MyMouseListener implements java.awt.event.MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+//		System.out.println("Clicked");
+		mousePressed(arg0);
+		mouseReleased(arg0);
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+//		mouseReleased(arg0);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		Point s = new Point(arg0.getX(), arg0.getY());
 		contr.DrawShape(s);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		System.out.println("Test");
 		Point e = new Point(arg0.getX(), arg0.getY());
 		contr.UpdateShape(e);
 	}

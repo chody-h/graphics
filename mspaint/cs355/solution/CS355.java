@@ -24,7 +24,7 @@ public class CS355
     	//   mouse listener, and mouse motion listener
     	
     	MyCS355Controller contr = new MyCS355Controller();
-    	MyViewRefresher vr = new MyViewRefresher();
+    	MyViewRefresher vr = new MyViewRefresher(contr);
     	MyMouseListener ml = new MyMouseListener(contr);
     	MyMouseMotionListener mml = new MyMouseMotionListener(contr);
     	
