@@ -48,6 +48,11 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 				int height = ((MyRectangle)s).GetHeight();
 				g2d.fillRect(tl.x, tl.y, width, height);
 			}
+			else if (s instanceof MyCircle) {
+				Point c = ((MyCircle)s).GetCenter();
+				int r = ((MyCircle)s).GetRadius();
+				g2d.fillOval(c.x-r, c.y-r, r*2, r*2);
+			}
 		}
 //		System.out.printf("Drew %d shapes.\n", shapes.size());
 	}

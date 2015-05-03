@@ -17,14 +17,30 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	
 	public void DrawShape(Point start) {
 		MyShape s = null;
-		if (currentButton == BUTTONS.LINE) {
-			s = new MyLine(currentColor, start, start);
-		}
-		else if (currentButton == BUTTONS.SQUARE) {
-			s = new MySquare(currentColor, start);
-		}
-		else if (currentButton == BUTTONS.RECTANGLE) {
-			s = new MyRectangle(currentColor, start);
+		switch (currentButton) {
+			case BUTTONS.LINE:
+				s = new MyLine(currentColor, start);
+				break;
+			case BUTTONS.SQUARE:
+				s = new MySquare(currentColor, start);
+				break;
+			case BUTTONS.RECTANGLE:
+				s = new MyRectangle(currentColor, start);
+				break;
+			case BUTTONS.CIRCLE:
+				s = new MyCircle(currentColor, start);
+				break;
+			case BUTTONS.ELLIPSE:
+//				TODO
+				break;
+			case BUTTONS.TRIANGLE:
+//				TODO
+				break;
+			case BUTTONS.SELECT:
+//				TODO
+				break;
+			default:
+				break;
 		}
 		shapes.Push(s);
 	}
@@ -58,6 +74,19 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			Point newTl = new Point(x, y);
 			
 			((MyRectangle)s).Update(newTl, width, height);
+		}
+		else if (s instanceof MyCircle) {
+			Point a = ((MyCircle)s).GetAnchor();
+			
+			int lenX = Math.abs(updated.x-a.x);
+			int lenY = Math.abs(updated.y-a.y);
+			int rad = Math.min(lenX, lenY) / 2;
+			
+			int x = (updated.x < a.x) ? a.x-rad : a.x+rad;
+			int y = (updated.y < a.y) ? a.y-rad : a.y+rad;
+			Point newCenter = new Point(x, y);
+			
+			((MyCircle)s).Update(newCenter, rad);
 		}
 		shapes.Push(s);
 	}

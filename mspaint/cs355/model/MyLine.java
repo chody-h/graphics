@@ -8,10 +8,10 @@ public class MyLine extends MyShape {
 	private Point start;
 	private Point end;
 	
-	public MyLine(Color color, Point s, Point e) {
+	public MyLine(Color color, Point s) {
 		super(color);
 		start = s;
-		end = e;
+		end = s;
 	}
 	
 	public void Update(Point e) {
