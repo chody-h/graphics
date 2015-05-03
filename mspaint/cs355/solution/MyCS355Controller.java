@@ -144,43 +144,61 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	@Override
 	public void squareButtonHit() {
 		currentButton = BUTTONS.SQUARE;
-		if (numTriangleVertices != 0) shapes.Pop();
-		numTriangleVertices = 0;
+		if (numTriangleVertices != 0) {
+			shapes.Pop();
+			numTriangleVertices = 0;
+			GUIFunctions.refresh();
+		}
 	}
 
 	@Override
 	public void rectangleButtonHit() {
 		currentButton = BUTTONS.RECTANGLE;
-		if (numTriangleVertices != 0) shapes.Pop();
-		numTriangleVertices = 0;
+		if (numTriangleVertices != 0) {
+			shapes.Pop();
+			numTriangleVertices = 0;
+			GUIFunctions.refresh();
+		}
 	}
 
 	@Override
 	public void circleButtonHit() {
 		currentButton = BUTTONS.CIRCLE;
-		if (numTriangleVertices != 0) shapes.Pop();
-		numTriangleVertices = 0;
+		if (numTriangleVertices != 0) {
+			shapes.Pop();
+			numTriangleVertices = 0;
+			GUIFunctions.refresh();
+		}
 	}
 
 	@Override
 	public void ellipseButtonHit() {
 		currentButton = BUTTONS.ELLIPSE;
-		if (numTriangleVertices != 0) shapes.Pop();
-		numTriangleVertices = 0;
+		if (numTriangleVertices != 0) {
+			shapes.Pop();
+			numTriangleVertices = 0;
+			GUIFunctions.refresh();
+		}
 	}
 
 	@Override
 	public void lineButtonHit() {
 		currentButton = BUTTONS.LINE;
-		if (numTriangleVertices != 0) shapes.Pop();
-		numTriangleVertices = 0;
+		if (numTriangleVertices != 0) {
+			shapes.Pop();
+			numTriangleVertices = 0;
+			GUIFunctions.refresh();
+		}
 	}
 
 	@Override
 	public void selectButtonHit() {
 		currentButton = BUTTONS.SELECT;
-		if (numTriangleVertices != 0) shapes.Pop();
-		numTriangleVertices = 0;
+		if (numTriangleVertices != 0) {
+			shapes.Pop();
+			numTriangleVertices = 0;
+			GUIFunctions.refresh();
+		}
 	}
 
 	@Override
