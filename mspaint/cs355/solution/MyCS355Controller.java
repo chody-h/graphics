@@ -31,7 +31,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 				s = new MyCircle(currentColor, start);
 				break;
 			case BUTTONS.ELLIPSE:
-//				TODO
+				s = new MyEllipse(currentColor, start);
 				break;
 			case BUTTONS.TRIANGLE:
 //				TODO
@@ -87,6 +87,18 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			Point newCenter = new Point(x, y);
 			
 			((MyCircle)s).Update(newCenter, rad);
+		}
+		else if (s instanceof MyEllipse) {
+			Point a = ((MyEllipse)s).GetAnchor();
+			
+			int w = Math.abs(updated.x-a.x);
+			int h = Math.abs(updated.y-a.y);
+			
+			int x = (updated.x < a.x) ? a.x-w/2 : a.x+w/2;
+			int y = (updated.y < a.y) ? a.y-h/2 : a.y+h/2;
+			Point newCenter = new Point(x, y);
+			
+			((MyEllipse)s).Update(newCenter, w, h);
 		}
 		shapes.Push(s);
 	}

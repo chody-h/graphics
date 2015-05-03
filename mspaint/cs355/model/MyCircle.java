@@ -32,8 +32,4 @@ public class MyCircle extends MyShape {
 	public int GetRadius() {
 		return r;
 	}
-	
-	public int GetDiameter() {
-		return r*2;
-	}
 }
