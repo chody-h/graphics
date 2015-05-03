@@ -59,6 +59,16 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 				int h = ((MyEllipse)s).GetHeight();
 				g2d.fillOval(c.x-w/2, c.y-h/2, w, h);
 			}
+			else if (s instanceof MyTriangle) {
+				int[] xPoints = ((MyTriangle) s).GetXPoints();
+				int[] yPoints = ((MyTriangle) s).GetYPoints();
+				int nPoints = ((MyTriangle) s).GetNumPoints();
+				if (nPoints < 3) {
+					g2d.setStroke(new BasicStroke(2));
+					g2d.drawLine(xPoints[0], yPoints[0], xPoints[1], yPoints[1]);
+				}
+				else g2d.fillPolygon(xPoints, yPoints, nPoints);
+			}
 		}
 //		System.out.printf("Drew %d shapes.\n", shapes.size());
 	}

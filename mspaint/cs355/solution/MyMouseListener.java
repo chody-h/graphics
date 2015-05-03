@@ -14,8 +14,9 @@ public class MyMouseListener implements java.awt.event.MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 //		System.out.println("Clicked");
-		mousePressed(arg0);
-		mouseReleased(arg0);
+//		Point s = new Point(arg0.getX(), arg0.getY());
+//		contr.DrawShape(s);
+//		contr.UpdateShape(s);
 	}
 
 	@Override

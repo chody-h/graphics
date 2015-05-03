@@ -20,6 +20,7 @@ public class MyMouseMotionListener implements java.awt.event.MouseMotionListener
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
+		
 	}
 
 }

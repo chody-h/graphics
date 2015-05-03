@@ -14,6 +14,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	private MyCreations shapes = new MyCreations();
 	private Color currentColor = new Color(255,255,255);
 	private int currentButton = BUTTONS.LINE;
+	private int numTriangleVertices = 0;
 	
 	public void DrawShape(Point start) {
 		MyShape s = null;
@@ -34,7 +35,21 @@ public class MyCS355Controller implements cs355.CS355Controller {
 				s = new MyEllipse(currentColor, start);
 				break;
 			case BUTTONS.TRIANGLE:
-//				TODO
+				if (numTriangleVertices == 0) {
+					s = new MyTriangle(currentColor, start);
+					numTriangleVertices = 1;
+				}
+				else {
+					s = shapes.Pop();
+					if (numTriangleVertices == 1) {
+						((MyTriangle)s).UpdateV2(start);
+						numTriangleVertices = 2;
+					}
+					else {
+						((MyTriangle)s).UpdateV3(start);
+						numTriangleVertices = 0;
+					}
+				}
 				break;
 			case BUTTONS.SELECT:
 //				TODO
@@ -100,6 +115,10 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			
 			((MyEllipse)s).Update(newCenter, w, h);
 		}
+		else if (s instanceof MyTriangle) {
+//			pass
+//			all logic in "DrawShape()"
+		}
 		shapes.Push(s);
 	}
 	
@@ -125,31 +144,43 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	@Override
 	public void squareButtonHit() {
 		currentButton = BUTTONS.SQUARE;
+		if (numTriangleVertices != 0) shapes.Pop();
+		numTriangleVertices = 0;
 	}
 
 	@Override
 	public void rectangleButtonHit() {
 		currentButton = BUTTONS.RECTANGLE;
+		if (numTriangleVertices != 0) shapes.Pop();
+		numTriangleVertices = 0;
 	}
 
 	@Override
 	public void circleButtonHit() {
 		currentButton = BUTTONS.CIRCLE;
+		if (numTriangleVertices != 0) shapes.Pop();
+		numTriangleVertices = 0;
 	}
 
 	@Override
 	public void ellipseButtonHit() {
 		currentButton = BUTTONS.ELLIPSE;
+		if (numTriangleVertices != 0) shapes.Pop();
+		numTriangleVertices = 0;
 	}
 
 	@Override
 	public void lineButtonHit() {
 		currentButton = BUTTONS.LINE;
+		if (numTriangleVertices != 0) shapes.Pop();
+		numTriangleVertices = 0;
 	}
 
 	@Override
 	public void selectButtonHit() {
 		currentButton = BUTTONS.SELECT;
+		if (numTriangleVertices != 0) shapes.Pop();
+		numTriangleVertices = 0;
 	}
 
 	@Override
