@@ -5,31 +5,25 @@ import java.awt.Point;
 
 public class MyRectangle extends MyShape {
 //	location of upper left corner, height, width, & accessors
-	private Point anchor;
-	private Point topLeft;
+	private Point tl;
 	private int w;
 	private int h;
 	
-	public MyRectangle(Color color, Point a) {
+	public MyRectangle(Color color, Point topLeft) {
 		super(color);
-		anchor = a;
-		topLeft = a;
+		tl = topLeft;
 		w = 0;
 		h = 0;
 	}
 	
-	public void Update(Point TL, int width, int height) {
-		topLeft = TL;
+	public void Update(Point topLeft, int width, int height) {
+		tl = topLeft;
 		w = width;
 		h = height;
 	}
 	
-	public Point GetAnchor() {
-		return anchor;
-	}
-	
 	public Point GetTopLeft() {
-		return topLeft;
+		return tl;
 	}
 	
 	public int GetWidth() {

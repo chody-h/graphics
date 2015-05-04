@@ -5,24 +5,24 @@ import java.awt.Point;
 
 public class MyLine extends MyShape {
 //	two endpoints & accessors
-	private Point start;
-	private Point end;
+	private Point s;
+	private Point e;
 	
-	public MyLine(Color color, Point s) {
+	public MyLine(Color color, Point start) {
 		super(color);
-		start = s;
-		end = s;
+		s = start;
+		e = start;
 	}
 	
-	public void Update(Point e) {
-		end = e;
+	public void Update(Point end) {
+		e = end;
 	}
 	
 	public Point GetStart() {
-		return start;
+		return s;
 	}
 	
 	public Point GetEnd() {
-		return end;
+		return e;
 	}
 }

@@ -5,31 +5,25 @@ import java.awt.Point;
 
 public class MySquare extends MyShape {
 //	location of upper left corner and length of a side & accessors
-	private Point anchor;
-	private Point topLeft;
-	private int length;
+	private Point tl;
+	private int l;
 	
-	public MySquare(Color color, Point a) {
+	public MySquare(Color color, Point topLeft) {
 		super(color);
-		anchor = a;
-		topLeft = a;
-		length = 0;
+		tl = topLeft;
+		l = 0;
 	}
 	
-	public void Update(Point TL, int len) {
-		topLeft = TL;
-		length = len;
-	}
-	
-	public Point GetAnchor() {
-		return anchor;
+	public void Update(Point topLeft, int length) {
+		tl = topLeft;
+		l = length;
 	}
 	
 	public Point GetTopLeft() {
-		return topLeft;
+		return tl;
 	}
 	
 	public int GetLength() {
-		return length;
+		return l;
 	}
 }

@@ -6,13 +6,11 @@ import java.awt.Point;
 public class MyCircle extends MyShape {
 //	center, radius, & accessors
 	private Point c;
-	private Point a;
 	private int r;
 	
-	public MyCircle(Color color, Point anchor) {
+	public MyCircle(Color color, Point center) {
 		super(color);
-		a = anchor;
-		c = anchor;
+		c = center;
 		r = 0;
 	}
 	
@@ -23,10 +21,6 @@ public class MyCircle extends MyShape {
 	
 	public Point GetCenter() {
 		return c;
-	}
-	
-	public Point GetAnchor() {
-		return a;
 	}
 	
 	public int GetRadius() {

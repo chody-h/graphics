@@ -6,14 +6,12 @@ import java.awt.Point;
 public class MyEllipse extends MyShape{
 //	center, height, width, & accessors
 	private Point c;
-	private Point a;
 	private int w;
 	private int h;
 	
-	public MyEllipse(Color color, Point anchor) {
+	public MyEllipse(Color color, Point center) {
 		super(color);
-		a = anchor;
-		c = anchor;
+		c = center;
 		w = 0;
 		h = 0;
 	}
@@ -26,10 +24,6 @@ public class MyEllipse extends MyShape{
 	
 	public Point GetCenter() {
 		return c;
-	}
-	
-	public Point GetAnchor() {
-		return a;
 	}
 	
 	public int GetWidth() {

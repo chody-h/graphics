@@ -1,0 +1,118 @@
+1.
+	p1	= (10, 20)
+	p2	= (30, 40)
+	v 	= <30-10, 40-20>
+		= <20, 20>
+
+	a. Parametric form:
+		x(t)= 10 + 20t 
+		y(t)= 20 + 20t
+
+	b. Implicit form:
+	
+	c. distance between the line and 
+		q	= (22, 29)
+
+	d. does closest point on line and q fall between p1 and p2?
+
+2.	Circle:
+	c 	= (10, 12)
+	r 	= 3
+	(x-10)^2 + (y-12)^2 = 9
+
+	a. Is the following point in the circle?
+		q 	= (12, 13)
+		If q is inside the circle, the following will hold true:
+			(x-10)^2 + (y-12)^2 < 9
+
+		(12-10)^2 + (13-12)^2 < 9
+		4 + 1 < 9
+		true
+
+		Alternatively, the distance of q from c:
+			= sqrt((13-12)^2 + (12-10)^2)
+			= sqrt(1 + 4)
+			r = 3 = sqrt(9) > sqrt(5)
+
+			Because the distance from q to c is shorter than the radius, the point falls within the circle.
+
+	b. Closest point on circle to
+		q	= (20, 15)
+
+		To find the closest point on the circle p, I will find the line connecting c and q, then find the point p on that line that is a distance of r from c toward q.
+
+		m 	= 3/10
+		y 	= (3/10)x + 9
+
+		x / 10 = 3 / sqrt(109)
+		x 	= 30 / sqrt(109) + 10
+			= 12.873478856
+		y / 3  = 3 / sqrt(109)
+		y 	= 9 / sqrt(109) + 12
+			= 12.862043657
+
+		p 	= (12.873478856, 12.862043657)
+
+3.	Ellipse
+	c 	= (10, 12)
+	w 	= 20		(30, 12), (-10, 12)
+	h 	= 10		(10, 22), (10, 2)
+	(x-10)^2/400 + (x-12)^2/100 = 1
+
+	a. Is the following point in the ellipse?
+		q 	= (19, 13)
+		If q is inside the ellipse, the following will hold true:
+			(x-10)^2/400 + (x-12)^2/100 < 1
+
+		(19-10)^2/400 + (13-12)^2/100 < 1
+		81/400 + 4/400 < 1
+		true
+
+	b. Corners of bounding box
+		(30, 22), (30, 2), (-10, 22), (-10, 2)
+
+4.	Square
+	l 	= 10
+	c 	= (60, 80)
+
+	Is the following point in the square?
+		q 	= (64, 74)
+		If q is in the square, its x coordinate will be bounded by the vertical walls of the square and its y coordinate will be bounded by the horizontal walls of the square.
+
+		Horizontal walls: x = 55, x = 65
+		55 < 64 < 65
+		true
+
+		Vertical walls: y = 75, y = 85
+		75 < 74, 85
+		false
+
+		Because both conditions were not satisfied, q is not in the square.
+
+5. Triangle
+	p1 	= (10, 20)
+	p2 	= (30, 40)
+	p3	= (20, 50)
+
+	Is the following point in the triangle?
+		p	= (20, 40)
+
+		If q lies within the triangle, alpha, beta, and gamma will all be positive.
+		alpha 	= ((p2.y-p3.y)*(p.x-p3.x)+(p3.x-p2.x)*(p.y-p3.y))/((p2.y-p3.y)*(p1.x-p3.x)+(p3.x-p2.x)*(p1.y-p3.y))
+				= ((40-50)  *  (20-20)  + (20-30)  *  (40-50))  / ((40-50)  *  (10-20)  +  (20-30)  *  (20-50))
+				= (-10*0 + -10*-10) / (-10*-10 + -10*-30)
+				= (0+100) / (100+300)
+				= 1/4 > 0
+				true
+
+		beta 	= ((p3.y-p1.y)*(p.x-p3.x)+(p1.x-p3.x)*(p.y-p3.y))/((p2.y-p3.y)*(p1.x-p3.x)+(p3.x-p2.x)*(p1.y-p3.y))
+				= ((50-20)  *  (20-20)  + (10-20)  *  (40-50))  / ((40-50)  *  (10-20)  +  (20-30)  *  (20-50))
+				= (30*0 + -10*-10) / 400
+				= 1/4 > 0
+				true
+
+		gamma	= 1 - alpha - beta
+				= 1/2 > 0
+				true
+
+		Alpha, beta, and gamma are all greater than zero. Therefore, p lies in the triangle.
