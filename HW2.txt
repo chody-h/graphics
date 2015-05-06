@@ -9,9 +9,27 @@
 		y(t)= 20 + 20t
 
 	b. Implicit form:
+		x - y = -10	
 	
 	c. distance between the line and 
 		q	= (22, 29)
+
+		m 	= 1
+		The distance line connecting q and the line will be orthogonal to the line, which means the slope will be the inverse of m.
+		md 	= -1
+		The equation of the line passing through q and orthogonal to the line (along which the shortest path will be traced) is
+		y 	= 51 - x
+		The intersection of these two lines is as follows:
+		x - (51 - x) = -10
+		2x 	= 41
+		x 	= 41/2
+		y 	= 61/2
+		r 	= (41/2, 61/2)
+		The distance from q->r is as follows:
+		dx 	= 22-41/2 	= 3/2
+		dy	= 29-61/2	= -3/2
+		d 	= sqrt((3/2)^2 + (-3/2)^2)	= sqrt(9/2)
+		d 	= 2.121320344
 
 	d. does closest point on line and q fall between p1 and p2?
 
