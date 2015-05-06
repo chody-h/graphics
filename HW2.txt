@@ -14,12 +14,13 @@
 	c. distance between the line and 
 		q	= (22, 29)
 
+		slope of the line:
 		m 	= 1
 		The distance line connecting q and the line will be orthogonal to the line, which means the slope will be the inverse of m.
-		md 	= -1
-		The equation of the line passing through q and orthogonal to the line (along which the shortest path will be traced) is
+		mi 	= -1
+		The equation of the line passing through q with slope mi is:
 		y 	= 51 - x
-		The intersection of these two lines is as follows:
+		The intersection of these two lines is the point r which is as follows:
 		x - (51 - x) = -10
 		2x 	= 41
 		x 	= 41/2
@@ -31,7 +32,9 @@
 		d 	= sqrt((3/2)^2 + (-3/2)^2)	= sqrt(9/2)
 		d 	= 2.121320344
 
-	d. does closest point on line and q fall between p1 and p2?
+	d. does closest point on line fall between p1 and p2?
+		Yes.
+		10 < 41/2 < 30 and 20 < 61/2 < 40
 
 2.	Circle:
 	c 	= (10, 12)
@@ -50,7 +53,8 @@
 		Alternatively, the distance of q from c:
 			= sqrt((13-12)^2 + (12-10)^2)
 			= sqrt(1 + 4)
-			r = 3 = sqrt(9) > sqrt(5)
+			r = 3 = sqrt(9)
+			sqrt(9) > sqrt(5)
 
 			Because the distance from q to c is shorter than the radius, the point falls within the circle.
 
