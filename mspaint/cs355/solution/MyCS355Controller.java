@@ -44,11 +44,11 @@ public class MyCS355Controller implements cs355.CS355Controller {
 				else {
 					s = shapes.Pop();
 					if (numTriangleVertices == 1) {
-						((MyTriangle)s).UpdateV2(start);
+						((MyTriangle)s).SetV2(start);
 						numTriangleVertices = 2;
 					}
 					else {
-						((MyTriangle)s).UpdateV3(start);
+						((MyTriangle)s).SetV3(start);
 						numTriangleVertices = 0;
 					}
 				}
@@ -72,39 +72,39 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			int lenY = Math.abs(updated.y-anchor.y);
 			int length = Math.min(lenX, lenY);
 			
-			int x = (updated.x < anchor.x) ? anchor.x-length : anchor.x;
-			int y = (updated.y < anchor.y) ? anchor.y-length : anchor.y;
-			Point newTl = new Point(x, y);
+			int x = (updated.x+anchor.x)/2;
+			int y = (updated.y+anchor.y)/2;
+			Point center = new Point(x, y);
 			
-			((MySquare)s).Update(newTl, length);
+			((MySquare)s).Update(center, length);
 		}
 		else if (s instanceof MyRectangle) {			
 			int width = Math.abs(updated.x-anchor.x);
 			int height = Math.abs(updated.y-anchor.y);
 			
-			int x = (updated.x < anchor.x) ? anchor.x-width : anchor.x;
-			int y = (updated.y < anchor.y) ? anchor.y-height : anchor.y;
-			Point newTl = new Point(x, y);
+			int x = (updated.x+anchor.x)/2;
+			int y = (updated.y+anchor.y)/2;
+			Point center = new Point(x, y);
 			
-			((MyRectangle)s).Update(newTl, width, height);
+			((MyRectangle)s).Update(center, width, height);
 		}
 		else if (s instanceof MyCircle) {
 			int lenX = Math.abs(updated.x-anchor.x);
 			int lenY = Math.abs(updated.y-anchor.y);
 			int rad = Math.min(lenX, lenY) / 2;
 			
-			int x = (updated.x < anchor.x) ? anchor.x-rad : anchor.x+rad;
-			int y = (updated.y < anchor.y) ? anchor.y-rad : anchor.y+rad;
-			Point newCenter = new Point(x, y);
+			int x = (updated.x+anchor.x)/2;
+			int y = (updated.y+anchor.y)/2;
+			Point center = new Point(x, y);
 			
-			((MyCircle)s).Update(newCenter, rad);
+			((MyCircle)s).Update(center, rad);
 		}
 		else if (s instanceof MyEllipse) {
 			int w = Math.abs(updated.x-anchor.x);
 			int h = Math.abs(updated.y-anchor.y);
 			
-			int x = (updated.x < anchor.x) ? anchor.x-w/2 : anchor.x+w/2;
-			int y = (updated.y < anchor.y) ? anchor.y-h/2 : anchor.y+h/2;
+			int x = (updated.x+anchor.x)/2;
+			int y = (updated.y+anchor.y)/2;
 			Point newCenter = new Point(x, y);
 			
 			((MyEllipse)s).Update(newCenter, w, h);

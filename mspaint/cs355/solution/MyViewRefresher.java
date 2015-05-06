@@ -26,45 +26,56 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 			Color shapeColor = s.GetColor();
 			g2d.setColor(shapeColor);
 			if (s instanceof MyLine) {
-				Point start = ((MyLine)s).GetStart();
-				Point end = ((MyLine)s).GetEnd();
+				Point b = ((MyLine)s).GetStart();
+				Point e = ((MyLine)s).GetEnd();
 				
-				g2d.setStroke(new BasicStroke(2));
+				g2d.setStroke(new BasicStroke(1));
 				
-				int x1 = start.x;
-				int y1 = start.y;
-				int x2 = end.x;
-				int y2 = end.y;
+				int x1 = b.x;
+				int y1 = b.y;
+				int x2 = e.x;
+				int y2 = e.y;
 				g2d.drawLine(x1, y1, x2, y2);
 			}
 			else if (s instanceof MySquare) {
-				Point tl = ((MySquare)s).GetTopLeft();
-				int len = ((MySquare)s).GetLength();
-				g2d.fillRect(tl.x, tl.y, len, len);
+				Point c = s.GetCenter();
+				int l = ((MySquare)s).GetLength();
+				int x = c.x - l/2;
+				int y = c.y - l/2;
+				g2d.fillRect(x, y, l, l);
 			}
 			else if (s instanceof MyRectangle) {
-				Point tl = ((MyRectangle)s).GetTopLeft();
-				int width = ((MyRectangle)s).GetWidth();
-				int height = ((MyRectangle)s).GetHeight();
-				g2d.fillRect(tl.x, tl.y, width, height);
+				Point c = s.GetCenter();
+				int w = ((MyRectangle)s).GetWidth();
+				int h = ((MyRectangle)s).GetHeight();
+				int x = c.x - w/2;
+				int y = c.y - h/2;
+				g2d.fillRect(x, y, w, h);
 			}
 			else if (s instanceof MyCircle) {
-				Point c = ((MyCircle)s).GetCenter();
+				Point c = s.GetCenter();
 				int r = ((MyCircle)s).GetRadius();
 				g2d.fillOval(c.x-r, c.y-r, r*2, r*2);
 			}
 			else if (s instanceof MyEllipse) {
-				Point c = ((MyEllipse)s).GetCenter();
+				Point c = s.GetCenter();
 				int w = ((MyEllipse)s).GetWidth();
 				int h = ((MyEllipse)s).GetHeight();
-				g2d.fillOval(c.x-w/2, c.y-h/2, w, h);
+				int x = c.x-w/2;
+				int y = c.x-h/2;
+				g2d.fillOval(x, y, w, h);
 			}
 			else if (s instanceof MyTriangle) {
 				int[] xPoints = ((MyTriangle) s).GetXPoints();
 				int[] yPoints = ((MyTriangle) s).GetYPoints();
-				int nPoints = ((MyTriangle) s).GetNumPoints();
+				int nPoints = 3;
+				if (xPoints[2] == xPoints[0] && yPoints[2] == yPoints[0]) {
+					if (xPoints[1] == xPoints[0] && yPoints[1] == yPoints[0])
+						nPoints = 1;
+					else
+						nPoints = 2;
+				}
 				if (nPoints < 3) {
-					g2d.setStroke(new BasicStroke(2));
 					g2d.drawLine(xPoints[0], yPoints[0], xPoints[1], yPoints[1]);
 				}
 				else g2d.fillPolygon(xPoints, yPoints, nPoints);

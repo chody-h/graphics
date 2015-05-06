@@ -7,8 +7,10 @@
 	a. Parametric form:
 		x(t)= 10 + 20t 
 		y(t)= 20 + 20t
+		p = <10+20t, 20+20t>
 
-	b. Implicit form:
+	b. Implicit form (p * nhat = d):
+		<10, 20> * 1/sqrt(2)*<1, -1> = 0
 		x - y = -10	
 	
 	c. distance between the line and 

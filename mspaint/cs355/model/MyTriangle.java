@@ -8,24 +8,29 @@ public class MyTriangle extends MyShape {
 	private Point v1;
 	private Point v2;
 	private Point v3;
-	private int numPoints;
 
 	public MyTriangle(Color color, Point start) {
-		super(color);
+		// start and center are equivalent when a triangle is created
+		super(color, start);
 		v1 = start;
 		v2 = start;
 		v3 = start;
-		numPoints = 1;
+	}
+
+	private void UpdateCenter() {
+		int x = (v1.x + v2.x + v3.x)/3;
+		int y = (v1.y + v2.y + v3.y)/3;
+		Point center = new Point(x, y);
+		SetCenter(center);
 	}
 	
-	public void UpdateV2(Point vertex2) {
+	public void SetV2(Point vertex2) {
 		v2 = vertex2;
-		numPoints = 2;
 	}
 	
-	public void UpdateV3(Point vertex3) {
+	public void SetV3(Point vertex3) {
 		v3 = vertex3;
-		numPoints = 3;
+		UpdateCenter();
 	}
 	
 	public Point GetVertex1() {
@@ -38,10 +43,6 @@ public class MyTriangle extends MyShape {
 	
 	public Point GetVertex3() {
 		return v3;
-	}
-	
-	public int GetNumPoints() {
-		return numPoints;
 	}
 	
 	public int[] GetXPoints() {
