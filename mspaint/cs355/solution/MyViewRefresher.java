@@ -55,14 +55,16 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 			else if (s instanceof MyCircle) {
 				Point c = s.GetCenter();
 				int r = ((MyCircle)s).GetRadius();
-				g2d.fillOval(c.x-r, c.y-r, r*2, r*2);
+				int x = c.x-r;
+				int y = c.y-r;
+				g2d.fillOval(x, y, r*2, r*2);
 			}
 			else if (s instanceof MyEllipse) {
 				Point c = s.GetCenter();
 				int w = ((MyEllipse)s).GetWidth();
 				int h = ((MyEllipse)s).GetHeight();
 				int x = c.x-w/2;
-				int y = c.x-h/2;
+				int y = c.y-h/2;
 				g2d.fillOval(x, y, w, h);
 			}
 			else if (s instanceof MyTriangle) {
