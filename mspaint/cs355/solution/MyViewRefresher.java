@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Stack;
 
@@ -13,6 +14,8 @@ import cs355.model.*;
 public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer {
 
 	private MyCS355Controller contr;
+	private Color selectionColor = new Color(0, 255, 255);	// cyan
+	private int selectionRadius = 4;
 	
 	public MyViewRefresher(MyCS355Controller c) {
 		contr = c;
@@ -21,7 +24,7 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 
 	@Override
 	public void refreshView(Graphics2D g2d) {
-		Stack<MyShape> shapes = contr.GetShapes();
+		ArrayList<MyShape> shapes = contr.GetShapes();
 		for (MyShape s : shapes) {
 			Color shapeColor = s.GetColor();
 			g2d.setColor(shapeColor);
@@ -83,7 +86,14 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 				else g2d.fillPolygon(xPoints, yPoints, nPoints);
 			}
 		}
-//		System.out.printf("Drew %d shapes.\n", shapes.size());
+		
+		ArrayList<Point> handles = contr.GetSelectionHandles();
+		if (handles.size() > 0) {
+			g2d.setColor(selectionColor);
+			for (Point p : handles) {
+				g2d.drawOval(p.x-selectionRadius, p.y-selectionRadius, selectionRadius*2, selectionRadius*2);
+			}
+		}
 	}
 
 	@Override

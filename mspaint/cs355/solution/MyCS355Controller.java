@@ -3,6 +3,7 @@ package cs355.solution;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
 
@@ -16,8 +17,12 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	private int currentButton = BUTTONS.LINE;
 	private int numTriangleVertices = 0;
 	private Point anchor;
+	private int tolerance = 4;
+	private MyShape selectedShape = null;
+	private Color selectedColor = null;
+	ArrayList<Point> handles = null;
 	
-	public void DrawShape(Point start) {
+	public void DrawpadPressed(Point start)	 {
 		anchor = start;
 		MyShape s = null;
 		switch (currentButton) {
@@ -54,18 +59,39 @@ public class MyCS355Controller implements cs355.CS355Controller {
 				}
 				break;
 			case BUTTONS.SELECT:
-//				TODO
-				break;
+				selectedShape = shapes.GetShapeHit(start, tolerance);
+				if (selectedShape != null) {
+					selectedColor = selectedShape.GetColor();
+					GUIFunctions.changeSelectedColor(selectedColor);
+				}
+				else {
+					GUIFunctions.changeSelectedColor(currentColor);
+				}
+				return;
 			default:
 				break;
 		}
 		shapes.Push(s);
 	}
 	
-	public void UpdateShape(Point updated) {
+	public void DrawpadDraggedReleased(Point updated) {
+		if (currentButton == BUTTONS.SELECT) {
+			if (selectedShape == null) return;
+			
+			int dx = updated.x - anchor.x;
+			int dy = updated.y - anchor.y;
+			Point oldCenter = selectedShape.GetCenter();
+			Point newCenter = new Point(oldCenter.x + dx, oldCenter.y + dy);
+			selectedShape.SetCenter(newCenter);
+			shapes.SomethingChanged();
+			anchor = updated;
+			return;
+		}
+		
+		
 		MyShape s = shapes.Pop();
 		if (s instanceof MyLine) {
-			((MyLine)s).Update(updated);
+			((MyLine) s).SetEnd(updated);
 		}
 		else if (s instanceof MySquare) {			
 			int lenX = Math.abs(updated.x-anchor.x);
@@ -76,7 +102,8 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			double y = (updated.y < anchor.y) ? anchor.y-length/2 : anchor.y+length/2;
 			Point center = new Point((int)x, (int)y);
 			
-			((MySquare)s).Update(center, (int)length);
+			s.SetCenter(center);
+			((MySquare) s).SetLength((int)length);
 		}
 		else if (s instanceof MyRectangle) {	
 			double w = Math.abs(updated.x-anchor.x);
@@ -86,7 +113,9 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			double y = (updated.y < anchor.y) ? anchor.y-h/2 : anchor.y+h/2;
 			Point center = new Point((int)x, (int)y);
 			
-			((MyRectangle)s).Update(center, (int)w, (int)h);
+			s.SetCenter(center);
+			((MyRectangle) s).SetWidth((int)w);
+			((MyRectangle) s).SetHeight((int)h);
 		}
 		else if (s instanceof MyCircle) {
 			int lenX = Math.abs(updated.x-anchor.x);
@@ -97,7 +126,8 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			double y = (updated.y < anchor.y) ? anchor.y-r : anchor.y+r;
 			Point center = new Point((int)x, (int)y);
 			
-			((MyCircle)s).Update(center, (int)r);
+			s.SetCenter(center);
+			((MyCircle) s).SetRadius((int)r);
 		}
 		else if (s instanceof MyEllipse) {
 			double w = Math.abs(updated.x-anchor.x);
@@ -107,17 +137,27 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			double y = (updated.y < anchor.y) ? anchor.y-h/2 : anchor.y+h/2;
 			Point center = new Point((int)x, (int)y);
 			
-			((MyEllipse)s).Update(center, (int)w, (int)h);
+			s.SetCenter(center);
+			((MyEllipse) s).SetWidth((int)w);
+			((MyEllipse) s).SetHeight((int)h);
 		}
 		else if (s instanceof MyTriangle) {
 //			pass
-//			all logic in "DrawShape()"
+//			all logic in "DrawpadReleased()"
 		}
 		shapes.Push(s);
 	}
 	
-	public Stack<MyShape> GetShapes() {
+	public MyShape GetSelectedShape() {
+		return selectedShape;
+	}
+	
+	public ArrayList<MyShape> GetShapes() {
 		return shapes.GetShapes();
+	}
+	
+	public ArrayList<Point> GetSelectionHandles() {
+		return handles;
 	}
 	
 	public void AddObserver(MyViewRefresher vr) {
@@ -127,7 +167,13 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	@Override
 	public void colorButtonHit(Color c) {
 		GUIFunctions.changeSelectedColor(c);
-		currentColor = c;
+		if (selectedShape != null) {
+			selectedShape.SetColor(c);
+			shapes.SomethingChanged();
+		}
+		else {
+			currentColor = c;
+		}
 	}
 
 	@Override

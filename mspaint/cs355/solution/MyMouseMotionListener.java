@@ -15,7 +15,7 @@ public class MyMouseMotionListener implements java.awt.event.MouseMotionListener
 	public void mouseDragged(MouseEvent arg0) {
 //		System.out.println("Dragged");
 		Point e = new Point(arg0.getX(), arg0.getY());
-		contr.UpdateShape(e);
+		contr.DrawpadDraggedReleased(e);
 	}
 
 	@Override

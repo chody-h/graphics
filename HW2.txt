@@ -5,16 +5,33 @@
 		= <20, 20>
 
 	a. Parametric form:
+		p = <10+20t, 20+20t>
+		p = <10, 20> + <20, 20>t
+
+		alternatively: 
+
 		x(t)= 10 + 20t 
 		y(t)= 20 + 20t
-		p = <10+20t, 20+20t>
 
 	b. Implicit form (p * nhat = d):
-		<10, 20> * 1/sqrt(2)*<1, -1> = 0
+		p * 1/sqrt(2)*<1, -1> = 10/sqrt(2) - 20/sqrt(2)
+		p * 1/sqrt(2)*<1, -1> = -10/sqrt(2)
+
+		alternatively: 
+
 		x - y = -10	
 	
 	c. distance between the line and 
 		q	= (22, 29)
+
+		<22, 29> * 1/sqrt(2)*<1, -1> 
+		= 22/sqrt(2) - 29/sqrt(2)
+		= -7/sqrt(2)
+		d 	= -7/sqrt(2) + 10/sqrt(2)
+		= 3/sqrt(2)
+		= 2.121320344
+
+		alternatively,
 
 		slope of the line:
 		m 	= 1

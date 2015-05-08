@@ -14,10 +14,17 @@ public class MyRectangle extends MyShape {
 		h = 0;
 	}
 	
-	public void Update(Point center, int width, int height) {
-		SetCenter(center);
-		w = width;
-		h = height;
+	@Override
+	public boolean Contains(Point p, int t) {
+		Point center = super.p;
+
+		boolean x = false;
+		if (center.x-w/2 < p.x && p.x < center.x+w/2) x = true;
+			
+		boolean y = false;
+		if (center.y-h/2 < p.y && p.y < center.y+h/2) y = true;
+		
+		return x && y;
 	}
 
 	public void SetWidth(int width) {

@@ -1,33 +1,45 @@
 package cs355.model;
 
 import java.awt.Point;
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.ListIterator;
 
 public class MyCreations extends java.util.Observable {
-	Stack<MyShape> shapes = new Stack<MyShape>();
+	ArrayList<MyShape> shapes = new ArrayList<MyShape>();
 
 	public MyShape GetShapeHit(Point clicked, int tolerance) {
+		ListIterator<MyShape> li = shapes.listIterator(shapes.size());
+		while (li.hasPrevious()) {
+			MyShape s = li.previous();
+			if (s.Contains(clicked, tolerance)) {
+				return s;
+			}
+		}
+		
 		return null;
 	}
 	
 	public void Push(MyShape s) {
 		if (s.equals(null)) return;
-		shapes.push(s);
+		shapes.add(s);
 		
-		setChanged();
-		notifyObservers();
+		SomethingChanged();
 	}
 	
 	public MyShape Pop() {
 		if (shapes.size() <= 0) return null;
 		
-		setChanged();
-		notifyObservers();
+		SomethingChanged();
 		
-		return shapes.pop();
+		return shapes.remove(shapes.size()-1);
 	}
 	
-	public Stack<MyShape> GetShapes() {
+	public ArrayList<MyShape> GetShapes() {
 		return shapes;
+	}
+	
+	public void SomethingChanged() {
+		setChanged();
+		notifyObservers();
 	}
 }

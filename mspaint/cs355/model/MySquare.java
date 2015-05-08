@@ -12,11 +12,19 @@ public class MySquare extends MyShape {
 		l = 0;
 	}
 	
-	public void Update(Point center, int length) {
-		SetCenter(center);
-		l = length;
-	}
+	@Override
+	public boolean Contains(Point p, int t) {
+		Point center = super.p;
 
+		boolean x = false;
+		if (center.x-(l+1)/2 < p.x && p.x < center.x+(l+1)/2) x = true;
+			
+		boolean y = false;
+		if (center.y-(l+1)/2 < p.y && p.y < center.y+(l+1)/2) y = true;
+		
+		return x && y;
+	}
+	
 	public void SetLength(int length) {
 		l = length;
 	}

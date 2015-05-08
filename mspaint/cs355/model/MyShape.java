@@ -7,14 +7,18 @@ import java.awt.Point;
 public class MyShape {
 //	color, center position, rotation angle (in radians)
 //	accessor methods for color
-	private Color c;
-	private Point p;
-	private double r;
+	protected Color c;
+	protected Point p;
+	protected double r;
 	
 	public MyShape(Color color, Point center) {
 		c = color;
 		p = center;
 		r = 0;
+	}
+	
+	public boolean Contains(Point p, int t) {
+		return false;
 	}
 
 	public void SetColor(Color color) {

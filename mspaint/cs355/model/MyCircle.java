@@ -3,6 +3,8 @@ package cs355.model;
 import java.awt.Color;
 import java.awt.Point;
 
+import cs355.solution.Utility;
+
 public class MyCircle extends MyShape {
 //	radius & accessors
 	private int r;
@@ -12,9 +14,11 @@ public class MyCircle extends MyShape {
 		r = 0;
 	}
 	
-	public void Update(Point center, int radius) {
-		SetCenter(center);
-		r = radius;
+	@Override
+	public boolean Contains(Point p, int t) {
+		double d = Utility.Distance(p, super.p);
+		if (d < r) return true;
+		else return false;
 	}
 
 	public void SetRadius(int radius) {

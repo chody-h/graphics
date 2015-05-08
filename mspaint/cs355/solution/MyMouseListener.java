@@ -31,13 +31,13 @@ public class MyMouseListener implements java.awt.event.MouseListener {
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		Point s = new Point(arg0.getX(), arg0.getY());
-		contr.DrawShape(s);
+		contr.DrawpadPressed(s);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		Point e = new Point(arg0.getX(), arg0.getY());
-		contr.UpdateShape(e);
+		contr.DrawpadDraggedReleased(e);
 	}
 
 }

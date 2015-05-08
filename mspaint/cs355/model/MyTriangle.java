@@ -16,12 +16,15 @@ public class MyTriangle extends MyShape {
 		v2 = start;
 		v3 = start;
 	}
-
-	private void UpdateCenter() {
-		int x = (v1.x + v2.x + v3.x)/3;
-		int y = (v1.y + v2.y + v3.y)/3;
-		Point center = new Point(x, y);
-		SetCenter(center);
+	
+	@Override
+	public boolean Contains(Point p, int t) {
+//		TODO: fix this
+		double alpha = ((v2.y-v3.y)*(p.x-v3.x)+(v3.x-v2.x)*(p.y-v3.y))/((v2.y-v3.y)*(v1.x-v3.x)+(v3.x-v2.x)*(v1.y-v3.y));
+		double beta = ((v3.y-v1.y)*(p.x-v3.x)+(v1.x-v3.x)*(p.y-v3.y))/((v2.y-v3.y)*(v1.x-v3.x)+(v3.x-v2.x)*(v1.y-v3.y));
+		double gamma = 1 - alpha - beta;
+		if (alpha >= 0 && beta >= 0 && gamma >= 0) return true;
+		else return false;
 	}
 	
 	public void SetV2(Point vertex2) {
@@ -31,6 +34,24 @@ public class MyTriangle extends MyShape {
 	public void SetV3(Point vertex3) {
 		v3 = vertex3;
 		UpdateCenter();
+	}
+	
+	// changes the vertices when center changes
+	@Override
+	public void SetCenter(Point center) {
+		Point oldCenter = super.p;
+		int dx = center.x - oldCenter.x;
+		int dy = center.y - oldCenter.y;
+		v1 = new Point(v1.x+dx, v1.y+dy);
+		v2 = new Point(v2.x+dx, v2.y+dy);
+		v3 = new Point(v3.x+dx, v3.y+dy);
+	}
+
+	// changes the center when verticies change
+	private void UpdateCenter() {
+		int x = (v1.x + v2.x + v3.x)/3;
+		int y = (v1.y + v2.y + v3.y)/3;
+		super.p = new Point(x, y);
 	}
 	
 	public Point GetVertex1() {
