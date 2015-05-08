@@ -20,11 +20,18 @@ public class MyTriangle extends MyShape {
 	@Override
 	public boolean Contains(Point p, int t) {
 //		TODO: fix this
-		double alpha = ((v2.y-v3.y)*(p.x-v3.x)+(v3.x-v2.x)*(p.y-v3.y))/((v2.y-v3.y)*(v1.x-v3.x)+(v3.x-v2.x)*(v1.y-v3.y));
-		double beta = ((v3.y-v1.y)*(p.x-v3.x)+(v1.x-v3.x)*(p.y-v3.y))/((v2.y-v3.y)*(v1.x-v3.x)+(v3.x-v2.x)*(v1.y-v3.y));
-		double gamma = 1 - alpha - beta;
-		if (alpha >= 0 && beta >= 0 && gamma >= 0) return true;
-		else return false;
+//		double alpha = ((v2.y-v3.y)*(p.x-v3.x)+(v3.x-v2.x)*(p.y-v3.y))/((v2.y-v3.y)*(v1.x-v3.x)+(v3.x-v2.x)*(v1.y-v3.y));
+//		double beta = ((v3.y-v1.y)*(p.x-v3.x)+(v1.x-v3.x)*(p.y-v3.y))/((v2.y-v3.y)*(v1.x-v3.x)+(v3.x-v2.x)*(v1.y-v3.y));
+//		double gamma = 1 - alpha - beta;
+//		if (alpha >= 0 && beta >= 0 && gamma >= 0) return true;
+//		else return false;
+
+		int onetotwo = (p.x - v1.x) * -(v2.y-v1.y) + (p.y - v1.y) * (v2.x-v1.x);
+		int twotothree = (p.x - v2.x) * -(v3.y-v2.y) + (p.y - v2.y) * (v3.x-v2.x);
+		int threetoone = (p.x - v3.x) * -(v1.y-v3.y) + (p.y - v3.y) * (v1.x-v3.x);
+		if (onetotwo >= 0 && twotothree >= 0 && threetoone >= 0) return true;
+		if (onetotwo <= 0 && twotothree <= 0 && threetoone <= 0) return true;
+		return false;
 	}
 	
 	public void SetV2(Point vertex2) {
