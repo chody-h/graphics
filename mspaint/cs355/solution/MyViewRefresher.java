@@ -9,13 +9,12 @@ import java.util.Observable;
 import java.util.Stack;
 
 import cs355.GUIFunctions;
+import cs355.SelectionHelpers.*;
 import cs355.model.*;
 
 public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer {
 
 	private MyCS355Controller contr;
-	private Color selectionColor = new Color(0, 255, 255);	// cyan
-	private int selectionRadius = 4;
 	
 	public MyViewRefresher(MyCS355Controller c) {
 		contr = c;
@@ -24,6 +23,7 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 
 	@Override
 	public void refreshView(Graphics2D g2d) {
+		// draw all shapes
 		ArrayList<MyShape> shapes = contr.GetShapes();
 		for (MyShape s : shapes) {
 			Color shapeColor = s.GetColor();
@@ -87,11 +87,36 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 			}
 		}
 		
-		ArrayList<Point> handles = contr.GetSelectionHandles();
+		// draw the selection stuff
+		ArrayList<DrawnSelectionItem> handles = contr.GetSelectionHandles();
 		if (handles.size() > 0) {
-			g2d.setColor(selectionColor);
-			for (Point p : handles) {
-				g2d.drawOval(p.x-selectionRadius, p.y-selectionRadius, selectionRadius*2, selectionRadius*2);
+			for (DrawnSelectionItem i : handles) {
+				
+				g2d.setColor(i.GetColor());
+				g2d.setStroke(new BasicStroke(1));
+				
+				if (i instanceof SelectionAnchor) {
+					Point p = ((SelectionAnchor) i).GetPoint();
+					int r = ((SelectionAnchor) i).GetRadius();
+					g2d.drawOval(p.x-r, p.y-r, r*2, r*2);
+				}
+				else if (i instanceof SelectionOutline) {
+					Point tl = ((SelectionOutline) i).GetPoint();
+					int w = ((SelectionOutline) i).GetWidth();
+					int h = ((SelectionOutline) i).GetHeight();
+					if (((SelectionOutline) i).IsOval())
+						g2d.drawOval(tl.x, tl.y, w, h);
+					else
+						g2d.drawRect(tl.x, tl.y, w, h);
+				}
+				else if (i instanceof SelectionOutlineTriangle) {
+					Point v1 = ((SelectionOutlineTriangle) i).GetV1();
+					Point v2 = ((SelectionOutlineTriangle) i).GetV2();
+					Point v3 = ((SelectionOutlineTriangle) i).GetV3();
+					g2d.drawLine(v1.x, v1.y, v2.x, v2.y);
+					g2d.drawLine(v2.x, v2.y, v3.x, v3.y);
+					g2d.drawLine(v3.x, v3.y, v1.x, v1.y);
+				}
 			}
 		}
 	}

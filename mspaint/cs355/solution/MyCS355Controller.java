@@ -5,9 +5,8 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Stack;
-
 import cs355.GUIFunctions;
+import cs355.SelectionHelpers.*;
 import cs355.model.*;
 
 public class MyCS355Controller implements cs355.CS355Controller {
@@ -20,7 +19,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	private int tolerance = 4;
 	private MyShape selectedShape = null;
 	private Color selectedColor = null;
-	ArrayList<Point> handles = null;
+	ArrayList<DrawnSelectionItem> handles = new ArrayList<DrawnSelectionItem>();
 	
 	public void DrawpadPressed(Point start)	 {
 		anchor = start;
@@ -62,10 +61,12 @@ public class MyCS355Controller implements cs355.CS355Controller {
 				selectedShape = shapes.GetShapeHit(start, tolerance);
 				if (selectedShape != null) {
 					selectedColor = selectedShape.GetColor();
+					SetSelectionHandles();
 					GUIFunctions.changeSelectedColor(selectedColor);
+					shapes.SomethingChanged();
 				}
 				else {
-					GUIFunctions.changeSelectedColor(currentColor);
+					Unselect();
 				}
 				return;
 			default:
@@ -83,6 +84,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			Point oldCenter = selectedShape.GetCenter();
 			Point newCenter = new Point(oldCenter.x + dx, oldCenter.y + dy);
 			selectedShape.SetCenter(newCenter);
+			SetSelectionHandles();
 			shapes.SomethingChanged();
 			anchor = updated;
 			return;
@@ -148,6 +150,13 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		shapes.Push(s);
 	}
 	
+	private void Unselect() {
+		selectedShape = null;
+		handles.clear();
+		GUIFunctions.changeSelectedColor(currentColor);
+		shapes.SomethingChanged();
+	}
+	
 	public MyShape GetSelectedShape() {
 		return selectedShape;
 	}
@@ -156,7 +165,99 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		return shapes.GetShapes();
 	}
 	
-	public ArrayList<Point> GetSelectionHandles() {
+	public void SetSelectionHandles() {
+		handles = new ArrayList<DrawnSelectionItem>();
+		
+		if (selectedShape instanceof MyLine) {
+			SelectionAnchor a = new SelectionAnchor(((MyLine) selectedShape).GetStart());
+			handles.add(a);
+			a = new SelectionAnchor(((MyLine) selectedShape).GetEnd());
+			handles.add(a);
+		}
+		else if (selectedShape instanceof MySquare) {
+			Point center = selectedShape.GetCenter();
+			int halfLength = ((MySquare) selectedShape).GetLength() / 2;
+
+			Point p = new Point(center.x-halfLength, center.y-halfLength);
+			handles.add(new SelectionAnchor(p));
+			p = new Point(center.x-halfLength, center.y+halfLength);
+			handles.add(new SelectionAnchor(p));
+			p = new Point(center.x+halfLength, center.y-halfLength);
+			handles.add(new SelectionAnchor(p));
+			p = new Point(center.x+halfLength, center.y+halfLength);
+			handles.add(new SelectionAnchor(p));
+			
+			boolean isOval = false;
+			SelectionOutline o = new SelectionOutline(center, halfLength*2, halfLength*2, isOval);
+			handles.add(o);
+		}
+		else if (selectedShape instanceof MyRectangle) {
+			Point center = selectedShape.GetCenter();
+			int a = ((MyRectangle) selectedShape).GetWidth()/2;
+			int b = ((MyRectangle) selectedShape).GetHeight()/2;
+
+			Point p = new Point(center.x-a, center.y-b);
+			handles.add(new SelectionAnchor(p));
+			p = new Point(center.x-a, center.y+b);
+			handles.add(new SelectionAnchor(p));
+			p = new Point(center.x+a, center.y-b);
+			handles.add(new SelectionAnchor(p));
+			p = new Point(center.x+a, center.y+b);
+			handles.add(new SelectionAnchor(p));
+			
+			boolean isOval = false;
+			SelectionOutline o = new SelectionOutline(center, a*2, b*2, isOval);
+			handles.add(o);
+		}
+		else if (selectedShape instanceof MyCircle) {
+			Point center = selectedShape.GetCenter();
+			int r = ((MyCircle) selectedShape).GetRadius();
+
+			Point p = new Point(center.x-r, center.y-r);
+			handles.add(new SelectionAnchor(p));
+			p = new Point(center.x-r, center.y+r);
+			handles.add(new SelectionAnchor(p));
+			p = new Point(center.x+r, center.y-r);
+			handles.add(new SelectionAnchor(p));
+			p = new Point(center.x+r, center.y+r);
+			handles.add(new SelectionAnchor(p));
+			
+			boolean isOval = true;
+			SelectionOutline o = new SelectionOutline(center, r*2, r*2, isOval);
+			handles.add(o);
+		}
+		else if (selectedShape instanceof MyEllipse) {
+			Point center = selectedShape.GetCenter();
+			int a = ((MyEllipse) selectedShape).GetWidth()/2;
+			int b = ((MyEllipse) selectedShape).GetHeight()/2;
+
+			Point p = new Point(center.x-a, center.y-b);
+			handles.add(new SelectionAnchor(p));
+			p = new Point(center.x-a, center.y+b);
+			handles.add(new SelectionAnchor(p));
+			p = new Point(center.x+a, center.y-b);
+			handles.add(new SelectionAnchor(p));
+			p = new Point(center.x+a, center.y+b);
+			handles.add(new SelectionAnchor(p));
+			
+			boolean isOval = true;
+			SelectionOutline o = new SelectionOutline(center, a*2, b*2, isOval);
+			handles.add(o);
+		}
+		else if (selectedShape instanceof MyTriangle) {
+			Point p1 = ((MyTriangle) selectedShape).GetVertex1();
+			handles.add(new SelectionAnchor(p1));
+			Point p2 = ((MyTriangle) selectedShape).GetVertex2();
+			handles.add(new SelectionAnchor(p2));
+			Point p3 = ((MyTriangle) selectedShape).GetVertex3();
+			handles.add(new SelectionAnchor(p3));
+			
+			SelectionOutlineTriangle o = new SelectionOutlineTriangle(p1, p2, p3);
+			handles.add(o);
+		}
+	}
+	
+	public ArrayList<DrawnSelectionItem> GetSelectionHandles() {
 		return handles;
 	}
 	
@@ -179,6 +280,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	@Override
 	public void triangleButtonHit() {
 		currentButton = BUTTONS.TRIANGLE;
+		Unselect();
 	}
 
 	@Override
@@ -189,6 +291,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			numTriangleVertices = 0;
 			GUIFunctions.refresh();
 		}
+		Unselect();
 	}
 
 	@Override
@@ -199,6 +302,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			numTriangleVertices = 0;
 			GUIFunctions.refresh();
 		}
+		Unselect();
 	}
 
 	@Override
@@ -209,6 +313,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			numTriangleVertices = 0;
 			GUIFunctions.refresh();
 		}
+		Unselect();
 	}
 
 	@Override
@@ -219,6 +324,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			numTriangleVertices = 0;
 			GUIFunctions.refresh();
 		}
+		Unselect();
 	}
 
 	@Override
@@ -229,6 +335,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			numTriangleVertices = 0;
 			GUIFunctions.refresh();
 		}
+		Unselect();
 	}
 
 	@Override
