@@ -2,6 +2,7 @@ package cs355.SelectionHelpers;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Stroke;
 
 public class DrawnSelectionItem {
@@ -23,5 +24,9 @@ public class DrawnSelectionItem {
 	
 	public Stroke GetStroke() {
 		return s;
+	}
+
+	public boolean Contains(Point p) {
+		return false;
 	}
 }

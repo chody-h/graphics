@@ -1,6 +1,9 @@
 package cs355.SelectionHelpers;
 
+import java.awt.Point;
 import java.awt.geom.Point2D;
+
+import cs355.solution.Utility;
 
 public class SelectionAnchor extends DrawnSelectionItem {
 	// location
@@ -10,6 +13,11 @@ public class SelectionAnchor extends DrawnSelectionItem {
 	
 	public SelectionAnchor(Point2D p) {
 		this.p = p;
+	}
+	
+	public boolean Contains(Point p) {
+		if (Utility.Distance(this.p, p) <= r) return true;
+		return false;
 	}
 	
 	public Point2D GetPoint() {

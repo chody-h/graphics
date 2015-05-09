@@ -18,7 +18,7 @@ import cs355.model.*;
 public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer {
 
 	// anti-aliasing = personal taste. nothing to do with labs.
-	private static boolean ANTIALIAS_ON = true;
+	private static boolean AA_ON = true;
 	private MyCS355Controller contr;
 	
 	public MyViewRefresher(MyCS355Controller c) {
@@ -28,7 +28,7 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 
 	@Override
 	public void refreshView(Graphics2D g2d) {
-		if (ANTIALIAS_ON) g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		if (AA_ON) g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		// draw all shapes
 		ArrayList<MyShape> shapes = contr.GetShapes();

@@ -1,6 +1,9 @@
 package cs355.SelectionHelpers;
 
+import java.awt.Point;
 import java.awt.geom.Point2D;
+
+import cs355.solution.Utility;
 
 public class RotationAnchor extends DrawnSelectionItem {
 	// location
@@ -10,6 +13,12 @@ public class RotationAnchor extends DrawnSelectionItem {
 	
 	public RotationAnchor(Point2D p) {
 		this.p = p;
+	}
+	
+	@Override
+	public boolean Contains(Point p) {
+		if (Utility.Distance(this.p, p) <= r) return true;
+		return false;
 	}
 
 	public Point2D GetPoint() {

@@ -22,6 +22,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	private MyShape selectedShape = null;
 	private Color selectedColor = null;
 	ArrayList<DrawnSelectionItem> handles = new ArrayList<DrawnSelectionItem>();
+	private DrawnSelectionItem selectedAnchor = null;
 	
 	public void DrawpadPressed(Point start)	 {
 		anchor = start;
@@ -60,15 +61,22 @@ public class MyCS355Controller implements cs355.CS355Controller {
 				}
 				break;
 			case BUTTONS.SELECT:
-				selectedShape = shapes.GetShapeHit(start, tolerance);
-				if (selectedShape != null) {
-					selectedColor = selectedShape.GetColor();
-					SetSelectionItems();
-					GUIFunctions.changeSelectedColor(selectedColor);
-					shapes.SomethingChanged();
+				selectedAnchor = GetHandleHit(start);
+				if (selectedAnchor != null) {
+					// TODO?
+					System.out.println(selectedAnchor.getClass());
 				}
 				else {
-					Unselect();
+					selectedShape = shapes.GetShapeHit(start, tolerance);
+					if (selectedShape != null) {
+						selectedColor = selectedShape.GetColor();
+						SetSelectionItems();
+						GUIFunctions.changeSelectedColor(selectedColor);
+						shapes.SomethingChanged();
+					}
+					else {
+						Unselect();
+					}
 				}
 				return;
 			default:
@@ -81,15 +89,22 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		if (currentButton == BUTTONS.SELECT) {
 			if (selectedShape == null) return;
 			
-			int dx = updated.x - anchor.x;
-			int dy = updated.y - anchor.y;
-			Point oldCenter = selectedShape.GetCenter();
-			Point newCenter = new Point(oldCenter.x + dx, oldCenter.y + dy);
-			selectedShape.SetCenter(newCenter);
-			SetSelectionItems();
-			shapes.SomethingChanged();
-			anchor = updated;
-			return;
+			if (selectedAnchor != null) {
+				if (selectedAnchor instanceof RotationAnchor) {
+					
+				}
+			}
+			else {			
+				int dx = updated.x - anchor.x;
+				int dy = updated.y - anchor.y;
+				Point oldCenter = selectedShape.GetCenter();
+				Point newCenter = new Point(oldCenter.x + dx, oldCenter.y + dy);
+				selectedShape.SetCenter(newCenter);
+				SetSelectionItems();
+				shapes.SomethingChanged();
+				anchor = updated;
+				return;
+			}
 		}
 		
 		
@@ -272,6 +287,15 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			Point2D rotation = new Point2D.Double(p1.x+x, p1.y+y);
 			handles.add(new RotationAnchor(rotation));
 		}
+	}
+	
+	public DrawnSelectionItem GetHandleHit(Point p) {
+		for (DrawnSelectionItem i : handles) {
+			if (i.Contains(p)) {
+				return i;
+			}
+		}
+		return null;
 	}
 	
 	public ArrayList<DrawnSelectionItem> GetSelectionHandles() {
