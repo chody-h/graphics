@@ -52,6 +52,7 @@ public class MyTriangle extends MyShape {
 		v1 = new Point(v1.x+dx, v1.y+dy);
 		v2 = new Point(v2.x+dx, v2.y+dy);
 		v3 = new Point(v3.x+dx, v3.y+dy);
+		super.p = center;
 	}
 
 	// changes the center when verticies change

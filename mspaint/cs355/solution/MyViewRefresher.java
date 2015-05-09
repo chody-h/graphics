@@ -4,6 +4,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Stack;
@@ -14,6 +17,8 @@ import cs355.model.*;
 
 public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer {
 
+	// anti-aliasing = personal taste. nothing to do with labs.
+	private static boolean ANTIALIAS_ON = true;
 	private MyCS355Controller contr;
 	
 	public MyViewRefresher(MyCS355Controller c) {
@@ -23,6 +28,8 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 
 	@Override
 	public void refreshView(Graphics2D g2d) {
+		if (ANTIALIAS_ON) g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
 		// draw all shapes
 		ArrayList<MyShape> shapes = contr.GetShapes();
 		for (MyShape s : shapes) {
@@ -96,9 +103,16 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 				g2d.setStroke(new BasicStroke(1));
 				
 				if (i instanceof SelectionAnchor) {
-					Point p = ((SelectionAnchor) i).GetPoint();
+					Point2D p = ((SelectionAnchor) i).GetPoint();
 					int r = ((SelectionAnchor) i).GetRadius();
-					g2d.drawOval(p.x-r, p.y-r, r*2, r*2);
+					Ellipse2D.Double anchor = new Ellipse2D.Double(p.getX()-r, p.getY()-r, r*2, r*2);
+					g2d.draw(anchor);
+				}
+				else if (i instanceof RotationAnchor) {
+					Point2D p = ((RotationAnchor) i).GetPoint();
+					int r = ((RotationAnchor) i).GetRadius();
+					Ellipse2D.Double anchor = new Ellipse2D.Double(p.getX()-r, p.getY()-r, r*2, r*2);
+					g2d.draw(anchor);
 				}
 				else if (i instanceof SelectionOutline) {
 					Point tl = ((SelectionOutline) i).GetPoint();

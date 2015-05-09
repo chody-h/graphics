@@ -2,9 +2,11 @@ package cs355.solution;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import cs355.GUIFunctions;
 import cs355.SelectionHelpers.*;
 import cs355.model.*;
@@ -61,7 +63,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 				selectedShape = shapes.GetShapeHit(start, tolerance);
 				if (selectedShape != null) {
 					selectedColor = selectedShape.GetColor();
-					SetSelectionHandles();
+					SetSelectionItems();
 					GUIFunctions.changeSelectedColor(selectedColor);
 					shapes.SomethingChanged();
 				}
@@ -84,7 +86,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			Point oldCenter = selectedShape.GetCenter();
 			Point newCenter = new Point(oldCenter.x + dx, oldCenter.y + dy);
 			selectedShape.SetCenter(newCenter);
-			SetSelectionHandles();
+			SetSelectionItems();
 			shapes.SomethingChanged();
 			anchor = updated;
 			return;
@@ -165,7 +167,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		return shapes.GetShapes();
 	}
 	
-	public void SetSelectionHandles() {
+	public void SetSelectionItems() {
 		handles = new ArrayList<DrawnSelectionItem>();
 		
 		if (selectedShape instanceof MyLine) {
@@ -190,6 +192,9 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			boolean isOval = false;
 			SelectionOutline o = new SelectionOutline(center, halfLength*2, halfLength*2, isOval);
 			handles.add(o);
+			
+			p = new Point(center.x, center.y - 2*halfLength);
+			handles.add(new RotationAnchor(p));
 		}
 		else if (selectedShape instanceof MyRectangle) {
 			Point center = selectedShape.GetCenter();
@@ -208,6 +213,9 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			boolean isOval = false;
 			SelectionOutline o = new SelectionOutline(center, a*2, b*2, isOval);
 			handles.add(o);
+			
+			p = new Point(center.x, center.y-2*a);
+			handles.add(new RotationAnchor(p));
 		}
 		else if (selectedShape instanceof MyCircle) {
 			Point center = selectedShape.GetCenter();
@@ -243,6 +251,9 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			boolean isOval = true;
 			SelectionOutline o = new SelectionOutline(center, a*2, b*2, isOval);
 			handles.add(o);
+			
+			p = new Point(center.x, center.y-2*a);
+			handles.add(new RotationAnchor(p));
 		}
 		else if (selectedShape instanceof MyTriangle) {
 			Point p1 = ((MyTriangle) selectedShape).GetVertex1();
@@ -254,6 +265,12 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			
 			SelectionOutlineTriangle o = new SelectionOutlineTriangle(p1, p2, p3);
 			handles.add(o);
+			
+			Point center = selectedShape.GetCenter();
+			double x = (p1.x-center.x)/2;
+			double y = (p1.y-center.y)/2;
+			Point2D rotation = new Point2D.Double(p1.x+x, p1.y+y);
+			handles.add(new RotationAnchor(rotation));
 		}
 	}
 	
