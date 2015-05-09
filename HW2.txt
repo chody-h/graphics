@@ -110,7 +110,7 @@
 		true
 
 	b. Corners of bounding box
-		(30, 22), (30, 2), (-10, 22), (-10, 2)
+		(20, 17), (20, 7), (0, 17), (0, 7)
 
 4.	Square
 	l 	= 10
@@ -120,11 +120,11 @@
 		q 	= (64, 74)
 		If q is in the square, its x coordinate will be bounded by the vertical walls of the square and its y coordinate will be bounded by the horizontal walls of the square.
 
-		Horizontal walls: x = 55, x = 65
+		Vertical walls: x = 55, x = 65
 		55 < 64 < 65
 		true
 
-		Vertical walls: y = 75, y = 85
+		Horizontal walls: y = 75, y = 85
 		75 < 74, 85
 		false
 

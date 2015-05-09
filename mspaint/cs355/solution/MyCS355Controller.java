@@ -88,11 +88,16 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	public void DrawpadDraggedReleased(Point updated) {
 		if (currentButton == BUTTONS.SELECT) {
 			if (selectedShape == null) return;
+
 			
 			if (selectedAnchor != null) {
 				if (selectedAnchor instanceof RotationAnchor) {
-					
+					double angle = Utility.Angle(anchor, selectedShape.GetCenter(), updated);
+					selectedShape.SetRotation(angle);
+					SetSelectionItems();
+					shapes.SomethingChanged();
 				}
+				return;
 			}
 			else {			
 				int dx = updated.x - anchor.x;

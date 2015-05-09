@@ -89,4 +89,20 @@ public class MyTriangle extends MyShape {
 		y[2] = v3.y;
 		return y;
 	}
+	
+	public int[] GetRelativeXPoints() {
+		int[] x = new int[3];
+		x[0] = p.x - v1.x;
+		x[1] = p.x - v2.x;
+		x[2] = p.x - v3.x;
+		return x;
+	}
+	
+	public int[] GetRelativeYPoints() {
+		int[] y = new int[3];
+		y[0] = p.x - v1.y;
+		y[1] = p.x - v2.y;
+		y[2] = p.x - v3.y;
+		return y;
+	}
 }

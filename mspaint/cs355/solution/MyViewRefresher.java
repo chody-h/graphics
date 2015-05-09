@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -30,11 +31,21 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 	public void refreshView(Graphics2D g2d) {
 		if (AA_ON) g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
+		MyCircle s = new MyCircle(new Color(128, 128, 128), new Point(250, 250));
+		s.SetRadius(50);
+
+		AffineTransform objToWorld = new AffineTransform();
+		objToWorld.translate(s.GetCenter().getX(), s.GetCenter().getY());
+		objToWorld.rotate(s.GetRotation());
+		g2d.setTransform(objToWorld);
+		
 		// draw all shapes
 		ArrayList<MyShape> shapes = contr.GetShapes();
 		for (MyShape s : shapes) {
+			
 			Color shapeColor = s.GetColor();
 			g2d.setColor(shapeColor);
+			
 			if (s instanceof MyLine) {
 				Point b = ((MyLine)s).GetStart();
 				Point e = ((MyLine)s).GetEnd();
@@ -48,36 +59,41 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 				g2d.drawLine(x1, y1, x2, y2);
 			}
 			else if (s instanceof MySquare) {
-				Point c = s.GetCenter();
+				
+//				Point c = s.GetCenter();
 				int l = ((MySquare)s).GetLength();
-				int x = c.x - l/2;
-				int y = c.y - l/2;
-				g2d.fillRect(x, y, l, l);
+//				int x = c.x - l/2;
+//				int y = c.y - l/2;
+				g2d.fillRect(0, 0, l, l);
 			}
 			else if (s instanceof MyRectangle) {
-				Point c = s.GetCenter();
+				
+//				Point c = s.GetCenter();
 				int w = ((MyRectangle)s).GetWidth();
 				int h = ((MyRectangle)s).GetHeight();
-				int x = c.x - w/2;
-				int y = c.y - h/2;
-				g2d.fillRect(x, y, w, h);
+//				int x = c.x - w/2;
+//				int y = c.y - h/2;
+				g2d.fillRect(0, 0, w, h);
 			}
 			else if (s instanceof MyCircle) {
-				Point c = s.GetCenter();
+				
+//				Point c = s.GetCenter();
 				int r = ((MyCircle)s).GetRadius();
-				int x = c.x-r;
-				int y = c.y-r;
-				g2d.fillOval(x, y, r*2, r*2);
+//				int x = c.x-r;
+//				int y = c.y-r;
+				g2d.fillOval(0, 0, r*2, r*2);
 			}
 			else if (s instanceof MyEllipse) {
-				Point c = s.GetCenter();
+				
+//				Point c = s.GetCenter();
 				int w = ((MyEllipse)s).GetWidth();
 				int h = ((MyEllipse)s).GetHeight();
-				int x = c.x-w/2;
-				int y = c.y-h/2;
-				g2d.fillOval(x, y, w, h);
+//				int x = c.x-w/2;
+//				int y = c.y-h/2;
+				g2d.fillOval(0, 0, w, h);
 			}
 			else if (s instanceof MyTriangle) {
+				
 				int[] xPoints = ((MyTriangle) s).GetXPoints();
 				int[] yPoints = ((MyTriangle) s).GetYPoints();
 				int nPoints = 3;
@@ -93,6 +109,8 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 				else g2d.fillPolygon(xPoints, yPoints, nPoints);
 			}
 		}
+		
+		g2d.setTransform(new AffineTransform());
 		
 		// draw the selection stuff
 		ArrayList<DrawnSelectionItem> handles = contr.GetSelectionHandles();
