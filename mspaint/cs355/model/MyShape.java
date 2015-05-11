@@ -1,33 +1,32 @@
 package cs355.model;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.geom.Point2D;
 
 // 	generic shape class
 public class MyShape {
 //	color, center position, rotation angle (in radians)
-//	accessor methods for color
-	protected Color c;
-	protected Point2D p;
+	protected Color col;
+	protected Point2D c;
 	protected double r;
 	
 	public MyShape(Color color, Point2D center) {
-		c = color;
-		p = center;
+		col = color;
+		c = center;
 		r = 0;
 	}
 	
+	// handled by extension classes
 	public boolean Contains(Point2D p, int t) {
 		return false;
 	}
 
 	public void SetColor(Color color) {
-		c = color;
+		col = color;
 	}
 
 	public void SetCenter(Point2D center) {
-		p = center;
+		c = center;
 	}
 
 	public void SetRotation(double angle) {
@@ -35,11 +34,11 @@ public class MyShape {
 	}
 	
 	public Color GetColor() {
-		return c;
+		return col;
 	}
 
 	public Point2D GetCenter() {
-		return p;
+		return c;
 	}
 
 	public double GetRotation() {

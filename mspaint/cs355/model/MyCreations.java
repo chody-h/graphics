@@ -1,6 +1,5 @@
 package cs355.model;
 
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.ListIterator;
@@ -10,7 +9,7 @@ import cs355.solution.Utility;
 public class MyCreations extends java.util.Observable {
 	ArrayList<MyShape> shapes = new ArrayList<MyShape>();
 
-	public MyShape GetShapeHit(Point clicked, int tolerance) {
+	public MyShape GetShapeHit(Point2D clicked, int tolerance) {
 		ListIterator<MyShape> li = shapes.listIterator(shapes.size());
 		while (li.hasPrevious()) {
 			MyShape s = li.previous();

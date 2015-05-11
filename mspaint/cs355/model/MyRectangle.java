@@ -1,15 +1,14 @@
 package cs355.model;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.geom.Point2D;
 
 public class MyRectangle extends MyShape {
-//	location of height, width, & accessors
+//	height, width
 	private int w;
 	private int h;
 	
-	public MyRectangle(Color color, Point center) {
+	public MyRectangle(Color color, Point2D center) {
 		super(color, center);
 		w = 0;
 		h = 0;

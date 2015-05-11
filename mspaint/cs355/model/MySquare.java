@@ -1,14 +1,13 @@
 package cs355.model;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.geom.Point2D;
 
 public class MySquare extends MyShape {
-//	location of length of a side & accessors
+//	length of a side
 	private int l;
 	
-	public MySquare(Color color, Point center) {
+	public MySquare(Color color, Point2D center) {
 		super(color, center);
 		l = 0;
 	}

@@ -21,6 +21,16 @@ public class MyTriangle extends MyShape {
 		v3 = zero;
 	}
 	
+	@Override
+	public boolean Contains(Point2D p, int t) {
+		double onetotwo = (p.getX() - v1.getX()) * -(v2.getY()-v1.getY()) + (p.getY() - v1.getY()) * (v2.getX()-v1.getX());
+		double twotothree = (p.getX() - v2.getX()) * -(v3.getY()-v2.getY()) + (p.getY() - v2.getY()) * (v3.getX()-v2.getX());
+		double threetoone = (p.getX() - v3.getX()) * -(v1.getY()-v3.getY()) + (p.getY() - v3.getY()) * (v1.getX()-v3.getX());
+		if (onetotwo >= 0 && twotothree >= 0 && threetoone >= 0) return true;
+		if (onetotwo <= 0 && twotothree <= 0 && threetoone <= 0) return true;
+		return false;
+	}
+	
 	public void SetV2(Point2D vertex2) {
 		v2 = vertex2;
 
@@ -28,7 +38,7 @@ public class MyTriangle extends MyShape {
 		Utility.ObjectToWorld(v1, v1, super.GetCenter(), super.GetRotation());
 		
 		// update the center
-		super.p = new Point2D.Double((v1.getX()+v2.getX())/2, (v1.getY()+v2.getY())/2);
+		super.c = new Point2D.Double((v1.getX()+v2.getX())/2, (v1.getY()+v2.getY())/2);
 		
 		// update the verticies
 		Utility.WorldToObject(v1, v1, super.GetCenter(), super.GetRotation());
@@ -43,36 +53,12 @@ public class MyTriangle extends MyShape {
 		Utility.ObjectToWorld(v2, v2, super.GetCenter(), super.GetRotation());
 		
 		// update the center
-		super.p = new Point2D.Double((v1.getX()+v2.getX()+v3.getX())/3, (v1.getY()+v2.getY()+v3.getY())/3);
+		super.c = new Point2D.Double((v1.getX()+v2.getX()+v3.getX())/3, (v1.getY()+v2.getY()+v3.getY())/3);
 		
 		// update the verticies
 		Utility.WorldToObject(v1, v1, super.GetCenter(), super.GetRotation());
 		Utility.WorldToObject(v2, v2, super.GetCenter(), super.GetRotation());
 		Utility.WorldToObject(v3, v3, super.GetCenter(), super.GetRotation());
-	}
-	
-	@Override
-	public boolean Contains(Point2D p, int t) {
-//		TODO: fix this
-
-		double onetotwo = (p.getX() - v1.getX()) * -(v2.getY()-v1.getY()) + (p.getY() - v1.getY()) * (v2.getX()-v1.getX());
-		double twotothree = (p.getX() - v2.getX()) * -(v3.getY()-v2.getY()) + (p.getY() - v2.getY()) * (v3.getX()-v2.getX());
-		double threetoone = (p.getX() - v3.getX()) * -(v1.getY()-v3.getY()) + (p.getY() - v3.getY()) * (v1.getX()-v3.getX());
-		if (onetotwo >= 0 && twotothree >= 0 && threetoone >= 0) return true;
-		if (onetotwo <= 0 && twotothree <= 0 && threetoone <= 0) return true;
-		return false;
-	}
-	
-	// changes the vertices when center changes
-	@Override
-	public void SetCenter(Point2D center) {
-//		Point2D oldCenter = super.p;
-//		double dx = center.getX() - oldCenter.getX();
-//		double dy = center.getY() - oldCenter.getY();
-//		v1 = new Point2D.Double(v1.getX()+dx, v1.getY()+dy);
-//		v2 = new Point2D.Double(v2.getX()+dx, v2.getY()+dy);
-//		v3 = new Point2D.Double(v3.getX()+dx, v3.getY()+dy);
-		super.p = center;
 	}
 	
 	public Point2D GetVertex1() {
