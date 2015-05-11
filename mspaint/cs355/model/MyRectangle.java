@@ -2,6 +2,7 @@ package cs355.model;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 public class MyRectangle extends MyShape {
 //	location of height, width, & accessors
@@ -15,14 +16,12 @@ public class MyRectangle extends MyShape {
 	}
 	
 	@Override
-	public boolean Contains(Point p, int t) {
-		Point center = super.p;
-
+	public boolean Contains(Point2D p, int t) {
 		boolean x = false;
-		if (center.x-w/2 < p.x && p.x < center.x+w/2) x = true;
+		if (-w/2 < p.getX() && p.getX() < w/2) x = true;
 			
 		boolean y = false;
-		if (center.y-h/2 < p.y && p.y < center.y+h/2) y = true;
+		if (-h/2 < p.getY() && p.getY() < h/2) y = true;
 		
 		return x && y;
 	}

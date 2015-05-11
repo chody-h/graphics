@@ -2,6 +2,7 @@ package cs355.model;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 import cs355.solution.Utility;
 
@@ -15,8 +16,8 @@ public class MyCircle extends MyShape {
 	}
 	
 	@Override
-	public boolean Contains(Point p, int t) {
-		double d = Utility.Distance(p, super.p);
+	public boolean Contains(Point2D p, int t) {
+		double d = Utility.Distance(p, new Point(0,0));
 		if (d < r) return true;
 		else return false;
 	}

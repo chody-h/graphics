@@ -2,6 +2,7 @@ package cs355.model;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 public class MyLine extends MyShape {
 //	two endpoints & accessors
@@ -17,7 +18,7 @@ public class MyLine extends MyShape {
 	}
 	
 	@Override
-	public boolean Contains(Point p, int t) {
+	public boolean Contains(Point2D p, int t) {
 		// TODO: move this paragraph to the class itself
 		normal = new double[2];
 		normal[1] =  e.x - s.x;
@@ -27,13 +28,13 @@ public class MyLine extends MyShape {
  		normal[1] = normal[1]/normalLength;
 		double d = Math.abs(s.x*normal[0] + s.y*normal[1]);
 		
-		double dist = Math.abs(p.x*normal[0] + p.y*normal[1]) - d;
+		double dist = Math.abs(p.getX()*normal[0] + p.getY()*normal[1]) - d;
 		dist = Math.abs(dist);
 		
 		if (dist <= t) {
 			// closest point to p ON the line
-			double x = p.x - dist*normal[0];
-			double y = p.y - dist*normal[1];
+			double x = p.getX() - dist*normal[0];
+			double y = p.getY() - dist*normal[1];
 			if (((s.x < x && x < e.x) || (e.x < x && x < s.x)) && ((s.y < y && y < e.y) || (e.y < y && y < s.y))) {
 				return true;
 			}
@@ -69,6 +70,16 @@ public class MyLine extends MyShape {
 	
 	public Point GetEnd() {
 		return e;
+	}
+	
+	public Point2D GetRelativeStart() {
+		Point2D ret = new Point2D.Double(s.getX()-p.getX(), s.getY()-p.getY());
+		return ret;
+	}
+	
+	public Point2D GetRelativeEnd() {
+		Point2D ret = new Point2D.Double(e.getX()-p.getX(), e.getY()-p.getY());
+		return ret;
 	}
 	
 	private void RecalculateCenter() {

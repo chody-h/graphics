@@ -12,14 +12,14 @@ public class SelectionOutline extends DrawnSelectionItem {
 	// T - oval, F - rectangle
 	private boolean o;
 	
-	public SelectionOutline(Point center, int width, int height, boolean isOval) {
-		p = new Point(center.x-width/2, center.y-height/2);
+	public SelectionOutline(int width, int height, boolean isOval) {
+		p = new Point(-width/2, -height/2);
 		w = width;
 		h = height;
 		o = isOval;
 	}
 	
-	public Point GetPoint() {
+	public Point GetTopLeft() {
 		return p;
 	}
 	

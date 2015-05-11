@@ -2,6 +2,7 @@ package cs355.model;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 public class MySquare extends MyShape {
 //	location of length of a side & accessors
@@ -13,14 +14,12 @@ public class MySquare extends MyShape {
 	}
 	
 	@Override
-	public boolean Contains(Point p, int t) {
-		Point center = super.p;
-
+	public boolean Contains(Point2D p, int t) {
 		boolean x = false;
-		if (center.x-(l+1)/2 < p.x && p.x < center.x+(l+1)/2) x = true;
+		if (-(l+1)/2 < p.getX() && p.getX() < (l+1)/2) x = true;
 			
 		boolean y = false;
-		if (center.y-(l+1)/2 < p.y && p.y < center.y+(l+1)/2) y = true;
+		if (-(l+1)/2 < p.getY() && p.getY() < (l+1)/2) y = true;
 		
 		return x && y;
 	}

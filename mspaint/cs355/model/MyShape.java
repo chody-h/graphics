@@ -2,6 +2,7 @@ package cs355.model;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 // 	generic shape class
 public class MyShape {
@@ -17,7 +18,7 @@ public class MyShape {
 		r = 0;
 	}
 	
-	public boolean Contains(Point p, int t) {
+	public boolean Contains(Point2D p, int t) {
 		return false;
 	}
 

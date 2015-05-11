@@ -2,6 +2,7 @@ package cs355.model;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 public class MyEllipse extends MyShape{
 //	center, height, width, & accessors
@@ -15,11 +16,11 @@ public class MyEllipse extends MyShape{
 	}
 	
 	@Override
-	public boolean Contains(Point p, int t) {
-		Point center = super.p;
-		double a = Math.pow(p.x-center.x, 2);
+	public boolean Contains(Point2D p, int t) {
+//		Point center = super.p;
+		double a = Math.pow(p.getX(), 2);
 		double b = Math.pow(w/2, 2);
-		double c = Math.pow(p.y - center.y, 2);
+		double c = Math.pow(p.getY(), 2);
 		double d = Math.pow(h/2, 2);
 		if (a/b + c/d <= 1) return true;
 		else return false;
