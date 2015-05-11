@@ -103,8 +103,8 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			else {			
 				int dx = updated.x - anchor.x;
 				int dy = updated.y - anchor.y;
-				Point oldCenter = selectedShape.GetCenter();
-				Point newCenter = new Point(oldCenter.x + dx, oldCenter.y + dy);
+				Point2D oldCenter = selectedShape.GetCenter();
+				Point2D newCenter = new Point2D.Double(oldCenter.getX() + dx, oldCenter.getY() + dy);
 				selectedShape.SetCenter(newCenter);
 				SetSelectionItems();
 				shapes.SomethingChanged();
@@ -280,14 +280,12 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			handles.add(new RotationAnchor(p));
 		}
 		else if (selectedShape instanceof MyTriangle) {
-			int[] x = ((MyTriangle) selectedShape).GetRelativeXPoints();
-			int[] y = ((MyTriangle) selectedShape).GetRelativeYPoints();
 			
-			Point2D p1 = new Point2D.Double(x[0], y[0]);
+			Point2D p1 = ((MyTriangle) selectedShape).GetVertex1();
 			handles.add(new SelectionAnchor(p1));
-			Point2D p2 = new Point2D.Double(x[1], y[1]);
+			Point2D p2 = ((MyTriangle) selectedShape).GetVertex2();
 			handles.add(new SelectionAnchor(p2));
-			Point2D p3 = new Point2D.Double(x[2], y[2]);
+			Point2D p3 = ((MyTriangle) selectedShape).GetVertex3();
 			handles.add(new SelectionAnchor(p3));
 			
 			SelectionOutlineTriangle o = new SelectionOutlineTriangle(p1, p2, p3);

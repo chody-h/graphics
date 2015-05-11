@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 
 public class MyLine extends MyShape {
 //	two endpoints & accessors
-	private Point s;
-	private Point e;
+	private Point2D s;
+	private Point2D e;
 	private double[] normal;
 	
 	public MyLine(Color color, Point start) {
@@ -21,12 +21,12 @@ public class MyLine extends MyShape {
 	public boolean Contains(Point2D p, int t) {
 		// TODO: move this paragraph to the class itself
 		normal = new double[2];
-		normal[1] =  e.x - s.x;
-		normal[0] = -e.y + s.y;
+		normal[1] =  e.getX() - s.getX();
+		normal[0] = -e.getY() + s.getY();
  		double normalLength = Math.pow(Math.pow(normal[0], 2) + Math.pow(normal[1], 2), 0.5);
  		normal[0] = normal[0]/normalLength;
  		normal[1] = normal[1]/normalLength;
-		double d = Math.abs(s.x*normal[0] + s.y*normal[1]);
+		double d = Math.abs(s.getX()*normal[0] + s.getY()*normal[1]);
 		
 		double dist = Math.abs(p.getX()*normal[0] + p.getY()*normal[1]) - d;
 		dist = Math.abs(dist);
@@ -35,7 +35,7 @@ public class MyLine extends MyShape {
 			// closest point to p ON the line
 			double x = p.getX() - dist*normal[0];
 			double y = p.getY() - dist*normal[1];
-			if (((s.x < x && x < e.x) || (e.x < x && x < s.x)) && ((s.y < y && y < e.y) || (e.y < y && y < s.y))) {
+			if (((s.getX() < x && x < e.getX()) || (e.getX() < x && x < s.getX())) && ((s.getY() < y && y < e.getY()) || (e.getY() < y && y < s.getY()))) {
 				return true;
 			}
 		}
@@ -44,13 +44,13 @@ public class MyLine extends MyShape {
 	
 //	needs to change start and end too
 	@Override
-	public void SetCenter(Point center) {
-		Point oldCenter = super.p;
-		int dx = center.x - oldCenter.x;
-		int dy = center.y - oldCenter.y;
-		Point newStart = new Point(s.x+dx, s.y+dy);
+	public void SetCenter(Point2D center) {
+		Point2D oldCenter = super.p;
+		double dx = center.getX() - oldCenter.getX();
+		double dy = center.getY() - oldCenter.getY();
+		Point2D newStart = new Point2D.Double(s.getX()+dx, s.getY()+dy);
 		s = newStart;
-		Point newEnd = new Point(e.x+dx, e.y+dy);
+		Point2D newEnd = new Point2D.Double(e.getX()+dx, e.getY()+dy);
 		e = newEnd;
 	}
 
@@ -64,11 +64,11 @@ public class MyLine extends MyShape {
 		RecalculateCenter();
 	}
 	
-	public Point GetStart() {
+	public Point2D GetStart() {
 		return s;
 	}
 	
-	public Point GetEnd() {
+	public Point2D GetEnd() {
 		return e;
 	}
 	
@@ -83,8 +83,8 @@ public class MyLine extends MyShape {
 	}
 	
 	private void RecalculateCenter() {
-		int x = (e.x+s.x)/2;
-		int y = (e.y+s.y)/2;
-		super.p = new Point(x, y);
+		double x = (e.getX()+s.getX())/2;
+		double y = (e.getY()+s.getY())/2;
+		super.p = new Point2D.Double(x, y);
 	}
 }

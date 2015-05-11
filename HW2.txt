@@ -125,7 +125,7 @@
 		true
 
 		Horizontal walls: y = 75, y = 85
-		75 < 74, 85
+		75 < 74 < 85
 		false
 
 		Because both conditions were not satisfied, q is not in the square.

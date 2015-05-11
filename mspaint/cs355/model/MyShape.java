@@ -9,10 +9,10 @@ public class MyShape {
 //	color, center position, rotation angle (in radians)
 //	accessor methods for color
 	protected Color c;
-	protected Point p;
+	protected Point2D p;
 	protected double r;
 	
-	public MyShape(Color color, Point center) {
+	public MyShape(Color color, Point2D center) {
 		c = color;
 		p = center;
 		r = 0;
@@ -26,7 +26,7 @@ public class MyShape {
 		c = color;
 	}
 
-	public void SetCenter(Point center) {
+	public void SetCenter(Point2D center) {
 		p = center;
 	}
 
@@ -38,7 +38,7 @@ public class MyShape {
 		return c;
 	}
 
-	public Point GetCenter() {
+	public Point2D GetCenter() {
 		return p;
 	}
 

@@ -7,9 +7,11 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Observable;
+
 import cs355.GUIFunctions;
 import cs355.SelectionHelpers.*;
 import cs355.model.*;
@@ -40,22 +42,19 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 				Utility.ClearTransformation(g2d);
 			}
 			else {
-				Point c = s.GetCenter();
+				Point2D c = s.GetCenter();
 				double r = s.GetRotation();
 				Utility.ObjectToWorld(g2d, c, r);
 			}
 			
 			if (s instanceof MyLine) {
-				Point b = ((MyLine)s).GetStart();
-				Point e = ((MyLine)s).GetEnd();
+				Point2D b = ((MyLine)s).GetStart();
+				Point2D e = ((MyLine)s).GetEnd();
 				
 				g2d.setStroke(new BasicStroke(1));
 				
-				int x1 = b.x;
-				int y1 = b.y;
-				int x2 = e.x;
-				int y2 = e.y;
-				g2d.drawLine(x1, y1, x2, y2);
+				Line2D l = new Line2D.Double(b, e);
+				g2d.draw(l);
 			}
 			else if (s instanceof MySquare) {
 				
@@ -81,19 +80,28 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 			}
 			else if (s instanceof MyTriangle) {
 				
-				int[] xPoints = ((MyTriangle) s).GetRelativeXPoints();
-				int[] yPoints = ((MyTriangle) s).GetRelativeYPoints();
+				Point2D v1 = ((MyTriangle) s).GetVertex1();
+				Point2D v2 = ((MyTriangle) s).GetVertex2();
+				Point2D v3 = ((MyTriangle) s).GetVertex3();
 				int nPoints = 3;
-				if (xPoints[2] == xPoints[0] && yPoints[2] == yPoints[0]) {
-					if (xPoints[1] == xPoints[0] && yPoints[1] == yPoints[0])
+				if (v3.getX() == v1.getX() && v3.getY() == v1.getY()) {
+					if (v2.getX() == v1.getX() && v2.getY() == v1.getY())
 						nPoints = 1;
 					else
 						nPoints = 2;
 				}
 				if (nPoints < 3) {
-					g2d.drawLine(xPoints[0], yPoints[0], xPoints[1], yPoints[1]);
+					g2d.draw(new Line2D.Double(v1, v2));
 				}
-				else g2d.fillPolygon(xPoints, yPoints, nPoints);
+				else {
+					Path2D triangle = new Path2D.Double();
+					triangle.moveTo(v1.getX(), v1.getY());
+					triangle.lineTo(v2.getX(), v2.getY());
+					triangle.lineTo(v3.getX(), v3.getY());
+					triangle.lineTo(v1.getX(), v1.getY());
+					g2d.fill(triangle);
+				}
+				
 			}
 		}
 		
@@ -102,7 +110,7 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 		if (selected == null) return;
 
 		double rotation = contr.GetSelectedShape().GetRotation();
-		Point center = contr.GetSelectedShape().GetCenter();
+		Point2D center = contr.GetSelectedShape().GetCenter();
 		Utility.ObjectToWorld(g2d, center, rotation);
 		
 		ArrayList<DrawnSelectionItem> handles = contr.GetSelectionHandles();
