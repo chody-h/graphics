@@ -11,6 +11,7 @@ public class Utility {
 		return Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
 	}
 	
+//	a is start, b is pivot, c is end
 	public static double Angle(Point2D a, Point2D b, Point2D c) {
 	    double angle1 = Math.atan2(a.getY() - b.getY(), a.getX() - b.getX());
 	    double angle2 = Math.atan2(c.getY() - b.getY(), c.getX() - b.getX());
