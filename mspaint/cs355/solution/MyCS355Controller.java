@@ -12,16 +12,31 @@ import cs355.model.*;
 
 public class MyCS355Controller implements cs355.CS355Controller {
 	
+//	all drawn shapes - this is the model
 	private MyCreations shapes = new MyCreations();
+	
+//	UI state
 	private Color currentColor = new Color(255,255,255);
 	private int currentButton = BUTTONS.LINE;
+	private double zoom = 1;
+	private Point2D topLeft = new Point2D.Double(-250,-250);
+	
+//	number of points the user has drawn of a triangle
 	private int numTriangleVertices = 0;
+	
+//	start point when the user first clicks
 	private Point2D anchor;
-	private int tolerance = 4;
+	
+//	selection stuff
 	private MyShape selectedShape = null;
 	private Color selectedColor = null;
 	ArrayList<DrawnSelectionItem> handles = new ArrayList<DrawnSelectionItem>();
 	private DrawnSelectionItem selectedAnchor = null;
+	
+//	static items
+	private static int tolerance = 4;
+	private static double minZoom = 0.25;
+	private static double maxZoom = 4;
 	
 	public void DrawpadPressed(Point2D start)	 {
 		anchor = start;
@@ -402,26 +417,26 @@ public class MyCS355Controller implements cs355.CS355Controller {
 
 	@Override
 	public void zoomInButtonHit() {
-		// TODO Auto-generated method stub
-		
+		zoom = (zoom*2 > maxZoom) ? zoom : zoom*2;
+		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void zoomOutButtonHit() {
-		// TODO Auto-generated method stub
-		
+		zoom = (zoom/2 < minZoom) ? zoom : zoom/2;
+		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void hScrollbarChanged(int value) {
-		// TODO Auto-generated method stub
-		
+		topLeft = new Point2D.Double(value, topLeft.getY());
+		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void vScrollbarChanged(int value) {
-		// TODO Auto-generated method stub
-		
+		topLeft = new Point2D.Double(topLeft.getX(), value);
+		GUIFunctions.refresh();
 	}
 
 	@Override
