@@ -23,26 +23,35 @@ public class Utility {
 		g2d.setTransform(new AffineTransform());
 	}
 	
+	
+	
+//	convert graphics objects
 	public static void ObjectToWorld(Graphics2D g2d, Point2D center, double rotation) {
 		AffineTransform objToWorld = new AffineTransform();
-		objToWorld.translate(center.getX(), center.getY());
+//		objToWorld.translate(center.getX(), center.getY());
+		objToWorld.setToTranslation(center.getX(), center.getY());
 		objToWorld.rotate(rotation);
+//		objToWorld.setToRotation(rotation);
 		g2d.setTransform(objToWorld);
 	}
 	
+	public static void WorldToObject(Graphics2D g2d, Point2D center, double rotation) {
+		AffineTransform worldToObj = new AffineTransform();
+		worldToObj.rotate(-rotation);
+//		worldToObj.setToRotation(-rotation);
+		worldToObj.translate(-center.getX(), -center.getY());
+//		worldToObj.setToTranslation(center.getX(), center.getY());
+		g2d.setTransform(worldToObj);
+	}
+	
+	
+//	convert point objects 
 	public static void ObjectToWorld(Point2D objCoord, Point2D worldCoord, Point2D center, double rotation) {
 		if (worldCoord == null || objCoord == null) return;
 		AffineTransform objToWorld = new AffineTransform();
 		objToWorld.translate(center.getX(), center.getY());
 		objToWorld.rotate(rotation);
 		objToWorld.transform(objCoord, worldCoord);
-	}
-	
-	public static void WorldToObject(Graphics2D g2d, Point2D center, double rotation) {
-		AffineTransform worldToObj = new AffineTransform();
-		worldToObj.rotate(-rotation);
-		worldToObj.translate(-center.getX(), -center.getY());
-		g2d.setTransform(worldToObj);
 	}
 	
 	public static void WorldToObject(Point2D worldCoord, Point2D objCoord, Point2D center, double rotation) {

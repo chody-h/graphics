@@ -113,8 +113,8 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 		MyShape selected = contr.GetSelectedShape();
 		if (selected == null) return;
 
-		double rotation = contr.GetSelectedShape().GetRotation();
-		Point2D center = contr.GetSelectedShape().GetCenter();
+		double rotation = selected.GetRotation();
+		Point2D center = selected.GetCenter();
 		Utility.ObjectToWorld(g2d, center, rotation);
 		
 		ArrayList<DrawnSelectionItem> handles = contr.GetSelectionHandles();
