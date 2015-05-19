@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
@@ -44,7 +45,7 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 			else {
 				Point2D c = s.GetCenter();
 				double r = s.GetRotation();
-				Utility.ObjectToWorld(g2d, c, r);
+				AffineTransform o2w = Utility.ObjectToView(contr.GetZoom(), contr.GetTopLeft(), c, r);
 			}
 			
 			if (s instanceof MyLine) {
@@ -115,7 +116,8 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 
 		double rotation = selected.GetRotation();
 		Point2D center = selected.GetCenter();
-		Utility.ObjectToWorld(g2d, center, rotation);
+		AffineTransform o2v = Utility.ObjectToView(contr.GetZoom(), contr.GetTopLeft(), center, rotation);
+		g2d.transform(o2v);
 		
 		ArrayList<DrawnSelectionItem> handles = contr.GetSelectionHandles();
 		if (handles.size() > 0) {

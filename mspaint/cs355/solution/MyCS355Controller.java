@@ -314,8 +314,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	
 	public DrawnSelectionItem GetHandleHit(Point2D p) {
 		if (selectedShape == null) return null;
-		Point2D p2 = new Point2D.Double(0,0);
-		Utility.ViewToObject(p, p2, selectedShape.GetCenter(), selectedShape.GetRotation());
+		Point2D p2 = Utility.ViewToObject(p, selectedShape.GetCenter(), selectedShape.GetRotation(), zoom, topLeft);
 		for (DrawnSelectionItem i : handles) {
 			if (i.Contains(p2)) {
 				return i;

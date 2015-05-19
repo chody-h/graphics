@@ -25,15 +25,15 @@ public class Utility {
 	
 	
 	public static AffineTransform ObjectToView(double zoom, Point2D topLeft, Point2D center, double rotation) {
-//		object to world
 //		world to view
+//		object to world
 		
 		AffineTransform id = new AffineTransform();
-		AffineTransform o2w = ObjectToWorld(center, rotation);
 		AffineTransform w2v = WorldToView(zoom, topLeft);
-		
-		id.concatenate(o2w);
+		AffineTransform o2w = ObjectToWorld(center, rotation);
+
 		id.concatenate(w2v);
+		id.concatenate(o2w);
 		
 		return id;
 	}
@@ -60,9 +60,6 @@ public class Utility {
 		
 		AffineTransform objToWorld = new AffineTransform(cos, sin, -sin, cos, center.getX(), center.getY());
 		
-//		objToWorld.translate(center.getX(), center.getY());
-//		objToWorld.rotate(rotation);
-		
 		return objToWorld;
 	}
 	
@@ -74,9 +71,6 @@ public class Utility {
 		double m12 = sin*center.getX()-cos*center.getY();
 		
 		AffineTransform worldToObj = new AffineTransform(cos, -sin, sin ,cos, m02, m12);
-		
-//		worldToObj.rotate(-rotation);
-//		worldToObj.translate(-center.getX(), -center.getY());
 		
 		return worldToObj;
 	}
@@ -99,15 +93,16 @@ public class Utility {
 		
 		if (objCoord == null) return null;
 		
-		AffineTransform id = new AffineTransform();
-		AffineTransform worldToView = WorldToView(zoom, topLeft);
-		AffineTransform objToWorld = ObjectToWorld(center, rotation);
+//		AffineTransform id = new AffineTransform();
+//		AffineTransform worldToView = WorldToView(zoom, topLeft);
+//		AffineTransform objToWorld = ObjectToWorld(center, rotation);
+		AffineTransform o2v = ObjectToView(zoom, topLeft, center, rotation);
 
-		id.concatenate(worldToView);
-		id.concatenate(objToWorld);
+//		id.concatenate(worldToView);
+//		id.concatenate(objToWorld);
 
 		Point2D viewCoord = new Point2D.Double(0,0);
-		id.transform(objCoord, viewCoord);
+		o2v.transform(objCoord, viewCoord);
 		
 		return viewCoord;
 	}
@@ -116,15 +111,16 @@ public class Utility {
 
 		if (viewCoord == null) return null;
 		
-		AffineTransform id = new AffineTransform();
-		AffineTransform viewToWorld = ViewToWorld(zoom, topLeft);
-		AffineTransform worldToObj = WorldToObject(center, rotation);
+//		AffineTransform id = new AffineTransform();
+//		AffineTransform viewToWorld = ViewToWorld(zoom, topLeft);
+//		AffineTransform worldToObj = WorldToObject(center, rotation);
+		AffineTransform v2o = ViewToObject(zoom, topLeft, center, rotation);
 
-		id.concatenate(viewToWorld);
-		id.concatenate(worldToObj);
+//		id.concatenate(viewToWorld);
+//		id.concatenate(worldToObj);
 		
 		Point2D objCoord = new Point2D.Double(0,0);
-		id.transform(viewCoord, objCoord);
+		v2o.transform(viewCoord, objCoord);
 		
 		return objCoord;
 	}
