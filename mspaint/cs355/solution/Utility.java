@@ -24,9 +24,36 @@ public class Utility {
 	}
 	
 	
+	public static AffineTransform ObjectToView(double zoom, Point2D topLeft, Point2D center, double rotation) {
+//		object to world
+//		world to view
+		
+		AffineTransform id = new AffineTransform();
+		AffineTransform o2w = ObjectToWorld(center, rotation);
+		AffineTransform w2v = WorldToView(zoom, topLeft);
+		
+		id.concatenate(o2w);
+		id.concatenate(w2v);
+		
+		return id;
+	}
 	
-//	convert graphics objects
-	public static void ObjectToWorld(Graphics2D g2d, Point2D center, double rotation) {
+	public static AffineTransform ViewToObject(double zoom, Point2D topLeft, Point2D center, double rotation) {
+		// view to world
+		// world to object
+		
+		AffineTransform id = new AffineTransform();
+		AffineTransform v2w = ViewToWorld(zoom, topLeft);
+		AffineTransform w2o = WorldToObject(center, rotation);
+		
+		id.concatenate(v2w);
+		id.concatenate(w2o);
+		
+		return id;
+	}
+	
+	
+	private static AffineTransform ObjectToWorld(Point2D center, double rotation) {
 		
 		double sin = Math.sin(rotation);
 		double cos = Math.cos(rotation);
@@ -36,11 +63,10 @@ public class Utility {
 //		objToWorld.translate(center.getX(), center.getY());
 //		objToWorld.rotate(rotation);
 		
-		System.out.println("Delete me!");
-		g2d.setTransform(objToWorld);
+		return objToWorld;
 	}
 	
-	public static void WorldToObject(Graphics2D g2d, Point2D center, double rotation) {
+	private static AffineTransform WorldToObject(Point2D center, double rotation) {
 		
 		double sin = Math.sin(rotation);
 		double cos = Math.cos(rotation);
@@ -52,43 +78,54 @@ public class Utility {
 //		worldToObj.rotate(-rotation);
 //		worldToObj.translate(-center.getX(), -center.getY());
 		
-		System.out.println("Delete me!");
-		g2d.setTransform(worldToObj);
+		return worldToObj;
+	}
+	
+	private static AffineTransform WorldToView(double zoom, Point2D topLeft) {
+		
+		AffineTransform worldToView = new AffineTransform(zoom, 0, 0, zoom, -topLeft.getX()*zoom, -topLeft.getY()*zoom);
+		return worldToView;
+	}
+	
+	private static AffineTransform ViewToWorld(double zoom, Point2D topLeft) {
+		
+		AffineTransform viewToWorld = new AffineTransform(1/zoom, 0, 0, 1/zoom, topLeft.getX(), topLeft.getY());
+		return viewToWorld;
 	}
 	
 	
 //	convert point objects 
-	public static void ObjectToWorld(Point2D objCoord, Point2D worldCoord, Point2D center, double rotation) {
+	public static Point2D ObjectToView(Point2D objCoord, Point2D center, double rotation, double zoom, Point2D topLeft) {
 		
-		if (worldCoord == null || objCoord == null) return;
+		if (objCoord == null) return null;
 		
-		double sin = Math.sin(rotation);
-		double cos = Math.cos(rotation);
+		AffineTransform id = new AffineTransform();
+		AffineTransform worldToView = WorldToView(zoom, topLeft);
+		AffineTransform objToWorld = ObjectToWorld(center, rotation);
+
+		id.concatenate(worldToView);
+		id.concatenate(objToWorld);
+
+		Point2D viewCoord = new Point2D.Double(0,0);
+		id.transform(objCoord, viewCoord);
 		
-		AffineTransform objToWorld = new AffineTransform(cos, sin, -sin, cos, center.getX(), center.getY());
-		
-//		objToWorld.translate(center.getX(), center.getY());
-//		objToWorld.rotate(rotation);
-		
-		System.out.println("Delete me!");
-		objToWorld.transform(objCoord, worldCoord);
+		return viewCoord;
 	}
 	
-	public static void WorldToObject(Point2D worldCoord, Point2D objCoord, Point2D center, double rotation) {
+	public static Point2D ViewToObject(Point2D viewCoord, Point2D center, double rotation, double zoom, Point2D topLeft) {
 
-		if (worldCoord == null || objCoord == null) return;
+		if (viewCoord == null) return null;
 		
-		double sin = Math.sin(rotation);
-		double cos = Math.cos(rotation);
-		double m02 = -cos*center.getX()-sin*center.getY();
-		double m12 = sin*center.getX()-cos*center.getY();
+		AffineTransform id = new AffineTransform();
+		AffineTransform viewToWorld = ViewToWorld(zoom, topLeft);
+		AffineTransform worldToObj = WorldToObject(center, rotation);
+
+		id.concatenate(viewToWorld);
+		id.concatenate(worldToObj);
 		
-		AffineTransform worldToObj = new AffineTransform(cos, -sin, sin ,cos, m02, m12);
+		Point2D objCoord = new Point2D.Double(0,0);
+		id.transform(viewCoord, objCoord);
 		
-//		worldToObj.rotate(-rotation);
-//		worldToObj.translate(-center.getX(), -center.getY());
-		
-		System.out.println("Delete me!");
-		worldToObj.transform(worldCoord, objCoord);
+		return objCoord;
 	}
 }
