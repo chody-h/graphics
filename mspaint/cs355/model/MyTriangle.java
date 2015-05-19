@@ -34,30 +34,30 @@ public class MyTriangle extends MyShape {
 		v2 = vertex2;
 
 		// convert vertices to world coords
-		Utility.ObjectToWorld(v1, v1, super.GetCenter(), super.GetRotation());
+		v1 = Utility.ObjectToWorld(v1, super.GetCenter(), super.GetRotation());
 		
 		// update the center
 		super.c = new Point2D.Double((v1.getX()+v2.getX())/2, (v1.getY()+v2.getY())/2);
 		
 		// update the verticies
-		Utility.WorldToObject(v1, v1, super.GetCenter(), super.GetRotation());
-		Utility.WorldToObject(v2, v2, super.GetCenter(), super.GetRotation());
+		v1 = Utility.WorldToObject(v1, super.GetCenter(), super.GetRotation());
+		v2 = Utility.WorldToObject(v2, super.GetCenter(), super.GetRotation());
 	}
 	
 	public void SetV3(Point2D vertex3) {
 		v3 = vertex3;
 
 		// convert vertices to world coords
-		Utility.ObjectToWorld(v1, v1, super.GetCenter(), super.GetRotation());
-		Utility.ObjectToWorld(v2, v2, super.GetCenter(), super.GetRotation());
+		v1 = Utility.ObjectToWorld(v1, super.GetCenter(), super.GetRotation());
+		v2 = Utility.ObjectToWorld(v2, super.GetCenter(), super.GetRotation());
 		
 		// update the center
 		super.c = new Point2D.Double((v1.getX()+v2.getX()+v3.getX())/3, (v1.getY()+v2.getY()+v3.getY())/3);
 		
 		// update the verticies
-		Utility.WorldToObject(v1, v1, super.GetCenter(), super.GetRotation());
-		Utility.WorldToObject(v2, v2, super.GetCenter(), super.GetRotation());
-		Utility.WorldToObject(v3, v3, super.GetCenter(), super.GetRotation());
+		v1 = Utility.WorldToObject(v1, super.GetCenter(), super.GetRotation());
+		v2 = Utility.WorldToObject(v2, super.GetCenter(), super.GetRotation());
+		v3 = Utility.WorldToObject(v3, super.GetCenter(), super.GetRotation());
 	}
 	
 	public Point2D GetVertex1() {

@@ -39,13 +39,13 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 			Color shapeColor = s.GetColor();
 			g2d.setColor(shapeColor);
 			
-			if (s instanceof MyLine) {
+			if (!(s instanceof MyLine)) {
 				Utility.ClearTransformation(g2d);
-			}
-			else {
+				
 				Point2D c = s.GetCenter();
 				double r = s.GetRotation();
-				AffineTransform o2w = Utility.ObjectToView(contr.GetZoom(), contr.GetTopLeft(), c, r);
+				AffineTransform o2v = Utility.ObjectToView(contr.GetZoom(), contr.GetTopLeft(), c, r);
+				g2d.transform(o2v);
 			}
 			
 			if (s instanceof MyLine) {
@@ -106,8 +106,9 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 					triangle.lineTo(v1.getX(), v1.getY());
 					g2d.fill(triangle);
 				}
-				
 			}
+			
+			Utility.ClearTransformation(g2d);
 		}
 		
 		// draw the selection stuff

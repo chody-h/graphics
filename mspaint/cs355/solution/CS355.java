@@ -30,6 +30,9 @@ public class CS355
     	
         GUIFunctions.createCS355Frame(contr,vr,ml,mml);
         
+        contr.InitializeView();
+        
+        
         GUIFunctions.refresh();        
     }
 }

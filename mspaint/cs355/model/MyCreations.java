@@ -9,15 +9,20 @@ import cs355.solution.Utility;
 public class MyCreations extends java.util.Observable {
 	ArrayList<MyShape> shapes = new ArrayList<MyShape>();
 
-	public MyShape GetShapeHit(Point2D worldCoords, int tolerance) {
+	public MyShape GetShapeHit(Point2D viewCoords, double tolerance, double zoom, Point2D topLeft) {
 		ListIterator<MyShape> li = shapes.listIterator(shapes.size());
 		while (li.hasPrevious()) {
 			MyShape s = li.previous();
 			Point2D coord = new Point2D.Double(0, 0);
 			// if it's a line, keep coord in world coordinates
-			if (s instanceof MyLine) coord = new Point2D.Double(worldCoords.getX(), worldCoords.getY());
+			if (s instanceof MyLine) {
+				Point2D worldCoords = Utility.ViewToWorld(viewCoords, zoom, topLeft);
+				coord = new Point2D.Double(worldCoords.getX(), worldCoords.getY());
+			}
 			// otherwise, convert it to object coordinates
-			else Utility.WorldToObject(worldCoords, coord, s.GetCenter(), s.GetRotation());
+			else {
+				coord = Utility.ViewToObject(viewCoords, s.GetCenter(), s.GetRotation(), zoom, topLeft);
+			}
 			if (s.Contains(coord, tolerance)) {
 				return s;
 			}

@@ -93,13 +93,7 @@ public class Utility {
 		
 		if (objCoord == null) return null;
 		
-//		AffineTransform id = new AffineTransform();
-//		AffineTransform worldToView = WorldToView(zoom, topLeft);
-//		AffineTransform objToWorld = ObjectToWorld(center, rotation);
 		AffineTransform o2v = ObjectToView(zoom, topLeft, center, rotation);
-
-//		id.concatenate(worldToView);
-//		id.concatenate(objToWorld);
 
 		Point2D viewCoord = new Point2D.Double(0,0);
 		o2v.transform(objCoord, viewCoord);
@@ -111,17 +105,47 @@ public class Utility {
 
 		if (viewCoord == null) return null;
 		
-//		AffineTransform id = new AffineTransform();
-//		AffineTransform viewToWorld = ViewToWorld(zoom, topLeft);
-//		AffineTransform worldToObj = WorldToObject(center, rotation);
 		AffineTransform v2o = ViewToObject(zoom, topLeft, center, rotation);
-
-//		id.concatenate(viewToWorld);
-//		id.concatenate(worldToObj);
 		
 		Point2D objCoord = new Point2D.Double(0,0);
 		v2o.transform(viewCoord, objCoord);
 		
 		return objCoord;
+	}
+	
+	public static Point2D ObjectToWorld(Point2D objCoord, Point2D center, double rotation) {
+		
+		if (objCoord == null) return null;
+		
+		AffineTransform o2w = ObjectToWorld(center, rotation);
+		
+		Point2D worldCoord = new Point2D.Double(0,0);
+		o2w.transform(objCoord, worldCoord);
+		
+		return worldCoord;
+	}
+	
+	public static Point2D WorldToObject(Point2D worldCoord, Point2D center, double rotation) {
+		
+		 if (worldCoord == null) return null;
+		 
+		 AffineTransform w2o = WorldToObject(center, rotation);
+		 
+		 Point2D objCoord = new Point2D.Double(0,0);
+		 w2o.transform(worldCoord, objCoord);
+		 
+		 return objCoord;
+	}
+	
+	public static Point2D ViewToWorld(Point2D viewCoord, double zoom, Point2D topLeft) {
+		
+		if (viewCoord == null) return null;
+		
+		AffineTransform v2w = ViewToWorld(zoom, topLeft);
+		
+		Point2D worldCoord = new Point2D.Double(0,0);
+		v2w.transform(viewCoord, worldCoord);
+		
+		return worldCoord;
 	}
 }

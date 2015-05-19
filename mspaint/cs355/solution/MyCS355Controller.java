@@ -19,7 +19,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	private Color currentColor = new Color(255,255,255);
 	private int currentButton = BUTTONS.LINE;
 	private double zoom = 1;
-	private Point2D topLeft = new Point2D.Double(-250,-250);
+	private Point2D topLeft = new Point2D.Double(0,0);
 	
 //	number of points the user has drawn of a triangle
 	private int numTriangleVertices = 0;
@@ -30,7 +30,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 //	selection stuff
 	private MyShape selectedShape = null;
 	private Color selectedColor = null;
-	ArrayList<DrawnSelectionItem> handles = new ArrayList<DrawnSelectionItem>();
+	private ArrayList<DrawnSelectionItem> handles = new ArrayList<DrawnSelectionItem>();
 	private DrawnSelectionItem selectedAnchor = null;
 	
 //	static items
@@ -39,6 +39,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	private static double maxZoom = 4;
 	
 	public void DrawpadPressed(Point2D start)	 {
+		start = Utility.ViewToWorld(start, zoom, topLeft);
 		anchor = start;
 		MyShape s = null;
 		switch (currentButton) {
@@ -81,7 +82,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 					System.out.println(selectedAnchor.getClass());
 				}
 				else {
-					selectedShape = shapes.GetShapeHit(start, tolerance);
+					selectedShape = shapes.GetShapeHit(start, tolerance/zoom, zoom, topLeft);
 					if (selectedShape != null) {
 						selectedColor = selectedShape.GetColor();
 						SetSelectionItems();
@@ -100,6 +101,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	}
 	
 	public void DrawpadDraggedReleased(Point2D updated) {
+		updated = Utility.ViewToWorld(updated, zoom, topLeft);
 		if (currentButton == BUTTONS.SELECT) {
 			if (selectedShape == null) return;
 			
@@ -330,6 +332,26 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	public void AddObserver(MyViewRefresher vr) {
 		shapes.addObserver(vr);
 	}
+	
+	public void InitializeView() {
+		
+        int min = 0;
+        int max = 2048;
+        int width = max/4;
+        int posit = max/2 - width/2;
+        
+        GUIFunctions.setHScrollBarMin(min);
+        GUIFunctions.setHScrollBarMax(max);
+        GUIFunctions.setHScrollBarKnob(width);
+        GUIFunctions.setHScrollBarPosit(posit);
+        
+        GUIFunctions.setVScrollBarMin(min);
+        GUIFunctions.setVScrollBarMax(max);
+        GUIFunctions.setVScrollBarKnob(width);
+        GUIFunctions.setVScrollBarPosit(posit);
+        
+        topLeft = new Point2D.Double(posit, posit);
+	}
 
 	@Override
 	public void colorButtonHit(Color c) {
@@ -417,6 +439,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	@Override
 	public void zoomInButtonHit() {
 		zoom = (zoom*2 > maxZoom) ? zoom : zoom*2;
+		
 		GUIFunctions.refresh();
 	}
 
@@ -496,6 +519,14 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	public void toggleBackgroundDisplay() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public double GetZoom() {
+		return zoom;
+	}
+	
+	public Point2D GetTopLeft() {
+		return topLeft;
 	}
 	
 	private class BUTTONS {
