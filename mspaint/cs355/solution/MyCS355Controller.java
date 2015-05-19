@@ -20,6 +20,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	private int currentButton = BUTTONS.LINE;
 	private double zoom = 1;
 	private Point2D topLeft = new Point2D.Double(0,0);
+	private boolean updatingScrollBars = false;
 	
 //	number of points the user has drawn of a triangle
 	private int numTriangleVertices = 0;
@@ -332,26 +333,6 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	public void AddObserver(MyViewRefresher vr) {
 		shapes.addObserver(vr);
 	}
-	
-	public void InitializeView() {
-		
-        int min = 0;
-        int max = 2048;
-        int width = max/4;
-        int posit = max/2 - width/2;
-        
-        GUIFunctions.setHScrollBarMin(min);
-        GUIFunctions.setHScrollBarMax(max);
-        GUIFunctions.setHScrollBarKnob(width);
-        GUIFunctions.setHScrollBarPosit(posit);
-        
-        GUIFunctions.setVScrollBarMin(min);
-        GUIFunctions.setVScrollBarMax(max);
-        GUIFunctions.setVScrollBarKnob(width);
-        GUIFunctions.setVScrollBarPosit(posit);
-        
-        topLeft = new Point2D.Double(posit, posit);
-	}
 
 	@Override
 	public void colorButtonHit(Color c) {
@@ -438,25 +419,36 @@ public class MyCS355Controller implements cs355.CS355Controller {
 
 	@Override
 	public void zoomInButtonHit() {
-		zoom = (zoom*2 > maxZoom) ? zoom : zoom*2;
-		
+		updatingScrollBars = true;
+			Point2D oldCenter = CalcViewCenter();
+			zoom = (zoom*2 > maxZoom) ? zoom : zoom*2;
+			topLeft = CalcViewTopLeft(oldCenter);
+			ZoomChanged();
+		updatingScrollBars = false;
 		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void zoomOutButtonHit() {
-		zoom = (zoom/2 < minZoom) ? zoom : zoom/2;
+		updatingScrollBars = true;
+			Point2D oldCenter = CalcViewCenter();
+			zoom = (zoom/2 < minZoom) ? zoom : zoom/2;
+			topLeft = CalcViewTopLeft(oldCenter);
+			ZoomChanged();
+		updatingScrollBars = false;
 		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void hScrollbarChanged(int value) {
+		if (updatingScrollBars) return;
 		topLeft = new Point2D.Double(value, topLeft.getY());
 		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void vScrollbarChanged(int value) {
+		if (updatingScrollBars) return;
 		topLeft = new Point2D.Double(topLeft.getX(), value);
 		GUIFunctions.refresh();
 	}
@@ -529,6 +521,81 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		return topLeft;
 	}
 	
+	public void InitializeView() {
+		
+        int min = 0;
+        int max = 2048;
+        int span = (int) (max/(4*zoom));
+        int posit = max/2 - span/2;
+        
+        GUIFunctions.setHScrollBarMin(min);
+        GUIFunctions.setHScrollBarMax(max);
+        GUIFunctions.setHScrollBarKnob(span);
+        GUIFunctions.setHScrollBarPosit(posit);
+        
+        GUIFunctions.setVScrollBarMin(min);
+        GUIFunctions.setVScrollBarMax(max);
+        GUIFunctions.setVScrollBarKnob(span);
+        GUIFunctions.setVScrollBarPosit(posit);
+        
+        topLeft = new Point2D.Double(posit, posit);
+	}
+	
+	private void ZoomChanged() {
+//		int min = 0;
+		int max = 2048;
+		int span = (int) (max/(4*zoom));
+		
+		GUIFunctions.setHScrollBarPosit(0);
+		GUIFunctions.setHScrollBarKnob(span);
+		GUIFunctions.setHScrollBarPosit((int) topLeft.getX());
+
+		GUIFunctions.setVScrollBarPosit(0);
+		GUIFunctions.setVScrollBarKnob(span);
+		GUIFunctions.setVScrollBarPosit((int) topLeft.getY());
+	}
+	
+	private Point2D CalcViewCenter() {
+		
+//		int min = 0;
+		int max = 2048;
+		double span = max/(4*zoom);
+//		double posit = max/2 - span/2;
+        
+        double x = topLeft.getX()+span/2;
+        double y = topLeft.getY()+span/2;
+        
+        return new Point2D.Double(x,y);
+	}
+	
+	private Point2D CalcViewTopLeft(Point2D center) {
+
+		int min = 0;
+		int max = 2048;
+		double span = max/(4*zoom);
+//		double posit = max/2 - span/2;
+		
+		double x = center.getX()-span/2;
+		double y = center.getY()-span/2;
+
+		if (x < min) {
+			x = min;
+		}
+		else if (x+span > max) {
+			x = max-span;
+		}
+		
+		if (y < min) {
+			y = min;
+		}
+		else if (y+span > max) {
+			y = max-span;
+		}
+		
+		return new Point2D.Double(x, y);
+	}
+
+	
 	private class BUTTONS {
 		private static final int LINE = 0;
 		private static final int SQUARE = 1;
@@ -538,5 +605,4 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		private static final int TRIANGLE = 5;
 		private static final int SELECT = 6;
 	}
-
 }
