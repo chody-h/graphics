@@ -112,12 +112,13 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 		}
 		
 		// draw the selection stuff
+		double zoom = contr.GetZoom();
 		MyShape selected = contr.GetSelectedShape();
 		if (selected == null) return;
 
 		double rotation = selected.GetRotation();
 		Point2D center = selected.GetCenter();
-		AffineTransform o2v = Utility.ObjectToView(contr.GetZoom(), contr.GetTopLeft(), center, rotation);
+		AffineTransform o2v = Utility.ObjectToView(zoom, contr.GetTopLeft(), center, rotation);
 		g2d.transform(o2v);
 		
 		ArrayList<DrawnSelectionItem> handles = contr.GetSelectionHandles();
@@ -125,17 +126,18 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 			for (DrawnSelectionItem i : handles) {
 				
 				g2d.setColor(i.GetColor());
-				g2d.setStroke(new BasicStroke(1));
+				float stroke = (float) (1 / zoom);
+				g2d.setStroke(new BasicStroke(stroke));
 				
 				if (i instanceof SelectionAnchor) {
 					Point2D p = i.GetCenter();
-					double r = ((SelectionAnchor) i).GetRadius();
+					double r = ((SelectionAnchor) i).GetRadius()/zoom;
 					Ellipse2D.Double anchor = new Ellipse2D.Double(p.getX()-r, p.getY()-r, r*2, r*2);
 					g2d.draw(anchor);
 				}
 				else if (i instanceof RotationAnchor) {
 					Point2D p = i.GetCenter();
-					double r = ((RotationAnchor) i).GetRadius();
+					double r = ((RotationAnchor) i).GetRadius()/zoom;
 					Ellipse2D.Double anchor = new Ellipse2D.Double(p.getX()-r, p.getY()-r, r*2, r*2);
 					g2d.draw(anchor);
 				}

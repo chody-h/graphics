@@ -83,7 +83,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 					System.out.println(selectedAnchor.getClass());
 				}
 				else {
-					selectedShape = shapes.GetShapeHit(start, tolerance/zoom, zoom, topLeft);
+					selectedShape = shapes.GetShapeHit(start, tolerance/zoom);
 					if (selectedShape != null) {
 						selectedColor = selectedShape.GetColor();
 						SetSelectionItems();
@@ -317,7 +317,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	
 	public DrawnSelectionItem GetHandleHit(Point2D p) {
 		if (selectedShape == null) return null;
-		Point2D p2 = Utility.ViewToObject(p, selectedShape.GetCenter(), selectedShape.GetRotation(), zoom, topLeft);
+		Point2D p2 = Utility.WorldToObject(p, selectedShape.GetCenter(), selectedShape.GetRotation());
 		for (DrawnSelectionItem i : handles) {
 			if (i.Contains(p2)) {
 				return i;
