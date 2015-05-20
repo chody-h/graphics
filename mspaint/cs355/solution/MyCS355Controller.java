@@ -166,10 +166,12 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			
 			double x = (updated.getX() < anchor.getX()) ? anchor.getX()-r : anchor.getX()+r;
 			double y = (updated.getY() < anchor.getY()) ? anchor.getY()-r : anchor.getY()+r;
-			Point2D center = new Point2D.Double((int)x, (int)y);
+			Point2D center = new Point2D.Double(x, y);
 			
 			s.SetCenter(center);
-			((MyCircle) s).SetRadius((int)r);
+			((MyCircle) s).SetRadius(r);
+			
+			System.out.printf("center: %s, radius: %f\n", s.GetCenter(), ((MyCircle) s).GetRadius());
 		}
 		else if (s instanceof MyEllipse) {
 			double w = Math.abs(updated.getX()-anchor.getX());
