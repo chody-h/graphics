@@ -13,7 +13,7 @@ public class DrawnSelectionItem {
 	protected double r = 0;
 	protected Point2D center = new Point2D.Double(0, 0);
 
-	public boolean Contains(Point2D p2) {
+	public boolean Contains(Point2D p2, double zoom) {
 		return false;
 	}
 	

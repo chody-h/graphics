@@ -13,8 +13,8 @@ public class RotationAnchor extends DrawnSelectionItem {
 	}
 	
 	@Override
-	public boolean Contains(Point2D p) {
-		if (Utility.Distance(center, p) <= r) return true;
+	public boolean Contains(Point2D p, double zoom) {
+		if (Utility.Distance(center, p)*zoom <= r) return true;
 		return false;
 	}
 	

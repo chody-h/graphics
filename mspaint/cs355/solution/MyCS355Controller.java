@@ -145,7 +145,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			Point2D center = new Point2D.Double(x, y);
 			
 			s.SetCenter(center);
-			((MySquare) s).SetLength((int)length);
+			((MySquare) s).SetLength(length);
 		}
 		else if (s instanceof MyRectangle) {	
 			double w = Math.abs(updated.getX()-anchor.getX());
@@ -156,8 +156,8 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			Point2D center = new Point2D.Double(x, y);
 			
 			s.SetCenter(center);
-			((MyRectangle) s).SetWidth((int)w);
-			((MyRectangle) s).SetHeight((int)h);
+			((MyRectangle) s).SetWidth(w);
+			((MyRectangle) s).SetHeight(h);
 		}
 		else if (s instanceof MyCircle) {
 			double lenX = Math.abs(updated.getX()-anchor.getX());
@@ -180,8 +180,8 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			Point2D center = new Point2D.Double(x, y);
 			
 			s.SetCenter(center);
-			((MyEllipse) s).SetWidth((int)w);
-			((MyEllipse) s).SetHeight((int)h);
+			((MyEllipse) s).SetWidth(w);
+			((MyEllipse) s).SetHeight(h);
 		}
 		else if (s instanceof MyTriangle) {
 //			pass
@@ -319,7 +319,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		if (selectedShape == null) return null;
 		Point2D p2 = Utility.WorldToObject(p, selectedShape.GetCenter(), selectedShape.GetRotation());
 		for (DrawnSelectionItem i : handles) {
-			if (i.Contains(p2)) {
+			if (i.Contains(p2, zoom)) {
 				return i;
 			}
 		}
