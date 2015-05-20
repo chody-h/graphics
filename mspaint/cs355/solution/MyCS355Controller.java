@@ -170,8 +170,6 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			
 			s.SetCenter(center);
 			((MyCircle) s).SetRadius(r);
-			
-			System.out.printf("center: %s, radius: %f\n", s.GetCenter(), ((MyCircle) s).GetRadius());
 		}
 		else if (s instanceof MyEllipse) {
 			double w = Math.abs(updated.getX()-anchor.getX());
