@@ -44,6 +44,7 @@ public class MyLine extends MyShape {
 		s = newStart;
 		Point2D newEnd = new Point2D.Double(e.getX()+dx, e.getY()+dy);
 		e = newEnd;
+		RecalculateNormal();
 	}
 
 	public void SetStart(Point2D start) {

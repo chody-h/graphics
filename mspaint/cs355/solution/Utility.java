@@ -24,6 +24,7 @@ public class Utility {
 	}
 	
 	
+	// get the actual affine transform objects
 	public static AffineTransform ObjectToView(double zoom, Point2D topLeft, Point2D center, double rotation) {
 //		world to view
 //		object to world
@@ -75,7 +76,8 @@ public class Utility {
 		return worldToObj;
 	}
 	
-	private static AffineTransform WorldToView(double zoom, Point2D topLeft) {
+	// needs to be used to draw lines
+	public static AffineTransform WorldToView(double zoom, Point2D topLeft) {
 		
 		AffineTransform worldToView = new AffineTransform(zoom, 0, 0, zoom, -topLeft.getX()*zoom, -topLeft.getY()*zoom);
 		return worldToView;
@@ -88,7 +90,9 @@ public class Utility {
 	}
 	
 	
-//	convert point objects 
+	
+	
+//	convert point objects directly
 	public static Point2D ObjectToView(Point2D objCoord, Point2D center, double rotation, double zoom, Point2D topLeft) {
 		
 		if (objCoord == null) return null;

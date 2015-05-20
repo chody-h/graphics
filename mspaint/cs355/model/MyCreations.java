@@ -16,7 +16,7 @@ public class MyCreations extends java.util.Observable {
 			Point2D coord = new Point2D.Double(0, 0);
 			// if it's a line, keep coord in world coordinates
 			if (s instanceof MyLine) {
-				coord = new Point2D.Double(worldCoords.getX(), worldCoords.getY());
+				coord = worldCoords;
 			}
 			// otherwise, convert it to object coordinates
 			else {

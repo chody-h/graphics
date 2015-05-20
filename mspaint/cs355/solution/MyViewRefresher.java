@@ -31,6 +31,10 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 	@Override
 	public void refreshView(Graphics2D g2d) {
 		if (AA_ON) g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		double zoom = contr.GetZoom();
+		float stroke = (float) (1 / zoom);
+		g2d.setStroke(new BasicStroke(stroke));
 		
 		// draw all shapes
 		ArrayList<MyShape> shapes = contr.GetShapes();
@@ -39,20 +43,25 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 			Color shapeColor = s.GetColor();
 			g2d.setColor(shapeColor);
 			
-			if (!(s instanceof MyLine)) {
-				Utility.ClearTransformation(g2d);
-				
+			// apply the appropriate transformation
+			if (s instanceof MyLine) {
+				AffineTransform w2v = Utility.WorldToView(zoom, contr.GetTopLeft());
+				g2d.transform(w2v);
+			}
+			else {
 				Point2D c = s.GetCenter();
 				double r = s.GetRotation();
-				AffineTransform o2v = Utility.ObjectToView(contr.GetZoom(), contr.GetTopLeft(), c, r);
+				AffineTransform o2v = Utility.ObjectToView(zoom, contr.GetTopLeft(), c, r);
 				g2d.transform(o2v);
 			}
 			
+			// draw the shape
 			if (s instanceof MyLine) {
 				Point2D b = ((MyLine)s).GetStart();
 				Point2D e = ((MyLine)s).GetEnd();
-				
-				g2d.setStroke(new BasicStroke(1));
+
+//				float stroke = (float) (1 / zoom);
+//				g2d.setStroke(new BasicStroke(stroke));
 				
 				Line2D l = new Line2D.Double(b, e);
 				g2d.draw(l);
@@ -96,6 +105,9 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 						nPoints = 2;
 				}
 				if (nPoints < 3) {
+//					float stroke = (float) (1 / zoom);
+//					g2d.setStroke(new BasicStroke(stroke));
+					
 					g2d.draw(new Line2D.Double(v1, v2));
 				}
 				else {
@@ -112,7 +124,6 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 		}
 		
 		// draw the selection stuff
-		double zoom = contr.GetZoom();
 		MyShape selected = contr.GetSelectedShape();
 		if (selected == null) return;
 
@@ -126,8 +137,8 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 			for (DrawnSelectionItem i : handles) {
 				
 				g2d.setColor(i.GetColor());
-				float stroke = (float) (1 / zoom);
-				g2d.setStroke(new BasicStroke(stroke));
+//				float stroke = (float) (1 / zoom);
+//				g2d.setStroke(new BasicStroke(stroke));
 				
 				if (i instanceof SelectionAnchor) {
 					Point2D p = i.GetCenter();

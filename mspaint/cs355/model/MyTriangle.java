@@ -42,6 +42,7 @@ public class MyTriangle extends MyShape {
 		// update the verticies
 		v1 = Utility.WorldToObject(v1, super.GetCenter(), super.GetRotation());
 		v2 = Utility.WorldToObject(v2, super.GetCenter(), super.GetRotation());
+		v3 = v1;
 	}
 	
 	public void SetV3(Point2D vertex3) {
