@@ -8,7 +8,10 @@ package CS355.LWJGL;
 //Therefore, if a command appears in this list, you probably need it.
 //If it doesn't appear in this list, you probably don't.
 //Of course, your milage may vary. Don't feel restricted by this list of imports.
+import java.util.Iterator;
+
 import org.lwjgl.input.Keyboard;
+
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
@@ -27,11 +30,30 @@ import static org.lwjgl.opengl.GL11.glViewport;
 import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
+// AA
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glHint;
+import static org.lwjgl.opengl.GL11.glLineWidth;
+import static org.lwjgl.opengl.GL11.GL_LINE_SMOOTH;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_LINE_SMOOTH_HINT;
+import static org.lwjgl.opengl.GL11.GL_DONT_CARE;
+
 /**
  *
  * @author Brennan Smith
  */
 public class StudentLWJGLController implements CS355LWJGLController {
+	
+	// the exact location of the camera
+	Point3D myLocation = new Point3D(0, 0, 0);
+	// relative to the camera, this is a unit vector that represents the direction the camera is facing (as if the camera was always at (0, 0, 0))
+	Point3D myFacing = new Point3D(1, 0, 0);
+	// the model
+	HouseModel m = new HouseModel();
 
 	// This is a model of a house.
 	// It has a single method that returns an iterator full of Line3Ds.
@@ -56,11 +78,52 @@ public class StudentLWJGLController implements CS355LWJGLController {
 	// updates.
 	// An example keyboard event is captured below.
 	// The "Keyboard" static class should contain everything you need to finish
-	// this up.
+	// this up.	
 	@Override
 	public void updateKeyboard() {
-		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+//		a	Move left
+		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+			System.out.println("You are pressing A!");
+		}
+//		d	Move right
+		else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+			System.out.println("You are pressing D!");
+		}
+//		w	Move forward
+		else if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
 			System.out.println("You are pressing W!");
+		}
+//		s	Move backward
+		else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+			System.out.println("You are pressing S!");
+		}
+//		q	Turn left
+		else if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
+			System.out.println("You are pressing Q!");
+		}
+//		e	Turn right
+		else if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
+			System.out.println("You are pressing E!");
+		}
+//		r	Move up
+		else if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
+			System.out.println("You are pressing R!");
+		}
+//		f	Move down
+		else if (Keyboard.isKeyDown(Keyboard.KEY_F)) {
+			System.out.println("You are pressing F!");
+		}
+//		h	Return to the original “home” position and orientation
+		else if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
+			System.out.println("You are pressing H!");
+		}
+//		o	Switch to orthographic projection
+		else if (Keyboard.isKeyDown(Keyboard.KEY_O)) {
+			System.out.println("You are pressing O!");
+		}
+//		p	Switch to perspective projection
+		else if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
+			System.out.println("You are pressing P!");
 		}
 	}
 
@@ -70,7 +133,30 @@ public class StudentLWJGLController implements CS355LWJGLController {
 		// This clears the screen.
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		// line color
+		glColor3f(0.0f, 0.5f, 0.5f);
+		glLineWidth(1.5f);
+		
+		// AA
+		glEnable(GL_LINE_SMOOTH);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
+		
+		// draw testing
+		glPushMatrix();
+		glRotatef(0.0f, 0.0f, 0.0f, 0.1f);
+		glBegin(GL_LINES);
+			glVertex3d(0.0, 0.0, 0.0);
+			glVertex3d(-1.0, 1.0, 1.0);
+		glEnd();
+
 		// Do your drawing here.
+		Iterator<Line3D> it = m.getLines();
+		while (it.hasNext()) {
+			Line3D l = it.next();
+//			System.out.println(l);
+		}
 	}
 
 }
