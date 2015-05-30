@@ -12,7 +12,7 @@ public class CS355LWJGL {
 		LWJGLSandbox main = null;
 		try {
 			main = new LWJGLSandbox();
-			main.create(new StudentLWJGLController());
+			main.create(new StudentLWJGLController(main.DISPLAY_HEIGHT, main.DISPLAY_WIDTH));
 			main.run();
 		} catch (Exception ex) {
 			ex.printStackTrace();

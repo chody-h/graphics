@@ -48,12 +48,26 @@ import static org.lwjgl.opengl.GL11.GL_DONT_CARE;
  */
 public class StudentLWJGLController implements CS355LWJGLController {
 	
+	// display height and width
+	int h;
+	int w;
+	
+	// move speed multiplier
+	static double speed = 4;
+
+	// home location
+	Point3D home = new Point3D(0, 0, -1);
+	// home rotations
+	double x_home = 0;
+	double y_home = 0;
+//	double z_home = 0;
+	
 	// the exact location of the camera
-	Point3D myLocation = new Point3D(0, 0, 0);
-	// relative to the camera, this is a unit vector that represents the direction the camera is facing (as if the camera was always at (0, 0, 0))
-	Point3D myFacing = new Point3D(1, 0, 0);
-	// the model
-	HouseModel m = new HouseModel();
+	Point3D myLocation = new Point3D(home.x, home.y, home.z);
+	// the rotation of the camera in degrees
+	double x_rotation = x_home;
+	double y_rotation = y_home;
+//	double z_rotation = z_home;
 
 	// This is a model of a house.
 	// It has a single method that returns an iterator full of Line3Ds.
@@ -61,11 +75,25 @@ public class StudentLWJGLController implements CS355LWJGLController {
 	// It should all be fairly intuitive if you look at those classes.
 	// If not, I apologize.
 	private WireFrame model = new HouseModel();
+	
+	public StudentLWJGLController(int height, int width) {
+		h = height;
+		w = width;
+	}
 
 	// This method is called to "resize" the viewport to match the screen.
 	// When you first start, have it be in perspective mode.
 	@Override
 	public void resizeGL() {
+
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();		
+		
+		// AA
+		glEnable(GL_LINE_SMOOTH);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
 
 	}
 
@@ -82,48 +110,70 @@ public class StudentLWJGLController implements CS355LWJGLController {
 	@Override
 	public void updateKeyboard() {
 //		a	Move left
+//		decrement x-dir
 		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			System.out.println("You are pressing A!");
+//			System.out.println("You are pressing A!");
+			myLocation.x -= 1*speed;
 		}
 //		d	Move right
+//		increment x-dir
 		else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			System.out.println("You are pressing D!");
+//			System.out.println("You are pressing D!");
+			myLocation.x += 1*speed;
+//			System.out.println(myLocation);
 		}
 //		w	Move forward
+//		decrement z-dir
 		else if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			System.out.println("You are pressing W!");
+//			System.out.println("You are pressing W!");
+			myLocation.z -= 1*speed;
 		}
 //		s	Move backward
+//		increment z-dir
 		else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			System.out.println("You are pressing S!");
+//			System.out.println("You are pressing S!");
+			myLocation.z += 1*speed;
 		}
 //		q	Turn left
+//		decrement y-rot
 		else if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
-			System.out.println("You are pressing Q!");
+//			System.out.println("You are pressing Q!");
+			y_rotation = (y_rotation - 1*speed) % 360;
 		}
 //		e	Turn right
+//		increment y-rot
 		else if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
-			System.out.println("You are pressing E!");
+//			System.out.println("You are pressing E!");
+			y_rotation = (y_rotation + 1*speed) % 360;
 		}
 //		r	Move up
+//		increment y-dir
 		else if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
-			System.out.println("You are pressing R!");
+//			System.out.println("You are pressing R!");
+			myLocation.y += 1*speed;
 		}
 //		f	Move down
+//		decrement y-dir
 		else if (Keyboard.isKeyDown(Keyboard.KEY_F)) {
-			System.out.println("You are pressing F!");
+//			System.out.println("You are pressing F!");
+			myLocation.y -= 1*speed;
 		}
 //		h	Return to the original “home” position and orientation
+//		reset to zeros
 		else if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
-			System.out.println("You are pressing H!");
+//			System.out.println("You are pressing H!");
+			myLocation = new Point3D(home.x, home.y, home.z);
+			x_rotation = x_home;
+			y_rotation = y_home;
+//			z_rotation = z_home;
 		}
 //		o	Switch to orthographic projection
 		else if (Keyboard.isKeyDown(Keyboard.KEY_O)) {
-			System.out.println("You are pressing O!");
+//			System.out.println("You are pressing O!");
 		}
 //		p	Switch to perspective projection
 		else if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
-			System.out.println("You are pressing P!");
+//			System.out.println("You are pressing P!");
 		}
 	}
 
@@ -132,16 +182,14 @@ public class StudentLWJGLController implements CS355LWJGLController {
 	public void render() {
 		// This clears the screen.
 		glClear(GL_COLOR_BUFFER_BIT);
-
-		// line color
-		glColor3f(0.0f, 0.5f, 0.5f);
-		glLineWidth(1.5f);
 		
-		// AA
-		glEnable(GL_LINE_SMOOTH);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
+		// world to camera transformation
+		glViewport(-(int)myLocation.x, -(int)myLocation.y, w, h);
+		glRotatef(0.0f, 0.0f, 0.0f, 0.1f);
+		
+		// line color
+		glColor3f(0.0f, 1.0f, 1.0f);
+		glLineWidth(1.0f);
 		
 		// draw testing
 		glPushMatrix();
@@ -152,11 +200,16 @@ public class StudentLWJGLController implements CS355LWJGLController {
 		glEnd();
 
 		// Do your drawing here.
-		Iterator<Line3D> it = m.getLines();
+		glBegin(GL_LINES);
+		Iterator<Line3D> it = model.getLines();
 		while (it.hasNext()) {
 			Line3D l = it.next();
-//			System.out.println(l);
+			Point3D s = l.start;
+			Point3D e = l.end;
+			glVertex3d(s.x, s.y, s.z);
+			glVertex3d(e.x, e.y, e.z);
 		}
+		glEnd();
 	}
 
 }
