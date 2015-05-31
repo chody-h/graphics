@@ -49,7 +49,7 @@ import static org.lwjgl.opengl.GL11.GL_DONT_CARE;
 public class StudentLWJGLController implements CS355LWJGLController {
 	
 	// AA toggle
-	boolean AA = false;
+	boolean AA = true;
 	
 	// display height and width
 	float h;
@@ -195,7 +195,7 @@ public class StudentLWJGLController implements CS355LWJGLController {
         
 		// line properties
 		glColor3f(0.0f, 1.0f, 1.0f);
-//		glLineWidth(1.0f);
+		if (AA) glLineWidth(1.5f);
 		
 //		// draw testing
 //		glPushMatrix();
