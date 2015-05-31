@@ -22,11 +22,11 @@ import static org.lwjgl.opengl.GL11.glColor3f;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
+//import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glRotatef;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex3d;
-import static org.lwjgl.opengl.GL11.glViewport;
+//import static org.lwjgl.opengl.GL11.glViewport;
 import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
@@ -54,18 +54,18 @@ public class StudentLWJGLController implements CS355LWJGLController {
 	// display height and width
 	float h;
 	float w;
-	
+
 	// move speed multiplier
-	static float speed = 0.4f;
+	static float speed = 0.3f;
 
 	// home location
 	Point3D home = new Point3D(0, 6, 20);
-	// home rotations
+	// home rotation
 	float rot_home = 0;
 	
-	// the exact location of the camera
+	// the current location of the camera
 	Point3D myLocation = new Point3D(home.x, home.y, home.z);
-	// the rotation of the camera in radians
+	// the current rotation of the camera in radians
 	float rot = rot_home;
 
 	// This is a model of a house.
@@ -110,72 +110,52 @@ public class StudentLWJGLController implements CS355LWJGLController {
 	@Override
 	public void updateKeyboard() {
 //		a	Move left
-//		RELATIVE
 		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-//			System.out.println("You are pressing A!");
 			myLocation.x -= 1*speed * Math.sin(rot+Math.PI/2);
 			myLocation.z += 1*speed * Math.cos(rot+Math.PI/2);
 		}
 //		d	Move right
-//		RELATIVE
 		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-//			System.out.println("You are pressing D!");
 			myLocation.x += 1*speed * Math.sin(rot+Math.PI/2);
 			myLocation.z -= 1*speed * Math.cos(rot+Math.PI/2);
 		}
 //		w	Move forward
-//		RELATIVE
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-//			System.out.println("You are pressing W!");
 			myLocation.x += 1*speed * Math.sin(rot);
 			myLocation.z -= 1*speed * Math.cos(rot);
 		}
 //		s	Move backward
-//		RELATIVE
 		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-//			System.out.println("You are pressing S!");
 			myLocation.x -= 1*speed * Math.sin(rot);
 			myLocation.z += 1*speed * Math.cos(rot);
 		}
 //		q	Turn left
-//		decrement y-rot
 		if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
-//			System.out.println("You are pressing Q!");
 			rot = (float) ((rot - 3 * Math.PI/180 * speed) % (2*Math.PI));
 		}
 //		e	Turn right
-//		increment y-rot
 		if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
-//			System.out.println("You are pressing E!");
 			rot = (float) ((rot + 3 * Math.PI/180 * speed) % (2*Math.PI));
 		}
 //		r	Move up
-//		increment y-dir
 		if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
-//			System.out.println("You are pressing R!");
 			myLocation.y += 1*speed;
 		}
 //		f	Move down
-//		decrement y-dir
 		if (Keyboard.isKeyDown(Keyboard.KEY_F)) {
-//			System.out.println("You are pressing F!");
 			myLocation.y -= 1*speed;
 		}
 //		h	Return to the original “home” position and orientation
-//		reset to zeros
 		if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
-//			System.out.println("You are pressing H!");
 			myLocation = new Point3D(home.x, home.y, home.z);
 			rot = rot_home;
 		}
 //		o	Switch to orthographic projection
 		if (Keyboard.isKeyDown(Keyboard.KEY_O)) {
-//			System.out.println("You are pressing O!");
 			OrthoMode();
 		}
 //		p	Switch to perspective projection
 		if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
-//			System.out.println("You are pressing P!");
 			PerspectiveMode();
 		}
 	}
