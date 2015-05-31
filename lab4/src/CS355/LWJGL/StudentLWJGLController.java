@@ -48,25 +48,28 @@ import static org.lwjgl.opengl.GL11.GL_DONT_CARE;
  */
 public class StudentLWJGLController implements CS355LWJGLController {
 	
+	// AA toggle
+	boolean AA = false;
+	
 	// display height and width
-	int h;
-	int w;
+	float h;
+	float w;
 	
 	// move speed multiplier
-	static double speed = 4;
+	static float speed = 0.75f;
 
 	// home location
-	Point3D home = new Point3D(0, 0, -1);
+	Point3D home = new Point3D(0, 6, 20);
 	// home rotations
-	double x_home = 0;
-	double y_home = 0;
+	float x_home = 0;
+	float y_home = 0;
 //	double z_home = 0;
 	
 	// the exact location of the camera
 	Point3D myLocation = new Point3D(home.x, home.y, home.z);
-	// the rotation of the camera in degrees
-	double x_rotation = x_home;
-	double y_rotation = y_home;
+	// the rotation of the camera in radians
+	float x_rotation = x_home;
+	float y_rotation = y_home;
 //	double z_rotation = z_home;
 
 	// This is a model of a house.
@@ -76,7 +79,7 @@ public class StudentLWJGLController implements CS355LWJGLController {
 	// If not, I apologize.
 	private WireFrame model = new HouseModel();
 	
-	public StudentLWJGLController(int height, int width) {
+	public StudentLWJGLController(float height, float width) {
 		h = height;
 		w = width;
 	}
@@ -85,16 +88,17 @@ public class StudentLWJGLController implements CS355LWJGLController {
 	// When you first start, have it be in perspective mode.
 	@Override
 	public void resizeGL() {
-
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();		
 		
 		// AA
-		glEnable(GL_LINE_SMOOTH);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
-
+		if (AA) {
+			glEnable(GL_LINE_SMOOTH);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
+		}
+		
+		// projection mode
+		PerspectiveMode();
 	}
 
 	@Override
@@ -110,26 +114,26 @@ public class StudentLWJGLController implements CS355LWJGLController {
 	@Override
 	public void updateKeyboard() {
 //		a	Move left
-//		decrement x-dir
+//		RELATIVE
 		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
 //			System.out.println("You are pressing A!");
 			myLocation.x -= 1*speed;
 		}
 //		d	Move right
-//		increment x-dir
+//		RELATIVE
 		else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
 //			System.out.println("You are pressing D!");
 			myLocation.x += 1*speed;
 //			System.out.println(myLocation);
 		}
 //		w	Move forward
-//		decrement z-dir
+//		RELATIVE
 		else if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
 //			System.out.println("You are pressing W!");
 			myLocation.z -= 1*speed;
 		}
 //		s	Move backward
-//		increment z-dir
+//		RELATIVE
 		else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
 //			System.out.println("You are pressing S!");
 			myLocation.z += 1*speed;
@@ -170,10 +174,12 @@ public class StudentLWJGLController implements CS355LWJGLController {
 //		o	Switch to orthographic projection
 		else if (Keyboard.isKeyDown(Keyboard.KEY_O)) {
 //			System.out.println("You are pressing O!");
+			OrthoMode();
 		}
 //		p	Switch to perspective projection
 		else if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
 //			System.out.println("You are pressing P!");
+			PerspectiveMode();
 		}
 	}
 
@@ -182,22 +188,25 @@ public class StudentLWJGLController implements CS355LWJGLController {
 	public void render() {
 		// This clears the screen.
 		glClear(GL_COLOR_BUFFER_BIT);
-		
+
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+
 		// world to camera transformation
-		glViewport(-(int)myLocation.x, -(int)myLocation.y, w, h);
-		glRotatef(0.0f, 0.0f, 0.0f, 0.1f);
-		
-		// line color
+        glRotatef(x_rotation, 0, 1, 0);
+        glTranslatef((float)-myLocation.x, (float)-myLocation.y, (float)-myLocation.z);
+        
+		// line properties
 		glColor3f(0.0f, 1.0f, 1.0f);
-		glLineWidth(1.0f);
+//		glLineWidth(1.0f);
 		
-		// draw testing
-		glPushMatrix();
-		glRotatef(0.0f, 0.0f, 0.0f, 0.1f);
-		glBegin(GL_LINES);
-			glVertex3d(0.0, 0.0, 0.0);
-			glVertex3d(-1.0, 1.0, 1.0);
-		glEnd();
+//		// draw testing
+//		glPushMatrix();
+//		glRotatef(0.0f, 0.0f, 0.0f, 0.1f);
+//		glBegin(GL_LINES);
+//			glVertex3d(0.0, 0.0, 0.0);
+//			glVertex3d(-1.0, 1.0, 1.0);
+//		glEnd();
 
 		// Do your drawing here.
 		glBegin(GL_LINES);
@@ -210,6 +219,20 @@ public class StudentLWJGLController implements CS355LWJGLController {
 			glVertex3d(e.x, e.y, e.z);
 		}
 		glEnd();
+	}
+	
+	private void PerspectiveMode() {
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        gluPerspective(60f,		w/h,		1f,		100f);
+        //             fov		aspect  	near  	far
+	}
+	
+	private void OrthoMode() {
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+
+        glOrtho(-12, 12, -12, 12, -100, 100);
 	}
 
 }
