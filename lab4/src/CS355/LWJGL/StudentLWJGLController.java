@@ -56,21 +56,17 @@ public class StudentLWJGLController implements CS355LWJGLController {
 	float w;
 	
 	// move speed multiplier
-	static float speed = 0.75f;
+	static float speed = 0.4f;
 
 	// home location
 	Point3D home = new Point3D(0, 6, 20);
 	// home rotations
-	float x_home = 0;
-	float y_home = 0;
-//	double z_home = 0;
+	float rot_home = 0;
 	
 	// the exact location of the camera
 	Point3D myLocation = new Point3D(home.x, home.y, home.z);
 	// the rotation of the camera in radians
-	float x_rotation = x_home;
-	float y_rotation = y_home;
-//	double z_rotation = z_home;
+	float rot = rot_home;
 
 	// This is a model of a house.
 	// It has a single method that returns an iterator full of Line3Ds.
@@ -117,67 +113,68 @@ public class StudentLWJGLController implements CS355LWJGLController {
 //		RELATIVE
 		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
 //			System.out.println("You are pressing A!");
-			myLocation.x -= 1*speed;
+			myLocation.x -= 1*speed * Math.sin(rot+Math.PI/2);
+			myLocation.z += 1*speed * Math.cos(rot+Math.PI/2);
 		}
 //		d	Move right
 //		RELATIVE
-		else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
 //			System.out.println("You are pressing D!");
-			myLocation.x += 1*speed;
-//			System.out.println(myLocation);
+			myLocation.x += 1*speed * Math.sin(rot+Math.PI/2);
+			myLocation.z -= 1*speed * Math.cos(rot+Math.PI/2);
 		}
 //		w	Move forward
 //		RELATIVE
-		else if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
 //			System.out.println("You are pressing W!");
-			myLocation.z -= 1*speed;
+			myLocation.x += 1*speed * Math.sin(rot);
+			myLocation.z -= 1*speed * Math.cos(rot);
 		}
 //		s	Move backward
 //		RELATIVE
-		else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
 //			System.out.println("You are pressing S!");
-			myLocation.z += 1*speed;
+			myLocation.x -= 1*speed * Math.sin(rot);
+			myLocation.z += 1*speed * Math.cos(rot);
 		}
 //		q	Turn left
 //		decrement y-rot
-		else if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
 //			System.out.println("You are pressing Q!");
-			y_rotation = (y_rotation - 1*speed) % 360;
+			rot = (float) ((rot - 3 * Math.PI/180 * speed) % (2*Math.PI));
 		}
 //		e	Turn right
 //		increment y-rot
-		else if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
 //			System.out.println("You are pressing E!");
-			y_rotation = (y_rotation + 1*speed) % 360;
+			rot = (float) ((rot + 3 * Math.PI/180 * speed) % (2*Math.PI));
 		}
 //		r	Move up
 //		increment y-dir
-		else if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
 //			System.out.println("You are pressing R!");
 			myLocation.y += 1*speed;
 		}
 //		f	Move down
 //		decrement y-dir
-		else if (Keyboard.isKeyDown(Keyboard.KEY_F)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_F)) {
 //			System.out.println("You are pressing F!");
 			myLocation.y -= 1*speed;
 		}
 //		h	Return to the original “home” position and orientation
 //		reset to zeros
-		else if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
 //			System.out.println("You are pressing H!");
 			myLocation = new Point3D(home.x, home.y, home.z);
-			x_rotation = x_home;
-			y_rotation = y_home;
-//			z_rotation = z_home;
+			rot = rot_home;
 		}
 //		o	Switch to orthographic projection
-		else if (Keyboard.isKeyDown(Keyboard.KEY_O)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_O)) {
 //			System.out.println("You are pressing O!");
 			OrthoMode();
 		}
 //		p	Switch to perspective projection
-		else if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
 //			System.out.println("You are pressing P!");
 			PerspectiveMode();
 		}
@@ -193,7 +190,7 @@ public class StudentLWJGLController implements CS355LWJGLController {
         glLoadIdentity();
 
 		// world to camera transformation
-        glRotatef(x_rotation, 0, 1, 0);
+        glRotatef((float)Math.toDegrees(rot), 0, 1, 0);
         glTranslatef((float)-myLocation.x, (float)-myLocation.y, (float)-myLocation.z);
         
 		// line properties
