@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 import cs355.GUIFunctions;
+import cs355.WireFrame;
 import cs355.SelectionHelpers.*;
 import cs355.model.*;
 
@@ -178,6 +179,10 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 				}
 			}
 		}
+		
+//		draw the 3d model
+		WireFrame house = contr.GetHouseModel();
+		
 	}
 
 	@Override

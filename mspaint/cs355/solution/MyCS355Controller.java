@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import cs355.GUIFunctions;
+import cs355.HouseModel;
+import cs355.Point3D;
+import cs355.WireFrame;
 import cs355.SelectionHelpers.*;
 import cs355.model.*;
 
@@ -21,6 +24,15 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	private double zoom = 1;
 	private Point2D topLeft = new Point2D.Double(0,0);
 	private boolean updatingScrollBars = false;
+	
+//	3D state
+	private WireFrame model = new HouseModel();
+	private boolean model3d = false;
+	private Point3D home = new Point3D(0, 6, 20);
+	private float rot_home = 0;
+	private Point3D myLocation = new Point3D(home.x, home.y, home.z);
+	private float rot = rot_home;
+	private float speed = 0.3f;
 	
 //	number of points the user has drawn of a triangle
 	private int numTriangleVertices = 0;
@@ -203,6 +215,10 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	
 	public ArrayList<MyShape> GetShapes() {
 		return shapes.GetShapes();
+	}
+	
+	public WireFrame GetHouseModel() {
+		return model;
 	}
 	
 //	stores all selection items relative to the center of the selected object
@@ -455,14 +471,60 @@ public class MyCS355Controller implements cs355.CS355Controller {
 
 	@Override
 	public void toggle3DModelDisplay() {
-		// TODO Auto-generated method stub
-		
+		model3d = true;
 	}
 
 	@Override
 	public void keyPressed(Iterator<Integer> iterator) {
-		// TODO Auto-generated method stub
+		// don't do anything if the 3d model isn't turned on
+		if (!model3d) return;
 		
+		while (iterator.hasNext()) {
+			char key = (char)iterator.next().intValue();
+			System.out.println(key);
+		
+	//		a	Move left
+			if (key == 'A') {
+				myLocation.x -= 1*speed * Math.sin(rot+Math.PI/2);
+				myLocation.z += 1*speed * Math.cos(rot+Math.PI/2);
+			}
+	//		d	Move right
+			if (key == 'D') {
+				myLocation.x += 1*speed * Math.sin(rot+Math.PI/2);
+				myLocation.z -= 1*speed * Math.cos(rot+Math.PI/2);
+			}
+	//		w	Move forward
+			if (key == 'W') {
+				myLocation.x += 1*speed * Math.sin(rot);
+				myLocation.z -= 1*speed * Math.cos(rot);
+			}
+	//		s	Move backward
+			if (key == 'S') {
+				myLocation.x -= 1*speed * Math.sin(rot);
+				myLocation.z += 1*speed * Math.cos(rot);
+			}
+	//		q	Turn left
+			if (key == 'Q') {
+				rot = (float) ((rot - 3 * Math.PI/180 * speed) % (2*Math.PI));
+			}
+	//		e	Turn right
+			if (key == 'E') {
+				rot = (float) ((rot + 3 * Math.PI/180 * speed) % (2*Math.PI));
+			}
+	//		r	Move up
+			if (key == 'R') {
+				myLocation.y += 1*speed;
+			}
+	//		f	Move down
+			if (key == 'F') {
+				myLocation.y -= 1*speed;
+			}
+	//		h	Return to the original “home” position and orientation
+			if (key == 'H') {
+				myLocation = new Point3D(home.x, home.y, home.z);
+				rot = rot_home;
+			}
+		}
 	}
 
 	@Override
@@ -594,6 +656,8 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		
 		return new Point2D.Double(x, y);
 	}
+	
+	
 
 	
 	private class BUTTONS {

@@ -89,7 +89,11 @@ public class Utility {
 		return viewToWorld;
 	}
 	
-	
+
+//	3D transformations
+	private static AffineTransform3D WorldToCamera() {
+		return null;
+	}
 	
 	
 //	convert point objects directly
