@@ -471,7 +471,8 @@ public class MyCS355Controller implements cs355.CS355Controller {
 
 	@Override
 	public void toggle3DModelDisplay() {
-		model3d = true;
+		model3d = !model3d;
+		GUIFunctions.refresh();
 	}
 
 	@Override
@@ -525,6 +526,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 				rot = rot_home;
 			}
 		}
+		GUIFunctions.refresh();
 	}
 
 	@Override
@@ -668,5 +670,16 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		private static final int ELLIPSE = 4;
 		private static final int TRIANGLE = 5;
 		private static final int SELECT = 6;
+	}
+
+
+
+
+	public Point3D GetCameraLocation() {
+		return myLocation;
+	}
+	
+	public double GetCameraRotation() {
+		return rot;
 	}
 }

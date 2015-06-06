@@ -11,9 +11,12 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 
 import cs355.GUIFunctions;
+import cs355.Line3D;
+import cs355.Point3D;
 import cs355.WireFrame;
 import cs355.SelectionHelpers.*;
 import cs355.model.*;
@@ -181,8 +184,53 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 		}
 		
 //		draw the 3d model
-		WireFrame house = contr.GetHouseModel();
+		// camera transformation
+		Point3D loc = contr.GetCameraLocation();
+		double rot = contr.GetCameraRotation();
+		Matrix3D w2c = new WorldToCamera(loc, rot);
 		
+		// clip transformation
+		double fov = 60 * Math.PI/180;
+		double ratio = 1.0;
+		double n = 10;
+		double f = 1000;
+		ClipMatrix clip = new ClipMatrix(fov, ratio, n, f);
+		
+		// screen transformation
+		double width = 500;
+		double height = 500;
+		AffineTransform screen = new AffineTransform(width/2, 0, 0, -height/2, width/2, height/2);
+		
+		Utility.ClearTransformation(g2d);
+		WireFrame house = contr.GetHouseModel();
+		Iterator<Line3D> it = house.getLines();
+		while (it.hasNext()) {
+			Line3D l = it.next();
+			
+			// world coordinates
+			Point3D s = l.start;
+			Point3D e = l.end;
+			
+			// convert world to camera
+			Vector3D s_camera = Matrix3D.MatrixTimesVector(w2c, s);
+			Vector3D e_camera = Matrix3D.MatrixTimesVector(w2c, e);
+			
+			// convert camera to clip space
+			Vector3D s_clipspace = Matrix3D.MatrixTimesVector(clip, s_camera);
+			Vector3D e_clipspace = Matrix3D.MatrixTimesVector(clip, e_camera);
+			// perform clip testing
+			if (Matrix3D.ClipTest(s_clipspace, e_clipspace)) {
+				// convert clip space to screen space
+				Point2D start = new Point2D.Double(s_clipspace.v1/s_clipspace.v4, s_clipspace.v2/s_clipspace.v4);
+				Point2D end   = new Point2D.Double(e_clipspace.v1/e_clipspace.v4, e_clipspace.v2/e_clipspace.v4);
+				screen.transform(start, start);
+				screen.transform(end,   end  );
+				
+				// draw
+				Line2D line = new Line2D.Double(start, end);
+				g2d.draw(line);
+			}
+		}
 	}
 
 	@Override
