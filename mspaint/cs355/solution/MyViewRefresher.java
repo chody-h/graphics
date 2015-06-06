@@ -185,8 +185,14 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 		}
 		
 		
-//		draw the 3d model
+//		draw the 3d model	
 		if (contr.Is3DModelOff()) return;
+		
+		// reset graphics drawing settings so the house is static
+		Utility.ClearTransformation(g2d);
+		g2d.setStroke(new BasicStroke(1));
+		g2d.setColor(new Color(0, 255, 255));	// cyan
+		
 		// camera transformation
 		Point3D loc = contr.GetCameraLocation();
 		double rot = contr.GetCameraRotation();
@@ -203,9 +209,7 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 		double width = 500;
 		double height = 500;
 		AffineTransform screen = new AffineTransform(width/2, 0, 0, -height/2, width/2, height/2);
-		
-		Utility.ClearTransformation(g2d);
-		g2d.setStroke(new BasicStroke(1));
+
 		WireFrame house = contr.GetHouseModel();
 		Iterator<Line3D> it = house.getLines();
 		while (it.hasNext()) {
