@@ -199,16 +199,16 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 		Matrix3D w2c = new WorldToCamera(loc, rot);
 		
 		// clip transformation
-		double fov = 60 * Math.PI/180;
+		double fov = Math.toRadians(60);
 		double ratio = 1.0;
 		double n = 1;
 		double f = 50;
 		ClipMatrix clip = new ClipMatrix(fov, ratio, n, f);
 		
 		// screen transformation
-		double width = 500;
-		double height = 500;
-		AffineTransform screen = new AffineTransform(width/2, 0, 0, -height/2, width/2, height/2);
+		double halfwidth = 250;
+		double halfheight = 250;
+		AffineTransform screen = new AffineTransform(halfwidth, 0, 0, -halfheight, halfwidth, halfheight);
 
 		WireFrame house = contr.GetHouseModel();
 		Iterator<Line3D> it = house.getLines();
