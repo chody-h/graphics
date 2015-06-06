@@ -88,13 +88,7 @@ public class Utility {
 		AffineTransform viewToWorld = new AffineTransform(1/zoom, 0, 0, 1/zoom, topLeft.getX(), topLeft.getY());
 		return viewToWorld;
 	}
-	
-
-//	3D transformations
-	private static AffineTransform3D WorldToCamera() {
-		return null;
-	}
-	
+		
 	
 //	convert point objects directly
 	public static Point2D ObjectToView(Point2D objCoord, Point2D center, double rotation, double zoom, Point2D topLeft) {
