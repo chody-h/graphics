@@ -32,7 +32,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	private double rot_home = -Math.PI;
 	private Point3D myLocation = new Point3D(home.x, home.y, home.z);
 	private double rot = rot_home;
-	private float speed = 0.3f;
+	private float speed = 0.4f;
 	
 //	number of points the user has drawn of a triangle
 	private int numTriangleVertices = 0;
@@ -496,21 +496,21 @@ public class MyCS355Controller implements cs355.CS355Controller {
 			}
 	//		w	Move forward
 			if (key == 'W') {
-				myLocation.x += 1*speed * Math.sin(rot);
-				myLocation.z -= 1*speed * Math.cos(rot);
-			}
-	//		s	Move backward
-			if (key == 'S') {
 				myLocation.x -= 1*speed * Math.sin(rot);
 				myLocation.z += 1*speed * Math.cos(rot);
 			}
+	//		s	Move backward
+			if (key == 'S') {
+				myLocation.x += 1*speed * Math.sin(rot);
+				myLocation.z -= 1*speed * Math.cos(rot);
+			}
 	//		q	Turn left
 			if (key == 'Q') {
-				rot = (float) ((rot - 3 * Math.PI/180 * speed) % (2*Math.PI));
+				rot = (float) ((rot + 5 * Math.PI/180 * speed) % (2*Math.PI));
 			}
 	//		e	Turn right
 			if (key == 'E') {
-				rot = (float) ((rot + 3 * Math.PI/180 * speed) % (2*Math.PI));
+				rot = (float) ((rot - 5 * Math.PI/180 * speed) % (2*Math.PI));
 			}
 	//		r	Move up
 			if (key == 'R') {

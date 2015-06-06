@@ -195,8 +195,8 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 		// clip transformation
 		double fov = 60 * Math.PI/180;
 		double ratio = 1.0;
-		double n = 10;
-		double f = 1000;
+		double n = 1;
+		double f = 50;
 		ClipMatrix clip = new ClipMatrix(fov, ratio, n, f);
 		
 		// screen transformation

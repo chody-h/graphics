@@ -24,19 +24,22 @@ public class Matrix3D {
 	}
 
 	public static boolean ClipTest(Vector3D a, Vector3D b) {
-		double x1 = Math.abs(a.v1);
-		double y1 = Math.abs(a.v2);
-		double z1 = Math.abs(a.v3);
-		double w1 = Math.abs(a.v4);
+		double x1 = a.v1;
+		double y1 = a.v2;
+		double z1 = a.v3;
+		double w1 = a.v4;
 		
-		double x2 = Math.abs(b.v1);
-		double y2 = Math.abs(b.v2);
-		double z2 = Math.abs(b.v3);
-		double w2 = Math.abs(b.v4);
+		double x2 = b.v1;
+		double y2 = b.v2;
+		double z2 = b.v3;
+		double w2 = b.v4;
 		
-		if (x1 > w1 && x2 > w2) return false;
-		if (y1 > w1 && y2 > w2) return false;
-		if (z1 > w1 || z2 > w2) return false;
+		if (x1 < -w1 && x2 < -w2) return false;
+		if (x1 >  w1 && x2 >  w2) return false;
+		if (y1 < -w1 && y2 < -w2) return false;
+		if (y1 >  w1 && y2 >  w2) return false;
+		if (z1 < -w1 || z2 < -w2) return false;
+		if (z1 >  w1 || z2 >  w2) return false;
 		return true;
 	}
 }
