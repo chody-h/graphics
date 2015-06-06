@@ -16,4 +16,20 @@ public class Matrix3D {
 		return new Vector3D(v1, v2, v3, v4);
 	}
 
+	public static boolean ClipTest(Vector3D a, Vector3D b) {
+		double x1 = Math.abs(a.v1);
+		double y1 = Math.abs(a.v2);
+		double z1 = Math.abs(a.v3);
+		double w1 = Math.abs(a.v4);
+		
+		double x2 = Math.abs(b.v1);
+		double y2 = Math.abs(b.v2);
+		double z2 = Math.abs(b.v3);
+		double w2 = Math.abs(b.v4);
+		
+		if (x1 > w1 && x2 > w2) return false;
+		if (y1 > w1 && y2 > w2) return false;
+		if (z1 > w1 || z2 > w2) return false;
+		return true;
+	}
 }
