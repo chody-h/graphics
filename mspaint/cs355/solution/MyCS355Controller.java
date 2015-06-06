@@ -28,10 +28,10 @@ public class MyCS355Controller implements cs355.CS355Controller {
 //	3D state
 	private WireFrame model = new HouseModel();
 	private boolean model3d = false;
-	private Point3D home = new Point3D(0, 6, 20);
-	private float rot_home = 0;
+	private Point3D home = new Point3D(0, 4, 20);
+	private double rot_home = -Math.PI;
 	private Point3D myLocation = new Point3D(home.x, home.y, home.z);
-	private float rot = rot_home;
+	private double rot = rot_home;
 	private float speed = 0.3f;
 	
 //	number of points the user has drawn of a triangle
@@ -482,7 +482,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 		
 		while (iterator.hasNext()) {
 			char key = (char)iterator.next().intValue();
-			System.out.println(key);
+//			System.out.println(key);
 		
 	//		a	Move left
 			if (key == 'A') {
@@ -526,6 +526,8 @@ public class MyCS355Controller implements cs355.CS355Controller {
 				rot = rot_home;
 			}
 		}
+		System.out.println(myLocation);
+		System.out.println(rot);
 		GUIFunctions.refresh();
 	}
 
@@ -681,5 +683,9 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	
 	public double GetCameraRotation() {
 		return rot;
+	}
+
+	public boolean Is3DModelOff() {
+		return !model3d;
 	}
 }

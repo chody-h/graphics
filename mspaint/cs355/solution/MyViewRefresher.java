@@ -129,61 +129,64 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 		
 		// draw the selection stuff
 		MyShape selected = contr.GetSelectedShape();
-		if (selected == null) return;
+		if (selected != null) {
 
-		double rotation = selected.GetRotation();
-		Point2D center = selected.GetCenter();
-		AffineTransform o2v = Utility.ObjectToView(zoom, contr.GetTopLeft(), center, rotation);
-		g2d.transform(o2v);
-		
-		ArrayList<DrawnSelectionItem> handles = contr.GetSelectionHandles();
-		if (handles.size() > 0) {
-			for (DrawnSelectionItem i : handles) {
-				
-				g2d.setColor(i.GetColor());
-//				float stroke = (float) (1 / zoom);
-//				g2d.setStroke(new BasicStroke(stroke));
-				
-				if (i instanceof SelectionAnchor) {
-					Point2D p = i.GetCenter();
-					double r = ((SelectionAnchor) i).GetRadius()/zoom;
-					Ellipse2D.Double anchor = new Ellipse2D.Double(p.getX()-r, p.getY()-r, r*2, r*2);
-					g2d.draw(anchor);
-				}
-				else if (i instanceof RotationAnchor) {
-					Point2D p = i.GetCenter();
-					double r = ((RotationAnchor) i).GetRadius()/zoom;
-					Ellipse2D.Double anchor = new Ellipse2D.Double(p.getX()-r, p.getY()-r, r*2, r*2);
-					g2d.draw(anchor);
-				}
-				else if (i instanceof SelectionOutline) {
-					double w = ((SelectionOutline) i).GetWidth();
-					double h = ((SelectionOutline) i).GetHeight();
-					Point2D tl = new Point2D.Double(-w/2, -h/2);
-					if (((SelectionOutline) i).IsOval()) {
-						Ellipse2D o = new Ellipse2D.Double(tl.getX(), tl.getY(), w, h);
-						g2d.draw(o);
+			double rotation = selected.GetRotation();
+			Point2D center = selected.GetCenter();
+			AffineTransform o2v = Utility.ObjectToView(zoom, contr.GetTopLeft(), center, rotation);
+			g2d.transform(o2v);
+			
+			ArrayList<DrawnSelectionItem> handles = contr.GetSelectionHandles();
+			if (handles.size() > 0) {
+				for (DrawnSelectionItem i : handles) {
+					
+					g2d.setColor(i.GetColor());
+	//				float stroke = (float) (1 / zoom);
+	//				g2d.setStroke(new BasicStroke(stroke));
+					
+					if (i instanceof SelectionAnchor) {
+						Point2D p = i.GetCenter();
+						double r = ((SelectionAnchor) i).GetRadius()/zoom;
+						Ellipse2D.Double anchor = new Ellipse2D.Double(p.getX()-r, p.getY()-r, r*2, r*2);
+						g2d.draw(anchor);
 					}
-					else {
-						Rectangle2D r = new Rectangle2D.Double(tl.getX(), tl.getY(), w, h);
-						g2d.draw(r);
+					else if (i instanceof RotationAnchor) {
+						Point2D p = i.GetCenter();
+						double r = ((RotationAnchor) i).GetRadius()/zoom;
+						Ellipse2D.Double anchor = new Ellipse2D.Double(p.getX()-r, p.getY()-r, r*2, r*2);
+						g2d.draw(anchor);
 					}
-				}
-				else if (i instanceof SelectionOutlineTriangle) {
-					Point2D v1 = ((SelectionOutlineTriangle) i).GetV1();
-					Point2D v2 = ((SelectionOutlineTriangle) i).GetV2();
-					Point2D v3 = ((SelectionOutlineTriangle) i).GetV3();
-					Line2D l1 = new Line2D.Double(v1, v2);
-					Line2D l2 = new Line2D.Double(v2, v3);
-					Line2D l3 = new Line2D.Double(v3, v1);
-					g2d.draw(l1);
-					g2d.draw(l2);
-					g2d.draw(l3);
+					else if (i instanceof SelectionOutline) {
+						double w = ((SelectionOutline) i).GetWidth();
+						double h = ((SelectionOutline) i).GetHeight();
+						Point2D tl = new Point2D.Double(-w/2, -h/2);
+						if (((SelectionOutline) i).IsOval()) {
+							Ellipse2D o = new Ellipse2D.Double(tl.getX(), tl.getY(), w, h);
+							g2d.draw(o);
+						}
+						else {
+							Rectangle2D r = new Rectangle2D.Double(tl.getX(), tl.getY(), w, h);
+							g2d.draw(r);
+						}
+					}
+					else if (i instanceof SelectionOutlineTriangle) {
+						Point2D v1 = ((SelectionOutlineTriangle) i).GetV1();
+						Point2D v2 = ((SelectionOutlineTriangle) i).GetV2();
+						Point2D v3 = ((SelectionOutlineTriangle) i).GetV3();
+						Line2D l1 = new Line2D.Double(v1, v2);
+						Line2D l2 = new Line2D.Double(v2, v3);
+						Line2D l3 = new Line2D.Double(v3, v1);
+						g2d.draw(l1);
+						g2d.draw(l2);
+						g2d.draw(l3);
+					}
 				}
 			}
 		}
 		
+		
 //		draw the 3d model
+		if (contr.Is3DModelOff()) return;
 		// camera transformation
 		Point3D loc = contr.GetCameraLocation();
 		double rot = contr.GetCameraRotation();
@@ -202,6 +205,7 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 		AffineTransform screen = new AffineTransform(width/2, 0, 0, -height/2, width/2, height/2);
 		
 		Utility.ClearTransformation(g2d);
+		g2d.setStroke(new BasicStroke(1));
 		WireFrame house = contr.GetHouseModel();
 		Iterator<Line3D> it = house.getLines();
 		while (it.hasNext()) {
