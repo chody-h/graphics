@@ -123,61 +123,78 @@ for row in range(1, 4):
 
 		value_x = 0
 		value_y = 0
-
+		# print value_x
 
 		val = matrix[row-1][col-1]
 		value_x += val*-1
 		value_y += val*-1
+		# print value_x
 
 		val = matrix[row][col-1]
 		value_x += val*-2
 		value_y += val*0
+		# print value_x
 
 		val = matrix[row+1][col-1]
 		value_x += val*-1
 		value_y += val*1
+		# print value_x
 
 
 		val = matrix[row-1][col]
 		value_x += val*0
 		value_y += val*-2
+		# print value_x
 
 		val = matrix[row][col]
 		value_x += val*0
 		value_y += val*0
+		# print value_x
 
 		val = matrix[row+1][col]
-		value_x = val*0
-		value_y = val*2
+		value_x += val*0
+		value_y += val*2
+		# print value_x
 
 
 		val = matrix[row-1][col+1]
 		value_x += val*1
 		value_y += val*-1
+		# print value_x
 
 		val = matrix[row][col+1]
 		value_x += val*2
 		value_y += val*0
+		# print value_x
 
 		val = matrix[row+1][col+1]
 		value_x += val*1
 		value_y += val*1
+		# print value_x
 
 		# if value < 0:
 		# 	value = 0
 		value_x /= 8.0
+		value_x += 0.5
+		value_x = (int)(value_x)
+		# print value_x
+
 		value_y /= 8.0
+		value_y += 0.5
+		value_y = (int)(value_y)
+		
 		value = value_x + value_y
 		calc_x_matrix[row-1].append(value_x)
 		calc_y_matrix[row-1].append(value_y)
 		calc_matrix[row-1].append(value)
 		# quit()
 
+print "\nPart A: x-derivative Sobel filter"
 for row in calc_x_matrix:
 	print "%d %d %d" % (row[0], row[1], row[2])
-print ""
+print "\nPart B: y-derivative Sobel filter"
 for row in calc_y_matrix:
 	print "%d %d %d" % (row[0], row[1], row[2])
-print ""
+print "\nPart C: Sum of x and y"
 for row in calc_matrix:
 	print "%d %d %d" % (row[0], row[1], row[2])
