@@ -30,6 +30,7 @@ matrix.append([10, 11, 9, 22, 25])
 # 				row_idx = row + row_near
 # 				col_idx = col + col_near
 # 				if row_idx > 4 or row_idx < 0 or col_idx > 4 or col_idx < 0:
+# 					count += 1
 # 					continue
 # 				sum += matrix[row_idx][col_idx]
 # 				count += 1
@@ -38,6 +39,8 @@ matrix.append([10, 11, 9, 22, 25])
 
 # for row in calc_matrix:
 # 	print "%d %d %d %d %d" % (row[0], row[1], row[2], row[3], row[4])
+
+
 
 
 
@@ -57,11 +60,12 @@ matrix.append([10, 11, 9, 22, 25])
 # 				row_idx = row + row_near
 # 				col_idx = col + col_near
 # 				if row_idx > 4 or row_idx < 0 or col_idx > 4 or col_idx < 0:
+# 					neighbors.append(0)
 # 					continue
 # 				neighbors.append(matrix[row_idx][col_idx])
 
 # 		mean = numpy.median(neighbors)
-# 		print row, col, sorted(neighbors), mean
+# 		# print row, col, sorted(neighbors), mean
 # 		calc_matrix[row].append((int)(mean + 0.5))
 
 # for row in calc_matrix:
@@ -71,7 +75,18 @@ matrix.append([10, 11, 9, 22, 25])
 
 
 
-######### UNSHARP ##########
+
+matrix = []
+
+matrix.append([10, 11, 9, 25, 22])
+matrix.append([8, 10, 9, 26, 28])
+matrix.append([9, 8, 9, 24, 25])
+matrix.append([11, 11, 12, 23, 22])
+matrix.append([10, 11, 9, 22, 25])
+
+
+
+# ######### UNSHARP ##########
 # A = 1
 # calc_matrix = []
 # for i in range(0, 5):
@@ -104,6 +119,9 @@ matrix.append([10, 11, 9, 22, 25])
 # 	print "%d %d %d %d %d" % (row[0], row[1], row[2], row[3], row[4])
 
 
+
+
+# quit()
 
 
 
@@ -175,15 +193,11 @@ for row in range(1, 4):
 		# if value < 0:
 		# 	value = 0
 		value_x /= 8.0
-		value_x += 0.5
-		value_x = (int)(value_x)
 		# print value_x
 
 		value_y /= 8.0
-		value_y += 0.5
-		value_y = (int)(value_y)
 		
-		value = value_x + value_y
+		value = (value_x**2 + value_y**2)**.5
 		calc_x_matrix[row-1].append(value_x)
 		calc_y_matrix[row-1].append(value_y)
 		calc_matrix[row-1].append(value)
@@ -191,10 +205,10 @@ for row in range(1, 4):
 
 print "\nPart A: x-derivative Sobel filter"
 for row in calc_x_matrix:
-	print "%d %d %d" % (row[0], row[1], row[2])
+	print "%2.1f %2.1f %2.1f" % (row[0], row[1], row[2])
 print "\nPart B: y-derivative Sobel filter"
 for row in calc_y_matrix:
-	print "%d %d %d" % (row[0], row[1], row[2])
+	print "%2.1f %2.1f %2.1f" % (row[0], row[1], row[2])
 print "\nPart C: Sum of x and y"
 for row in calc_matrix:
-	print "%d %d %d" % (row[0], row[1], row[2])
+	print "%2.1f %2.1f %2.1f" % (row[0], row[1], row[2])
