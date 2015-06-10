@@ -555,25 +555,22 @@ public class MyCS355Controller implements cs355.CS355Controller {
 
 	@Override
 	public void doUniformBlur() {
-		// TODO Auto-generated method stub
-		
+		if (background == null) return;
+		background.UniformBlur();
+		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void doChangeContrast(int contrastAmountNum) {
 		if (background == null) return;
-		
 		background.Contrastify(contrastAmountNum);
-		
 		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void doChangeBrightness(int brightnessAmountNum) {
 		if (background == null) return;
-		
 		background.Brighten(brightnessAmountNum);
-		
 		GUIFunctions.refresh();
 	}
 

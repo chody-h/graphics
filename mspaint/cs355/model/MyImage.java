@@ -21,6 +21,34 @@ public class MyImage {
 		}
 	}
 	
+	public void UniformBlur() {
+		int[][] calculated = new int[h][w];
+		for (int h = 0; h < this.h; h++) {
+			for (int w = 0; w < this.w; w++) {
+				float sum = 0;
+				float count = 0;
+				for (int i = -1; i < 2; i++) {
+					int row_idx = h + i;
+					if (row_idx >= this.h || row_idx < 0) {
+						count++;
+						continue;
+					}
+					for (int j = -1; j < 2; j++) {
+						int col_idx = w + j;
+						if (col_idx >= this.w || col_idx < 0) {
+							count++;
+							continue;
+						}
+						sum += original[row_idx][col_idx];
+						count += 1;
+					}
+				}
+				calculated[h][w] = Math.round(sum/count);
+			}
+		}
+		original = calculated;
+	}
+	
 	public void Contrastify(int change) {
 		for (int h = 0; h < this.h; h++) {
 			for (int w = 0; w < this.w; w++) {
