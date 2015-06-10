@@ -561,8 +561,11 @@ public class MyCS355Controller implements cs355.CS355Controller {
 
 	@Override
 	public void doChangeContrast(int contrastAmountNum) {
-		// TODO Auto-generated method stub
+		if (background == null) return;
 		
+		background.Contrastify(contrastAmountNum);
+		
+		GUIFunctions.refresh();
 	}
 
 	@Override

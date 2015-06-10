@@ -21,8 +21,24 @@ public class MyImage {
 		}
 	}
 	
+	public void Contrastify(int change) {
+		for (int h = 0; h < this.h; h++) {
+			for (int w = 0; w < this.w; w++) {
+				int val = (int) (Math.pow((change+100.0)/100.0, 4) * (original[h][w]-128) + 128);
+				original[h][w] = (val > 255) ? 255 : val;
+				original[h][w] = (val < 0) ? 0 : original[h][w];
+			}
+		}
+	}
+	
 	public void Brighten(int change) {
-		
+		for (int h = 0; h < this.h; h++) {
+			for (int w = 0; w < this.w; w++) {
+				int val = original[h][w] + change;
+				original[h][w] = (val > 255) ? 255 : val;
+				original[h][w] = (val < 0) ? 0 : original[h][w];
+			}
+		}
 	}
 	
 	public BufferedImage GetImage() {
