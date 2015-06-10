@@ -23,6 +23,64 @@ public class MyImage {
 		}
 	}
 	
+	public void EdgeDetect() {
+		int[][] calculated = new int[h][w];
+		int h;
+		int w;
+		
+		for (h = 1; h < this.h-1; h++) {
+			for (w = 1; w < this.w-1; w++) {
+				double value_x = 0;
+				double value_y = 0;
+
+				int val = original[h-1][w-1];
+				value_x += val*-1;
+				value_y += val*-1;
+
+				val = original[h][w-1];
+				value_x += val*-2;
+				value_y += val*0;
+
+				val = original[h+1][w-1];
+				value_x += val*-1;
+				value_y += val*1;
+
+
+				val = original[h-1][w];
+				value_x += val*0;
+				value_y += val*-2;
+
+				val = original[h][w];
+				value_x += val*0;
+				value_y += val*0;
+
+				val = original[h+1][w];
+				value_x += val*0;
+				value_y += val*2;
+
+
+				val = original[h-1][w+1];
+				value_x += val*1;
+				value_y += val*-1;
+
+				val = original[h][w+1];
+				value_x += val*2;
+				value_y += val*0;
+
+				val = original[h+1][w+1];
+				value_x += val*1;
+				value_y += val*1;
+
+				value_x /= 8.0;
+				value_y /= 8.0;
+				value_x = Math.pow(value_x, 2);
+				value_y = Math.pow(value_y, 2);
+				calculated[h][w] = Math.round((float)(Math.pow(value_x+value_y, 0.5)));
+			}
+		}
+		original = calculated;
+	}
+	
 	public void Sharpen(int A) {
 		int[][] calculated = new int[h][w];
 		for (int h = 0; h < this.h; h++) {

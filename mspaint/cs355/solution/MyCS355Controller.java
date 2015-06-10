@@ -537,8 +537,9 @@ public class MyCS355Controller implements cs355.CS355Controller {
 
 	@Override
 	public void doEdgeDetection() {
-		// TODO Auto-generated method stub
-		
+		if (background == null) return;
+		background.EdgeDetect();
+		GUIFunctions.refresh();
 	}
 
 	@Override
