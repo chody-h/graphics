@@ -3,6 +3,8 @@ package cs355.solution;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -24,6 +26,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	private double zoom = 1;
 	private Point2D topLeft = new Point2D.Double(0,0);
 	private boolean updatingScrollBars = false;
+	private boolean image = false;
 	
 //	3D state
 	private WireFrame model = new HouseModel();
@@ -569,14 +572,20 @@ public class MyCS355Controller implements cs355.CS355Controller {
 
 	@Override
 	public void doLoadImage(BufferedImage openImage) {
-		// TODO Auto-generated method stub
-		
+		int height = openImage.getHeight();
+		int width = openImage.getWidth();
+		int[][] image = new int[height][width];
+		WritableRaster r = openImage.getRaster();
+		for (int h = 0; h < height; h++) {
+			for (int w = 0; w < width; w++) {
+				r.getPixel(width, height);
+			}
+		}
 	}
 
 	@Override
 	public void toggleBackgroundDisplay() {
-		// TODO Auto-generated method stub
-		
+		image = !image;
 	}
 	
 	public double GetZoom() {
