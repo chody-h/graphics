@@ -21,6 +21,21 @@ public class MyImage {
 		}
 	}
 	
+	public void Brighten(int change) {
+		
+	}
+	
+	public BufferedImage GetImage() {
+		BufferedImage b = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_GRAY);
+		WritableRaster r = b.getRaster();		
+		for (int h = 0; h < this.h; h++) {
+			for (int w = 0; w < this.w; w++) {
+				r.setSample(w, h, 0, original[h][w]);
+			}
+		}
+		return b;
+	}
+	
 	public int GetHeight() {
 		return h;
 	}

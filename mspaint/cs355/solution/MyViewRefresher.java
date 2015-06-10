@@ -42,21 +42,13 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 		// draw background image
 		if (contr.IsImageOn() && contr.GetBackground() != null) {
 			MyImage background = contr.GetBackground();
-			int [][] pixels = background.GetPixels();
 			int width = background.GetWidth();
 			int height = background.GetHeight();
-			BufferedImage b = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
-			WritableRaster r = b.getRaster();
-			
-			for (int h = 0; h < height; h++) {
-				for (int w = 0; w < width; w++) {
-					r.setSample(w, h, 0, pixels[h][w]);
-				}
-			}
+			BufferedImage b = background.GetImage();
 
 			AffineTransform w2v = Utility.WorldToView(zoom, contr.GetTopLeft());
 			g2d.transform(w2v);
-			g2d.drawImage(b, 2048/2 - width/2, 2048/2 - height/2, null);
+			g2d.drawImage(b, 1024-width/2, 1024-height/2, null);
 			Utility.ClearTransformation(g2d);
 		}
 		

@@ -27,7 +27,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	private double zoom = 1;
 	private Point2D topLeft = new Point2D.Double(0,0);
 	private boolean updatingScrollBars = false;
-	private boolean image = false;
+	private boolean image = true;
 	
 //	3D state
 	private WireFrame model = new HouseModel();
@@ -567,8 +567,11 @@ public class MyCS355Controller implements cs355.CS355Controller {
 
 	@Override
 	public void doChangeBrightness(int brightnessAmountNum) {
-		// TODO Auto-generated method stub
+		if (background == null) return;
 		
+		background.Brighten(brightnessAmountNum);
+		
+		GUIFunctions.refresh();
 	}
 
 	@Override
