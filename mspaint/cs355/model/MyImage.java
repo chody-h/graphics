@@ -23,6 +23,32 @@ public class MyImage {
 		}
 	}
 	
+	public void Sharpen(int A) {
+		int[][] calculated = new int[h][w];
+		for (int h = 0; h < this.h; h++) {
+			for (int w = 0; w < this.w; w++) {
+				double value = original[h][w] * (A+4);
+				if (w-1 >= 0) {
+					value += original[h][w-1] * (-1);
+				}
+				if (w+1 < this.w) {
+					value += original[h][w+1] * (-1);
+				}
+				if (h-1 >= 0) {
+					value += original[h-1][w] * (-1);
+				}
+				if (h+1 < this.h) {
+					value += original[h+1][w] * (-1);
+				}
+				value /= A;
+				if (value < 0) value = 0;
+				if (value > 255) value = 255;
+				calculated[h][w] = Math.round((float)value);
+			}
+		}
+		original = calculated;
+	}
+	
 	public void MedianBlur() {
 		int[][] calculated = new int[h][w];
 		for (int h = 0; h < this.h; h++) {
@@ -90,8 +116,9 @@ public class MyImage {
 		for (int h = 0; h < this.h; h++) {
 			for (int w = 0; w < this.w; w++) {
 				int val = (int) (Math.pow((change+100.0)/100.0, 4) * (original[h][w]-128) + 128);
-				original[h][w] = (val > 255) ? 255 : val;
-				original[h][w] = (val < 0) ? 0 : original[h][w];
+				if (val > 255) val = 255;
+				else if (val < 0) val = 0;
+				original[h][w] = val;
 			}
 		}
 	}
@@ -100,8 +127,9 @@ public class MyImage {
 		for (int h = 0; h < this.h; h++) {
 			for (int w = 0; w < this.w; w++) {
 				int val = original[h][w] + change;
-				original[h][w] = (val > 255) ? 255 : val;
-				original[h][w] = (val < 0) ? 0 : original[h][w];
+				if (val > 255) val = 255;
+				else if (val < 0) val = 0;
+				original[h][w] = val;
 			}
 		}
 	}

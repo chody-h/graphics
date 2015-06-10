@@ -543,8 +543,10 @@ public class MyCS355Controller implements cs355.CS355Controller {
 
 	@Override
 	public void doSharpen() {
-		// TODO Auto-generated method stub
-		
+		if (background == null) return;
+		int A = 2;
+		background.Sharpen(A);
+		GUIFunctions.refresh();
 	}
 
 	@Override
