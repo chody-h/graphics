@@ -10,6 +10,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
@@ -34,9 +36,32 @@ public class MyViewRefresher implements cs355.ViewRefresher, java.util.Observer 
 
 	@Override
 	public void refreshView(Graphics2D g2d) {
+		
+		double zoom = contr.GetZoom();
+		
+		// draw background image
+		if (contr.IsImageOn() && contr.GetBackground() != null) {
+			MyImage background = contr.GetBackground();
+			int [][] pixels = background.GetPixels();
+			BufferedImage b = new BufferedImage(background.GetWidth(), background.GetHeight(), BufferedImage.TYPE_BYTE_GRAY);
+			WritableRaster r = b.getRaster();
+			
+			for (int h = 0; h < background.GetHeight(); h++) {
+				for (int w = 0; w < background.GetWidth(); w++) {
+					r.setSample(w, h, 0, pixels[h][w]);
+				}
+			}
+
+			AffineTransform w2v = Utility.WorldToView(zoom, contr.GetTopLeft());
+			g2d.transform(w2v);
+			g2d.drawImage(b, 0, 0, null);
+			Utility.ClearTransformation(g2d);
+		}
+		
+		
+		
 		if (AA_ON) g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		double zoom = contr.GetZoom();
 		float stroke = (float) (1 / zoom);
 		g2d.setStroke(new BasicStroke(stroke));
 		

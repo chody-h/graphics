@@ -19,6 +19,7 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	
 //	all drawn shapes - this is the model
 	private MyCreations shapes = new MyCreations();
+	private MyImage background = null;
 	
 //	UI state
 	private Color currentColor = new Color(255,255,255);
@@ -571,21 +572,16 @@ public class MyCS355Controller implements cs355.CS355Controller {
 	}
 
 	@Override
-	public void doLoadImage(BufferedImage openImage) {
-		int height = openImage.getHeight();
-		int width = openImage.getWidth();
-		int[][] image = new int[height][width];
-		WritableRaster r = openImage.getRaster();
-		for (int h = 0; h < height; h++) {
-			for (int w = 0; w < width; w++) {
-				r.getPixel(width, height);
-			}
-		}
+	public void doLoadImage(BufferedImage openImage) {		
+		background = new MyImage(openImage);
+		
+		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void toggleBackgroundDisplay() {
 		image = !image;
+		GUIFunctions.refresh();
 	}
 	
 	public double GetZoom() {
@@ -696,5 +692,13 @@ public class MyCS355Controller implements cs355.CS355Controller {
 
 	public boolean Is3DModelOff() {
 		return !model3d;
+	}
+	
+	public boolean IsImageOn() {
+		return image;
+	}
+	
+	public MyImage GetBackground() {
+		return background;
 	}
 }
