@@ -2,6 +2,8 @@ package cs355.model;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class MyImage {
 	
@@ -19,6 +21,41 @@ public class MyImage {
 				original[h][w] = r.getSample(w, h, 1);
 			}
 		}
+	}
+	
+	public void MedianBlur() {
+		int[][] calculated = new int[h][w];
+		for (int h = 0; h < this.h; h++) {
+			for (int w = 0; w < this.w; w++) {
+				ArrayList<Integer> neighbors = new ArrayList<Integer>();
+				for (int i = -1; i < 2; i++) {
+					int row_idx = h + i;
+					if (row_idx >= this.h || row_idx < 0) {
+						neighbors.add(0);
+						continue;
+					}
+					for (int j = -1; j < 2; j++) {
+						int col_idx = w + j;
+						if (col_idx >= this.w || col_idx < 0) {
+							neighbors.add(0);
+							continue;
+						}
+						neighbors.add(original[row_idx][col_idx]);
+					}
+				}
+				Collections.sort(neighbors);
+				int middle = neighbors.size()/2;
+				int median;
+				if (middle % 2 == 1) {
+					median = neighbors.get(middle);
+				}
+				else {
+					median = (neighbors.get(middle-1)+neighbors.get(middle))/2;
+				}
+				calculated[h][w] = median;
+			}
+		}
+		original = calculated;
 	}
 	
 	public void UniformBlur() {

@@ -549,8 +549,9 @@ public class MyCS355Controller implements cs355.CS355Controller {
 
 	@Override
 	public void doMedianBlur() {
-		// TODO Auto-generated method stub
-		
+		if (background == null) return;
+		background.MedianBlur();
+		GUIFunctions.refresh();
 	}
 
 	@Override
